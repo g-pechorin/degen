@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.peterlavalle</groupId>
+    <artifactId>degen</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+	<packaging>maven-plugin</packaging>
+
+    <name>degen</name>
+    <url>https://github.com/g-pechorin/degen</url>
+    <description>
+        This is a plugin that allows a project to "extend" a non-maven project by dumping the other project's binaries and sources as generated-* but skip any files which appear to be present in the project sources.
+
+        I wanted to replace libGDX's Matrix4 class with non-native methods, without setting up Eclipse to build libGDX
+    </description>
+    
+    <licenses>
+        <license>
+            <name>GNU AFFERO GENERAL PUBLIC LICENSE</name>
+            <url>http://www.gnu.org/licenses/agpl-3.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <goalPrefix>degen</goalPrefix>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generated-helpmojo</id>
+                        <goals>
+                            <goal>helpmojo</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>dropbox.public</id>
+            <url>${dropbox.root}/Public/mvn-repo</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>dropbox.public</id>
+            <url>${dropbox.root}/Public/mvn-repo</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <scm>
+        <connection>scm:git:git://github.com/g-pechorin/degen.git</connection>
+        <developerConnection>scm:git:git@github.com:g-pechorin/degen.git</developerConnection>
+        <url>https://github.com/g-pechorin/degen</url>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-project</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+    </dependencies>
+</project>
