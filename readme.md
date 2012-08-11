@@ -9,10 +9,10 @@ The itch I wanted to scratch was to replace libGDX's native methods on Matrix4
 DONE
 ====
  * 1.0.0 : get it to "work" with libGDX's gdx.jar file from a localhost
+ * 1.0.1 : get it to "work" with libGDX's gdx.jar when integrated into https://github.com/g-pechorin/libgdx-repack-dist
 
 TODO
 ====
- * 1.0.1 : get it to "work" with libGDX's gdx.jar when integrated into https://github.com/g-pechorin/libgdx-repack-dist
  * 1.0.2 : get it to "work" with compiling the one Matrix4 class
  * 1.1.0 : allow the use of multiple (staggered) archives for a single project
  * 1.1.1 : rename "resources" to "esources"
