@@ -24,7 +24,7 @@ import org.apache.maven.project.MavenProjectHelper;
  * @version $Id$
  */
 public class RemoteDegen extends AbstractMojo {
-	
+
 	/**
 	 * Where should we copy the project's source files from?
 	 *
@@ -58,12 +58,11 @@ public class RemoteDegen extends AbstractMojo {
 	 * @required
 	 */
 	protected String extractedArchive;
-
 	/**
 	 * A cached handle for the ZipFile that we're pulling stuff out of
 	 */
 	private ZipFile distributionZipFile;
-	
+
 	/**
 	 * Retrieves or creates a handle to the ZipFile that we're pulling stuff out of
 	 */
@@ -74,18 +73,31 @@ public class RemoteDegen extends AbstractMojo {
 		}
 
 		if (this.distributionZipFile == null) {
+			final File fileFromURL;
+			try {
+				fileFromURL = distributionZipURL.matches("^\\w+\\:.*$") ? Files.getTemporaryFileFromURL(distributionZipURL) : new File(project.getBasedir(), distributionZipURL);
+
+			} catch (IOException e) {
+
+				getLog().debug("distributionZipURL.matches()=" + distributionZipURL.matches("^\\w+\\:.*$"));
+				getLog().debug("File(\".\").getAbsolutePath()=" + new File(".").getAbsolutePath());
+
+				throw new MojoExecutionException("couldn't locate the file `" + distributionZipURL + "`", e);
+			}
+
 			try {
 				// read it as a zip file
-				this.distributionZipFile = new ZipFile(Files.getTemporaryFileFromURL(distributionZipURL));
+				this.distributionZipFile = new ZipFile(fileFromURL);
 			} catch (IOException e) {
-				throw new MojoExecutionException("couldn't read the file from `" + distributionZipURL + "` as a zip file", e);
+
+				getLog().debug("fileFromURL.getAbsolutePath()=" + fileFromURL.getAbsolutePath());
+
+				throw new MojoExecutionException("couldn't read the file `" + distributionZipURL + "` as a zip file", e);
 			}
 		}
 
 		return this.distributionZipFile;
 	}
-	
-	
 	/**
 	 * the maven project helper class for adding resources
 	 *
@@ -103,7 +115,7 @@ public class RemoteDegen extends AbstractMojo {
 
 		// anything int the outputDirectory which is NOT a .java file should be copied as-is into our output
 		projectHelper.addResource(project, outputDirectory, new ArrayList(), Collections.singletonList("**/**.java"));
-		
+
 		// compile all .java in the outputDirectory
 		project.addCompileSourceRoot(outputDirectory);
 
@@ -141,8 +153,8 @@ public class RemoteDegen extends AbstractMojo {
 			getLog().info("`" + file + "` will be compiled as a generated source");
 		}
 	}
-
 	private ZipFile resourcesZipFile;
+
 	public ZipFile getResourcesZipFile() throws MojoExecutionException {
 
 		if (resourcesZipFile == null) {
@@ -164,7 +176,7 @@ public class RemoteDegen extends AbstractMojo {
 
 		getLog().debug("Scanning `" + projectSources + "` for .java sources");
 
-		for (final String file : Files.getFileNamesInDirectory(projectSources)) {
+		for (final String file : Files.getFileNamesInDirectory(project.getBasedir(), projectSources)) {
 
 			// how does this happen? oh I don't care!
 			if (file.equals(projectSources)) {

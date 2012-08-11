@@ -65,19 +65,19 @@ public class Files {
 		return downloadedFiles.get(urlString);
 	}
 
-	public static List<String> getFileNamesInDirectory(final String root) {
+	public static List<String> getFileNamesInDirectory(File basedir, final String root) {
 		if (root == null) {
 			throw new IllegalArgumentException();
 		}
 		final LinkedList<String> files = new LinkedList<String>();
-		final File file = new File(root);
+		final File file = new File(basedir,root);
 		assert file.exists();
 		if (!file.isDirectory()) {
 			files.add(root.replace("./", ""));
 			return files;
 		} else {
 			for (final String name : file.list()) {
-				files.addAll(getFileNamesInDirectory(root + '/' + name));
+				files.addAll(getFileNamesInDirectory(basedir,root + '/' + name));
 			}
 		}
 		return files;
