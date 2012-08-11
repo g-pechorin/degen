@@ -5,11 +5,7 @@
 package com.peterlavalle.degen;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -18,12 +14,14 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 
 /**
  *
  * @goal remote
  * @phase generate-sources
- * @requiresDependencyResolution compile
+ * @version $Id$
  */
 public class RemoteDegen extends AbstractMojo {
 
@@ -41,12 +39,11 @@ public class RemoteDegen extends AbstractMojo {
 	 */
 	protected String[] skipRegexs;
 	/**
-	 * Controls where I place the generated (well, extracted) source files
+	 * the directory to output the generated sources to
 	 *
-	 * @parameter expression="${degen.classesFolder}" default-value="${project.build.outputDirectory}"
-	 * @required
+	 * @parameter expression="${project.build.directory}/generated-sources/degen"
 	 */
-	protected File classesFolder;
+	private String outputDirectory;
 	/**
 	 * URL (possibly HTTP://) to the distribution's zip file
 	 *
@@ -61,9 +58,6 @@ public class RemoteDegen extends AbstractMojo {
 	 * @required
 	 */
 	protected String extractedArchive;
-	
-	
-	
 	private ZipFile distributionZipFile;
 	private ZipFile resourcesZipFile;
 
@@ -84,16 +78,27 @@ public class RemoteDegen extends AbstractMojo {
 
 		return this.distributionZipFile;
 	}
+	/**
+	 * the maven project helper class for adding resources
+	 *
+	 * @parameter expression="${component.org.apache.maven.project.MavenProjectHelper}"
+	 */
+	private MavenProjectHelper projectHelper;
+	/**
+	 * @parameter expression="${project}"
+	 * @required
+	 */
+	private MavenProject project;
 
 	@Override
 	public void execute() throws MojoExecutionException {
-		distributionZipFile = null;
-		resourcesZipFile = null;
 
-//		getDistributionFile();
+		// anything int the outputDirectory which is NOT a .java file should be copied as-is into our output
+		projectHelper.addResource(project, outputDirectory, new ArrayList(), Collections.singletonList("**/**.java"));
+		
+		// compile all .java in the outputDirectory
+		project.addCompileSourceRoot(outputDirectory);
 
-//		classesFolder.delete();
-//		classesFolder.mkdirs();
 
 		// get the list of "extracted" sources
 		final List<String> resourceFiles = getResourceNames();
@@ -121,7 +126,7 @@ public class RemoteDegen extends AbstractMojo {
 
 			// copy this source file
 			try {
-				Files.copyStream(getSourcesZipFile().getInputStream(getSourcesZipFile().getEntry(file)), new File(this.classesFolder, file));
+				Files.copyStream(getSourcesZipFile().getInputStream(getSourcesZipFile().getEntry(file)), new File(outputDirectory, file));
 			} catch (IOException ex) {
 				throw new MojoExecutionException("", ex);
 			}
