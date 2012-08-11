@@ -24,7 +24,7 @@ import org.apache.maven.project.MavenProjectHelper;
  * @version $Id$
  */
 public class RemoteDegen extends AbstractMojo {
-
+	
 	/**
 	 * Where should we copy the project's source files from?
 	 *
@@ -58,9 +58,15 @@ public class RemoteDegen extends AbstractMojo {
 	 * @required
 	 */
 	protected String extractedArchive;
-	private ZipFile distributionZipFile;
-	private ZipFile resourcesZipFile;
 
+	/**
+	 * A cached handle for the ZipFile that we're pulling stuff out of
+	 */
+	private ZipFile distributionZipFile;
+	
+	/**
+	 * Retrieves or creates a handle to the ZipFile that we're pulling stuff out of
+	 */
 	protected ZipFile getDistributionFile() throws MojoExecutionException {
 
 		if (distributionZipURL == null || distributionZipURL.equals("")) {
@@ -78,6 +84,8 @@ public class RemoteDegen extends AbstractMojo {
 
 		return this.distributionZipFile;
 	}
+	
+	
 	/**
 	 * the maven project helper class for adding resources
 	 *
@@ -98,7 +106,6 @@ public class RemoteDegen extends AbstractMojo {
 		
 		// compile all .java in the outputDirectory
 		project.addCompileSourceRoot(outputDirectory);
-
 
 		// get the list of "extracted" sources
 		final List<String> resourceFiles = getResourceNames();
@@ -126,7 +133,7 @@ public class RemoteDegen extends AbstractMojo {
 
 			// copy this source file
 			try {
-				Files.copyStream(getSourcesZipFile().getInputStream(getSourcesZipFile().getEntry(file)), new File(outputDirectory, file));
+				Files.copyStream(getResourcesZipFile().getInputStream(getResourcesZipFile().getEntry(file)), new File(outputDirectory, file));
 			} catch (IOException ex) {
 				throw new MojoExecutionException("", ex);
 			}
@@ -135,7 +142,8 @@ public class RemoteDegen extends AbstractMojo {
 		}
 	}
 
-	public ZipFile getSourcesZipFile() throws MojoExecutionException {
+	private ZipFile resourcesZipFile;
+	public ZipFile getResourcesZipFile() throws MojoExecutionException {
 
 		if (resourcesZipFile == null) {
 			try {
@@ -178,7 +186,7 @@ public class RemoteDegen extends AbstractMojo {
 		final LinkedList<String> files = new LinkedList<String>();
 
 		nextFile:
-		for (final ZipEntry zipEntry : Collections.list(getSourcesZipFile().entries())) {
+		for (final ZipEntry zipEntry : Collections.list(getResourcesZipFile().entries())) {
 
 			if (zipEntry.isDirectory()) {
 				continue;
