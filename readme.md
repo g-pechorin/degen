@@ -4,7 +4,8 @@ degen
 This MOJO is supposed to scrape and "de-generate" a zip file containing jars into a project's generated-sources folder.
 It is intended for "mavenize-with-changes" existing projects and allow the user (of the MOJO) to replaces certain classes which the do not have the ability/desire to recompile.
 
-The itch I wanted to scratch was to replace libGDX's native methods on Matrix4
+The itch I wanted to scratch was to replace libGDX's native methods on Matrix4, without setting up an environment to build the library.
+In essence - it's an alternative to setting up a patch, which should be more robust when used with continuous integration / cron jobs.
 
 DONE
 ====
@@ -14,7 +15,7 @@ DONE
 
 HEAD
 ====
- * 1.0.3 : rename "resources" to "esources"
+ * 1.0.3 : rename "resources" to "extracted"
 
 TODO
 ====
@@ -27,3 +28,4 @@ TODO
  * 2.0.0 : move distribution and archives definition out of the MOJO configuration or find some other way to share the distribution and archives definition
  * 2.0.1 : add "revert" MOJO which locates a .java file within the distribution and archives definition then copies it out into the src/main/java folder
  * 2.0.2 : add "remove" MOJO which deletes any .java files in src/main/java which match .java files within the distribution and archives definition
+ * ?.0.0 : allow remote/revert/remove from google code/browseable repos
