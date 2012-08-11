@@ -13,10 +13,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -76,7 +73,7 @@ public class RemoteDegen extends AbstractMojo {
 			final File temporaryFileFromUrl;
 			try {
 
-				temporaryFileFromUrl = getTemporaryFileFromStream(new URL(distributionZipURL).openStream());;
+				temporaryFileFromUrl = getTemporaryFileFromStream(new URL(distributionZipURL).openStream());
 
 			} catch (IOException e) {
 				throw new MojoExecutionException("couldn't download the file `" + distributionZipURL + "`", e);
@@ -198,12 +195,23 @@ public class RemoteDegen extends AbstractMojo {
 		return files;
 	}
 
-	public List<String> getSourceFileNames() {
+	public List<String> getSourceFileNames() throws MojoExecutionException {
 		final LinkedList<String> files = new LinkedList<String>();
 
 		getLog().debug("Scanning `" + sources + "` for .java sources");
+
 		for (final String file : getFiles(sources)) {
-			files.add(file.substring(sources.length() + 1));
+			
+			// how does this happen? oh I don't care ...
+			if (file.equals(sources) ) {
+				continue;
+			}
+			
+			try {
+				files.add(file.substring(sources.length() + 1));
+			} catch (StringIndexOutOfBoundsException e) {
+				throw new MojoExecutionException("file=`" + file + "` sources=`" + sources + "`", e);
+			}
 		}
 
 		return files;
