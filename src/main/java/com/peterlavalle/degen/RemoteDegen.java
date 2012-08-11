@@ -28,12 +28,12 @@ import org.apache.maven.plugin.MojoExecutionException;
 public class RemoteDegen extends AbstractMojo {
 
 	/**
-	 * Where should we copy the "real" source files from?
+	 * Where should we copy the project's source files from?
 	 *
-	 * @parameter expression="${degen.sources}" default-value="src/main/java"
+	 * @parameter expression="${degen.projectSources}" default-value="src/main/java"
 	 * @required
 	 */
-	protected String sources;
+	protected String projectSources;
 	/**
 	 * What files (from the binaries and the sources, but not the real sources or real resources) should we always skip
 	 *
@@ -61,6 +61,9 @@ public class RemoteDegen extends AbstractMojo {
 	 * @required
 	 */
 	protected String extractedArchive;
+	
+	
+	
 	private ZipFile distributionZipFile;
 	private ZipFile resourcesZipFile;
 
@@ -146,19 +149,19 @@ public class RemoteDegen extends AbstractMojo {
 	public List<String> getProjectSourceFiles() throws MojoExecutionException {
 		final LinkedList<String> files = new LinkedList<String>();
 
-		getLog().debug("Scanning `" + sources + "` for .java sources");
+		getLog().debug("Scanning `" + projectSources + "` for .java sources");
 
-		for (final String file : Files.getFileNamesInDirectory(sources)) {
+		for (final String file : Files.getFileNamesInDirectory(projectSources)) {
 
 			// how does this happen? oh I don't care!
-			if (file.equals(sources)) {
+			if (file.equals(projectSources)) {
 				continue;
 			}
 
 			try {
-				files.add(file.substring(sources.length() + 1));
+				files.add(file.substring(projectSources.length() + 1));
 			} catch (StringIndexOutOfBoundsException e) {
-				throw new MojoExecutionException("file=`" + file + "` sources=`" + sources + "`", e);
+				throw new MojoExecutionException("file=`" + file + "` projectSources=`" + projectSources + "`", e);
 			}
 		}
 
