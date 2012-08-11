@@ -63,50 +63,25 @@ public class RemoteDegen extends AbstractMojo {
 	protected String extractedArchive;
 	private ZipFile distributionZipFile;
 	private ZipFile resourcesZipFile;
-	
+
 	protected ZipFile getDistributionFile() throws MojoExecutionException {
-		
+
 		if (distributionZipURL == null || distributionZipURL.equals("")) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		if (this.distributionZipFile == null) {
-
-			// construct the URL object
-			final URL url;
 			try {
-				url = new URL(distributionZipURL);
-			} catch (IOException e) {
-				throw new MojoExecutionException("couldn't make `" + distributionZipURL + "` into a URL", e);
-			}
-
-			// download 
-			final File temporaryFileFromUrl;
-			try {
-				temporaryFileFromUrl = makeTemporaryFileFromStream(url.openStream());
-			} catch (IOException e) {
-				throw new MojoExecutionException("couldn't download the file `" + distributionZipURL + "`", e);
-			}
-
-			// read it as a zip file
-			try {
-				this.distributionZipFile = new ZipFile(temporaryFileFromUrl);
+				// read it as a zip file
+				this.distributionZipFile = new ZipFile(Files.getTemporaryFileFromURL(distributionZipURL));
 			} catch (IOException e) {
 				throw new MojoExecutionException("couldn't read the file from `" + distributionZipURL + "` as a zip file", e);
 			}
 		}
-		
+
 		return this.distributionZipFile;
 	}
-	
-	public static File makeTemporaryFileFromStream(final InputStream inputStream) throws IOException {
-		final File file = File.createTempFile(RemoteDegen.class.getName(), "");
-		
-		copyStream(inputStream, file);
-		
-		return file;
-	}
-	
+
 	@Override
 	public void execute() throws MojoExecutionException {
 		distributionZipFile = null;
@@ -133,7 +108,7 @@ public class RemoteDegen extends AbstractMojo {
 					getLog().info("`" + binary + "` will not be extracted");
 				}
 			}
-			
+
 			getLog().debug("`" + file + "` will be compiled as normal");
 		}
 
@@ -143,59 +118,26 @@ public class RemoteDegen extends AbstractMojo {
 
 			// copy this source file
 			try {
-				copyStream(getSourcesZipFile().getInputStream(getSourcesZipFile().getEntry(file)), new File(this.classesFolder, file));
+				Files.copyStream(getSourcesZipFile().getInputStream(getSourcesZipFile().getEntry(file)), new File(this.classesFolder, file));
 			} catch (IOException ex) {
 				throw new MojoExecutionException("", ex);
 			}
-			
+
 			getLog().info("`" + file + "` will be compiled as a generated source");
 		}
 	}
-	
-	public static File getTemporaryFileFromZip(final ZipFile zipFile, final String name) throws IOException {
-		final ZipEntry entry = zipFile.getEntry(name);
-		
-		if (zipFile.getEntry(name) == null) {
-			throw new IllegalArgumentException();
-		}
-		
-		return makeTemporaryFileFromStream(zipFile.getInputStream(entry));
-	}
-	
+
 	public ZipFile getSourcesZipFile() throws MojoExecutionException {
-		
+
 		if (resourcesZipFile == null) {
 			try {
-				resourcesZipFile = new ZipFile(getTemporaryFileFromZip(getDistributionFile(), extractedArchive));
+				resourcesZipFile = new ZipFile(Files.getTemporaryFileFromZip(getDistributionFile(), extractedArchive));
 			} catch (IOException ex) {
 				throw new MojoExecutionException("", ex);
 			}
 		}
-		
+
 		return resourcesZipFile;
-	}
-	
-	public static List<String> getFiles(final String root) {
-		
-		if (root == null) {
-			throw new IllegalArgumentException();
-		}
-		
-		final LinkedList<String> files = new LinkedList<String>();
-		final File file = new File(root);
-		
-		assert file.exists();
-		
-		if (!file.isDirectory()) {
-			files.add(root.replace("./", ""));
-			return files;
-		} else {
-			
-			for (final String name : file.list()) {
-				files.addAll(getFiles(root + '/' + name));
-			}
-		}
-		return files;
 	}
 
 	/**
@@ -203,40 +145,39 @@ public class RemoteDegen extends AbstractMojo {
 	 */
 	public List<String> getProjectSourceFiles() throws MojoExecutionException {
 		final LinkedList<String> files = new LinkedList<String>();
-		
+
 		getLog().debug("Scanning `" + sources + "` for .java sources");
-		
-		for (final String file : getFiles(sources)) {
+
+		for (final String file : Files.getFileNamesInDirectory(sources)) {
 
 			// how does this happen? oh I don't care!
 			if (file.equals(sources)) {
 				continue;
 			}
-			
+
 			try {
 				files.add(file.substring(sources.length() + 1));
 			} catch (StringIndexOutOfBoundsException e) {
 				throw new MojoExecutionException("file=`" + file + "` sources=`" + sources + "`", e);
 			}
 		}
-		
+
 		return files;
 	}
-	
+
 	protected List<String> getResourceNames() throws MojoExecutionException {
-		
-		
+
 		final LinkedList<String> files = new LinkedList<String>();
-		
+
 		nextFile:
 		for (final ZipEntry zipEntry : Collections.list(getSourcesZipFile().entries())) {
-			
+
 			if (zipEntry.isDirectory()) {
 				continue;
 			}
-			
+
 			final String name = zipEntry.getName();
-			
+
 			for (final String skipRegex : skipRegexs) {
 				if (name.matches(skipRegex)) {
 					getLog().info("`" + name + "` will be skipped");
@@ -244,31 +185,9 @@ public class RemoteDegen extends AbstractMojo {
 				}
 			}
 			files.add(name);
-			
+
 		}
-		
+
 		return files;
-	}
-	
-	public static void copyStream(final InputStream inputStream, final File output) throws IOException {
-		
-		output.getParentFile().mkdirs();
-		
-		final FileOutputStream outputStream = new FileOutputStream(output);
-		final byte[] buffer = new byte[128];
-		
-		while (true) {
-			int read = inputStream.read(buffer);
-			
-			if (read == -1) {
-				break;
-			}
-			
-			outputStream.write(buffer, 0, read);
-		}
-		
-		outputStream.close();
-		inputStream.close();
-		
 	}
 }
