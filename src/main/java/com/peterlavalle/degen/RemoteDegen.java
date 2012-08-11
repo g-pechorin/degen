@@ -132,7 +132,7 @@ public class RemoteDegen extends AbstractMojo {
 			for (final String binary : new LinkedList<String>(resourceFiles)) {
 				if (binary.startsWith(file.replaceAll("\\.java$", "")) && binary.endsWith(".class")) {
 					resourceFiles.remove(binary);
-					getLog().info("`" + binary + "` will not be extracted");
+					getLog().debug("`" + binary + "` will not be extracted");
 				}
 			}
 
@@ -150,7 +150,7 @@ public class RemoteDegen extends AbstractMojo {
 				throw new MojoExecutionException("", ex);
 			}
 
-			getLog().info("`" + file + "` will be compiled as a generated source");
+			getLog().debug("`" + file + "` will be compiled as a generated source");
 		}
 	}
 	private ZipFile resourcesZipFile;
