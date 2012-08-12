@@ -6,16 +6,23 @@ package com.peterlavalle.degen;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
+import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.io.InputStreamFacade;
 
 /**
  *
@@ -26,12 +33,11 @@ import org.apache.maven.project.MavenProjectHelper;
 public class RemoteDegen extends AbstractMojo {
 
 	/**
-	 * Where should we copy the project's source files from?
+	 * the directory to output the generated sources to
 	 *
-	 * @parameter expression="${degen.projectSources}" default-value="src/main/java"
-	 * @required
+	 * @parameter expression="${project.build.directory}/generated-sources/degen"
 	 */
-	protected String projectSources;
+	private String outputDirectory;
 	/**
 	 * What files (from the binaries and the sources, but not the real sources or real resources) should we always skip
 	 *
@@ -39,25 +45,12 @@ public class RemoteDegen extends AbstractMojo {
 	 */
 	protected String[] skipRegexs;
 	/**
-	 * the directory to output the generated sources to
-	 *
-	 * @parameter expression="${project.build.directory}/generated-sources/degen"
-	 */
-	private String outputDirectory;
-	/**
 	 * URL (possibly HTTP://) to the distribution's zip file
 	 *
-	 * @parameter expression="${degen.distributionZipURL}"
+	 * @parameter expression="${degen.distribution}"
 	 * @required
 	 */
-	protected String distributionZipURL;
-	/**
-	 * Path within the distribution's zip file to the source zip file we want
-	 *
-	 * @parameter expression="${degen.extractedArchive}"
-	 * @required
-	 */
-	protected String extractedArchive;
+	protected String distribution;
 	/**
 	 * A cached handle for the ZipFile that we're pulling stuff out of
 	 */
@@ -68,21 +61,21 @@ public class RemoteDegen extends AbstractMojo {
 	 */
 	protected ZipFile getDistributionFile() throws MojoExecutionException {
 
-		if (distributionZipURL == null || distributionZipURL.equals("")) {
+		if (distribution == null || distribution.equals("")) {
 			throw new IllegalArgumentException();
 		}
 
 		if (this.distributionZipFile == null) {
 			final File fileFromURL;
 			try {
-				fileFromURL = distributionZipURL.matches("^\\w+\\:.*$") ? Files.getTemporaryFileFromURL(distributionZipURL) : new File(project.getBasedir(), distributionZipURL);
+				fileFromURL = distribution.matches("^\\w+\\:.*$") ? Files.getTemporaryFileFromURL(distribution) : new File(project.getBasedir(), distribution);
 
 			} catch (IOException e) {
 
-				getLog().debug("distributionZipURL.matches()=" + distributionZipURL.matches("^\\w+\\:.*$"));
+				getLog().debug("distribution.matches()=" + distribution.matches("^\\w+\\:.*$"));
 				getLog().debug("File(\".\").getAbsolutePath()=" + new File(".").getAbsolutePath());
 
-				throw new MojoExecutionException("couldn't locate the file `" + distributionZipURL + "`", e);
+				throw new MojoExecutionException("couldn't locate the file `" + distribution + "`", e);
 			}
 
 			try {
@@ -92,7 +85,7 @@ public class RemoteDegen extends AbstractMojo {
 
 				getLog().debug("fileFromURL.getAbsolutePath()=" + fileFromURL.getAbsolutePath());
 
-				throw new MojoExecutionException("couldn't read the file `" + distributionZipURL + "` as a zip file", e);
+				throw new MojoExecutionException("couldn't read the file `" + distribution + "` as a zip file", e);
 			}
 		}
 
@@ -116,11 +109,11 @@ public class RemoteDegen extends AbstractMojo {
 		// anything int the outputDirectory which is NOT a .java file should be copied as-is into our output
 		projectHelper.addResource(project, outputDirectory, new ArrayList(), Collections.singletonList("**/**.java"));
 
-		// compile all .java in the outputDirectory
+		// tell maven to compile all .java in the outputDirectory
 		project.addCompileSourceRoot(outputDirectory);
 
 		// get the list of "extracted" sources
-		final List<String> resourceFiles = getResourceNames();
+		final List<String> resourceFiles = getExtractedArchive().linkedList;
 
 		// if we have a project source that looks like an extracted resource, we want to ignore that extracted resource
 		for (final String file : getProjectSourceFiles()) {
@@ -141,32 +134,90 @@ public class RemoteDegen extends AbstractMojo {
 
 
 		// if there's a .java file in extractedSourceFiles then
-		for (final String file : resourceFiles) {
+		for (final String file : new LinkedList<String>(resourceFiles)) {
+
+
 
 			// copy this source file
-			try {
-				Files.copyStream(getResourcesZipFile().getInputStream(getResourcesZipFile().getEntry(file)), new File(outputDirectory, file));
-			} catch (IOException ex) {
-				throw new MojoExecutionException("", ex);
-			}
+			getExtractedArchive().copy(file, new File(outputDirectory, file));
 
 			getLog().debug("`" + file + "` will be compiled as a generated source");
 		}
 	}
-	private ZipFile resourcesZipFile;
 
-	public ZipFile getResourcesZipFile() throws MojoExecutionException {
+	public class Archive {
 
-		if (resourcesZipFile == null) {
+		private final ZipFile zipFile;
+
+		public Archive(final File file) throws IOException {
+			this.zipFile = new ZipFile(file);
+
+			nextEntry:
+			for (final ZipEntry entry : Collections.list(this.zipFile.entries())) {
+				
+				if ( entry.isDirectory() ) {
+					continue nextEntry;
+				}
+				
+				final String name = entry.getName();
+				
+				for (final String skipRegex : skipRegexs) {
+					if (name.matches(skipRegex)) {
+						getLog().info("Skipping `" + name + "` due to skipRegexs");
+						continue nextEntry;
+					}
+				}
+
+				linkedList.add(name);
+			}
+
+		}
+		public final LinkedList<String> linkedList = new LinkedList<String>();
+
+		//		public File file(final String name) throws MojoExecutionException {
+		//			try {
+		//				final File file = File.createTempFile(getClass().getName(), ".tmp");
+		//				copy(name, file);
+		//				return file;
+		//			} catch (IOException ex) {
+		//				throw new MojoExecutionException("name=`" + name + "`", ex);
+		//			}
+		//		}
+		
+		public void copy(final String name, final File file) throws MojoExecutionException {
 			try {
-				resourcesZipFile = new ZipFile(Files.getTemporaryFileFromZip(getDistributionFile(), extractedArchive));
+				Files.copyStream(zipFile.getInputStream(zipFile.getEntry(name)), file);
 			} catch (IOException ex) {
-				throw new MojoExecutionException("", ex);
+				throw new MojoExecutionException("name=`" + name + "` file=`" + file + "`", ex);
 			}
 		}
-
-		return resourcesZipFile;
 	}
+	/**
+	 * Path within the distribution's zip file to the source zip file we want
+	 *
+	 * @parameter expression="${degen.extracted}"
+	 * @required
+	 */
+	protected String extracted;
+	private Archive extractedArchive;
+
+	public Archive getExtractedArchive() throws MojoExecutionException {
+		if (extractedArchive == null) {
+			try {
+				extractedArchive = new Archive(Files.getTemporaryFileFromZip(getDistributionFile(), extracted));
+			} catch (IOException ex) {
+				throw new MojoExecutionException("extracted=`" + extracted + "`", ex);
+			}
+		}
+		return extractedArchive;
+	}
+	/**
+	 * Where should we copy the project's source files from?
+	 *
+	 * @parameter expression="${degen.projectSources}" default-value="src/main/java"
+	 * @required
+	 */
+	protected String projectSources;
 
 	/**
 	 * Produces a list of files that will be compiled
@@ -188,32 +239,6 @@ public class RemoteDegen extends AbstractMojo {
 			} catch (StringIndexOutOfBoundsException e) {
 				throw new MojoExecutionException("file=`" + file + "` projectSources=`" + projectSources + "`", e);
 			}
-		}
-
-		return files;
-	}
-
-	protected List<String> getResourceNames() throws MojoExecutionException {
-
-		final LinkedList<String> files = new LinkedList<String>();
-
-		nextFile:
-		for (final ZipEntry zipEntry : Collections.list(getResourcesZipFile().entries())) {
-
-			if (zipEntry.isDirectory()) {
-				continue;
-			}
-
-			final String name = zipEntry.getName();
-
-			for (final String skipRegex : skipRegexs) {
-				if (name.matches(skipRegex)) {
-					getLog().info("`" + name + "` will be skipped");
-					continue nextFile;
-				}
-			}
-			files.add(name);
-
 		}
 
 		return files;

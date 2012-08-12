@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  *
@@ -25,6 +24,7 @@ public class Files {
 
 	public static void copyStream(final InputStream inputStream, final File output) throws IOException {
 		output.getParentFile().mkdirs();
+		
 		final FileOutputStream outputStream = new FileOutputStream(output);
 		final byte[] buffer = new byte[128];
 		while (true) {
