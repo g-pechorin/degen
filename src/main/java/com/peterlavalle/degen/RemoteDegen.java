@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -51,45 +52,39 @@ public class RemoteDegen extends AbstractMojo {
 	 * @required
 	 */
 	protected String distribution;
-	/**
-	 * A cached handle for the ZipFile that we're pulling stuff out of
-	 */
-	private ZipFile distributionZipFile;
 
 	/**
 	 * Retrieves or creates a handle to the ZipFile that we're pulling stuff out of
 	 */
 	protected ZipFile getDistributionFile() throws MojoExecutionException {
 
-		if (distribution == null || distribution.equals("")) {
-			throw new IllegalArgumentException();
+		assert distribution != null;
+		assert !distribution.equals("");
+
+		final File fileFromURL;
+		try {
+			fileFromURL = distribution.matches("^\\w+\\:.*$") ? Files.getTemporaryFileFromURL(distribution) : new File(project.getBasedir(), distribution);
+
+		} catch (IOException e) {
+
+			getLog().debug("distribution.matches()=" + distribution.matches("^\\w+\\:.*$"));
+			getLog().debug("File(\".\").getAbsolutePath()=" + new File(".").getAbsolutePath());
+
+			throw new MojoExecutionException("couldn't locate the file `" + distribution + "`", e);
 		}
+		assert fileFromURL != null;
+		assert fileFromURL.exists();
+		assert fileFromURL.canRead();
 
-		if (this.distributionZipFile == null) {
-			final File fileFromURL;
-			try {
-				fileFromURL = distribution.matches("^\\w+\\:.*$") ? Files.getTemporaryFileFromURL(distribution) : new File(project.getBasedir(), distribution);
+		try {
+			// read it as a zip file
+			return new ZipFile(fileFromURL);
+		} catch (IOException e) {
 
-			} catch (IOException e) {
+			getLog().debug("fileFromURL.getAbsolutePath()=" + fileFromURL.getAbsolutePath());
 
-				getLog().debug("distribution.matches()=" + distribution.matches("^\\w+\\:.*$"));
-				getLog().debug("File(\".\").getAbsolutePath()=" + new File(".").getAbsolutePath());
-
-				throw new MojoExecutionException("couldn't locate the file `" + distribution + "`", e);
-			}
-
-			try {
-				// read it as a zip file
-				this.distributionZipFile = new ZipFile(fileFromURL);
-			} catch (IOException e) {
-
-				getLog().debug("fileFromURL.getAbsolutePath()=" + fileFromURL.getAbsolutePath());
-
-				throw new MojoExecutionException("couldn't read the file `" + distribution + "` as a zip file", e);
-			}
+			throw new MojoExecutionException("couldn't read the file `" + distribution + "` as a zip file", e);
 		}
-
-		return this.distributionZipFile;
 	}
 	/**
 	 * the maven project helper class for adding resources
@@ -112,40 +107,34 @@ public class RemoteDegen extends AbstractMojo {
 		// tell maven to compile all .java in the outputDirectory
 		project.addCompileSourceRoot(outputDirectory);
 
-		// get the list of "extracted" sources
-		final List<String> resourceFiles = getExtractedArchive().linkedList;
 
-		// if we have a project source that looks like an extracted resource, we want to ignore that extracted resource
-		for (final String file : getProjectSourceFiles()) {
+		final ZipFile distributionFile = getDistributionFile();
+		final List<Archive> extractedArchives = getExtractedArchives(distributionFile);
 
-			// remove it from resourceFiles
-			resourceFiles.remove(file);
+		List<String> nextSources = getProjectSourceFiles();
 
-			// remove any pre-compiled classes
-			for (final String binary : new LinkedList<String>(resourceFiles)) {
-				if (binary.startsWith(file.replaceAll("\\.java$", "")) && binary.endsWith(".class")) {
-					resourceFiles.remove(binary);
-					getLog().debug("`" + binary + "` will not be extracted");
+		for (int i = 0; i < extractedArchives.size(); i++) {
+
+			final List<Archive> remainingArchives = extractedArchives.subList(i, extractedArchives.size());
+
+			for (final String sourceFile : nextSources) {
+
+				for (Archive archive : remainingArchives) {
+
+					archive.removeAny(sourceFile);
+
 				}
 			}
 
-			getLog().debug("`" + file + "` will be compiled as normal");
+			nextSources = extractedArchives.get(i).linkedList;
 		}
 
-
-		// if there's a .java file in extractedSourceFiles then
-		for (final String file : new LinkedList<String>(resourceFiles)) {
-
-
-
-			// copy this source file
-			getExtractedArchive().copy(file, new File(outputDirectory, file));
-
-			getLog().debug("`" + file + "` will be compiled as a generated source");
+		for (final Archive extractedArchive : extractedArchives) {
+			extractedArchive.extractTo(outputDirectory);
 		}
 	}
 
-	public class Archive {
+	public class Archive implements Iterable<String> {
 
 		private final ZipFile zipFile;
 
@@ -154,13 +143,13 @@ public class RemoteDegen extends AbstractMojo {
 
 			nextEntry:
 			for (final ZipEntry entry : Collections.list(this.zipFile.entries())) {
-				
-				if ( entry.isDirectory() ) {
+
+				if (entry.isDirectory()) {
 					continue nextEntry;
 				}
-				
+
 				final String name = entry.getName();
-				
+
 				for (final String skipRegex : skipRegexs) {
 					if (name.matches(skipRegex)) {
 						getLog().info("Skipping `" + name + "` due to skipRegexs");
@@ -172,24 +161,50 @@ public class RemoteDegen extends AbstractMojo {
 			}
 
 		}
-		public final LinkedList<String> linkedList = new LinkedList<String>();
+		private final LinkedList<String> linkedList = new LinkedList<String>();
 
-		//		public File file(final String name) throws MojoExecutionException {
-		//			try {
-		//				final File file = File.createTempFile(getClass().getName(), ".tmp");
-		//				copy(name, file);
-		//				return file;
-		//			} catch (IOException ex) {
-		//				throw new MojoExecutionException("name=`" + name + "`", ex);
-		//			}
-		//		}
-		
-		public void copy(final String name, final File file) throws MojoExecutionException {
+		protected void extractTo(final String name, final String parent) throws MojoExecutionException {
+			final File file = new File(parent, name);
 			try {
 				Files.copyStream(zipFile.getInputStream(zipFile.getEntry(name)), file);
 			} catch (IOException ex) {
 				throw new MojoExecutionException("name=`" + name + "` file=`" + file + "`", ex);
 			}
+		}
+
+		public void extractTo(String file) throws MojoExecutionException {
+			for (final String resourceFile : this) {
+				extractTo(resourceFile, file);
+			}
+		}
+
+		public void removeAny(String sourceFile) {
+			final String substring = sourceFile.endsWith(".java") ? sourceFile.substring(0, sourceFile.length() - ".java".length()) : null;
+
+			for (final String resourceFile : this) {
+				if (sourceFile.equals(resourceFile)) {
+					getLog().debug("Archive `" + this.zipFile.getName() + "` is dropping `" + resourceFile + "`");
+					this.linkedList.remove(resourceFile);
+				}
+
+				if (sourceFile.endsWith(".java") && resourceFile.endsWith(".class")) {
+					if (substring == null || !resourceFile.startsWith(substring)) {
+						continue;
+					}
+
+					final String resourceSubstring = resourceFile.substring(substring.length(), resourceFile.length() - ".class".length());
+
+					assert resourceSubstring.matches("^[a-zA-Z0-9$_]*$");
+
+					getLog().debug("Archive `" + this.zipFile.getName() + "` is dropping `" + resourceFile + "`");
+					this.linkedList.remove(resourceFile);
+				}
+			}
+		}
+
+		@Override
+		public Iterator<String> iterator() {
+			return new LinkedList<String>(linkedList).iterator();
 		}
 	}
 	/**
@@ -199,17 +214,17 @@ public class RemoteDegen extends AbstractMojo {
 	 * @required
 	 */
 	protected String extracted;
-	private Archive extractedArchive;
 
-	public Archive getExtractedArchive() throws MojoExecutionException {
-		if (extractedArchive == null) {
-			try {
-				extractedArchive = new Archive(Files.getTemporaryFileFromZip(getDistributionFile(), extracted));
-			} catch (IOException ex) {
-				throw new MojoExecutionException("extracted=`" + extracted + "`", ex);
+	public List< Archive> getExtractedArchives(final ZipFile distributionFile) throws MojoExecutionException {
+		try {
+			final LinkedList<Archive> archives = new LinkedList<Archive>();
+			for (String name : extracted.split("\\|")) {
+				archives.add(new Archive(Files.getTemporaryFileFromZip(distributionFile, name)));
 			}
+			return archives;
+		} catch (IOException ex) {
+			throw new MojoExecutionException("extracted=`" + extracted + "`", ex);
 		}
-		return extractedArchive;
 	}
 	/**
 	 * Where should we copy the project's source files from?
