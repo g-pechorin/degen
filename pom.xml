@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.peterlavalle</groupId>
+	<artifactId>libgdx-degen</artifactId>
+	<version>0.9.6</version>
+	<packaging>pom</packaging>
+
+	<url>https://github.com/g-pechorin/degen</url>
+
+	<description>
+		SEE readme.md
+	</description>
+
+	<modules>
+		<module>libgdx-degen.gdx.math</module>
+		<module>libgdx-degen.gdx</module>
+		<module>libgdx-degen.android</module>
+		<module>libgdx-degen.lwjgl</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>dropbox.Public.mvn-repo</id>
+			<url>${dropbox.root}/Public/mvn-repo</url>
+		</repository>
+	</distributionManagement>
+
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>dropbox.to.uk.orangedog</id>
+			<url>http://dl.dropbox.com/u/15094498/mvn-repo</url>
+		</pluginRepository>
+	</pluginRepositories>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<degen.version>1.1.1-SNAPSHOT</degen.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>dropbox.to.uk.orangedog</id>
+			<url>http://dl.dropbox.com/u/15094498/mvn-repo</url>
+		</repository>
+	</repositories>
+	
+	<scm>
+		<connection>scm:git:git://github.com/g-pechorin/libgdx-degen.git</connection>
+		<developerConnection>scm:git:git@github.com:g-pechorin/libgdx-degen.git</developerConnection>
+		<url>https://github.com/g-pechorin/libgdx-degen</url>
+	</scm>
+</project>
