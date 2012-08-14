@@ -218,8 +218,12 @@ public class RemoteDegen extends AbstractMojo {
 	public List< Archive> getExtractedArchives(final ZipFile distributionFile) throws MojoExecutionException {
 		try {
 			final LinkedList<Archive> archives = new LinkedList<Archive>();
-			for (String name : extracted.split("\\|")) {
-				archives.add(new Archive(Files.getTemporaryFileFromZip(distributionFile, name)));
+			for (final String name : extracted.split("(\\n|\\|)")) {
+				if ( name.trim().equals("") ) {
+					continue;
+				}
+				
+				archives.add(new Archive(Files.getTemporaryFileFromZip(distributionFile, name.trim())));
 			}
 			return archives;
 		} catch (IOException ex) {
