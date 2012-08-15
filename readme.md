@@ -21,8 +21,7 @@ DONE
 
 TODO
 ----
- * 1.1.2 : cache downloaded zip files for (parametric) 4 hours
- * 1.1.3 : 100% Sonar compliance
+ * 1.1.2 : 100% Sonar compliance
  * 1.2.0 : preserve the timestamps from the extracted resources
  * 1.2.1 : skip extracting resources that are already present and up to date
  * 2.0.0 : move distribution and archives definition out of the MOJO configuration or find some other way to share the distribution and archives definition

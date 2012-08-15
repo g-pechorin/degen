@@ -48,15 +48,20 @@ public class Files {
 	}
 
 	public static File getTemporaryFileFromZip(final ZipFile zipFile, final String name) throws IOException {
+		
 		final ZipEntry entry = zipFile.getEntry(name);
+		
 		if (zipFile.getEntry(name) == null) {
+		
 			throw new IllegalArgumentException("`"+zipFile.getName()+"` does not contain `"+name+"`");
 		}
+		
 		return makeTemporaryFileFromStream(zipFile.getInputStream(entry));
 	}
 	private final static Map<String, File> downloadedFiles = new HashMap<String, File>();
 
 	public static synchronized File getTemporaryFileFromURL(final String urlString) throws IOException {
+		
 		if (!downloadedFiles.containsKey(urlString)) {
 
 			downloadedFiles.put(urlString, Files.makeTemporaryFileFromStream(new URL(urlString).openStream()));
