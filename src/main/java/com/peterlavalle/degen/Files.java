@@ -50,7 +50,7 @@ public class Files {
 	public static File getTemporaryFileFromZip(final ZipFile zipFile, final String name) throws IOException {
 		final ZipEntry entry = zipFile.getEntry(name);
 		if (zipFile.getEntry(name) == null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("`"+zipFile.getName()+"` does not contain `"+name+"`");
 		}
 		return makeTemporaryFileFromStream(zipFile.getInputStream(entry));
 	}
