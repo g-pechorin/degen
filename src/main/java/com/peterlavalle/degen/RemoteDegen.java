@@ -6,24 +6,17 @@ package com.peterlavalle.degen;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
-import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.io.InputStreamFacade;
 
 /**
  *
@@ -42,9 +35,15 @@ public class RemoteDegen extends AbstractMojo {
 	/**
 	 * What files (from the binaries and the sources, but not the real sources or real resources) should we always skip
 	 *
-	 * @parameter expression="${degen.skipRegexs}" default-value=""
+	 * @parameter expression="${degen.excludeAny}" default-value=""
 	 */
-	protected String[] skipRegexs;
+	protected String[] excludeAny;
+	/**
+	 * If set it'll limit what is included
+	 *
+	 * @parameter expression="${degen.includeOnly}" default-value=""
+	 */
+	protected String[] includeOnly;
 	/**
 	 * URL (possibly HTTP://) to the distribution's zip file
 	 *
@@ -150,9 +149,24 @@ public class RemoteDegen extends AbstractMojo {
 
 				final String name = entry.getName();
 
-				for (final String skipRegex : skipRegexs) {
+				if (includeOnly != null && includeOnly.length > 0) {
+					boolean keep = false;
+
+					for (final String includeRegex : includeOnly) {
+						if (keep = name.matches(includeRegex)) {
+							break;
+						}
+					}
+
+					if (!keep) {
+						getLog().info("Skipping `" + name + "` due to include rules");
+						continue nextEntry;
+					}
+				}
+
+				for (final String skipRegex : excludeAny) {
 					if (name.matches(skipRegex)) {
-						getLog().info("Skipping `" + name + "` due to skipRegexs");
+						getLog().info("Skipping `" + name + "` due to exclude rules");
 						continue nextEntry;
 					}
 				}
@@ -218,7 +232,7 @@ public class RemoteDegen extends AbstractMojo {
 	public List< Archive> getExtractedArchives(final ZipFile distributionFile) throws MojoExecutionException {
 		try {
 			final LinkedList<Archive> archives = new LinkedList<Archive>();
-			for (final String name : extracted.split("(\\n|\\|)")) {
+			for (final String name : extracted.split("(\\||\n)")) {
 				if ( name.trim().equals("") ) {
 					continue;
 				}
