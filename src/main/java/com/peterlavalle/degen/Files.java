@@ -40,18 +40,9 @@ public final class Files {
 	 * @throws IOException if any other method does, or if the output file has no parent
 	 */
 	public static void copyStream(final InputStream inputStream, final File output) throws IOException {
-		{
-			// get the parent file
-			final File parentFile = output.getParentFile();
-			if (parentFile == null) {
-				throw new IOException("Can't make parent dirs");
-			}
 
-			if ((!parentFile.exists() && !parentFile.mkdirs())) {
-				throw new IOException("I was not able to create the folder `" + parentFile + "`");
-			} else if (parentFile.isDirectory()) {
-				throw new IOException("I can't put `" + output + "` into `" + parentFile + "` since the later is not a folder");
-			}
+		if (!output.getParentFile().mkdirs()) {
+			throw new IOException("I was not able to create the folder `" + output.getParentFile() + "`");
 		}
 
 		final FileOutputStream outputStream = new FileOutputStream(output);
@@ -59,14 +50,14 @@ public final class Files {
 
 			// we'll need a buffer of bytes
 			final byte[] buffer = new byte[BUFFER_SIZE];
-			while (true) {
-				final int read = inputStream.read(buffer);
-				if (read == -1) {
-					break;
-				}
+
+			// read all bytes from the file
+			for (int read = 0; read != -1; read = inputStream.read(buffer)) {
 				outputStream.write(buffer, 0, read);
 			}
 		} finally {
+
+			// close both handles
 			outputStream.close();
 			inputStream.close();
 		}
@@ -97,22 +88,31 @@ public final class Files {
 	 */
 	public static File getTemporaryFileFromZip(final ZipFile zipFile, final String name) throws IOException {
 
+		// the zipEntry is like a File object, but for files inside of a zipfile
 		final ZipEntry entry = zipFile.getEntry(name);
 
-		if (zipFile.getEntry(name) == null) {
-
-			throw new IllegalArgumentException("`" + zipFile.getName() + "` does not contain `" + name + "`");
+		// check to make sure that we got something
+		if (entry == null || entry.isDirectory()) {
+			throw new IllegalArgumentException("`" + zipFile.getName() + (entry==null? "` has no entry named `":"` has no FILE named `" ) + name + "`");
 		}
+		
+		// we'll need a temporary file to store our data
 		final File temporaryFile = makeTemporaryFileFromStream(zipFile.getInputStream(entry));
+		
+		// I don't know if this is needed
+		temporaryFile.deleteOnExit();
 
-		// set the time`
-		final long time = entry.getTime();
-		if (time < 0 || !temporaryFile.setLastModified(time)) {
+		// set the time
+		if (!temporaryFile.setLastModified(entry.getTime())) {
 			Logger.getLogger(Files.class.getName()).log(Level.WARNING, "Unable to set time for `{0}` @ `{1}`", new Object[]{name, temporaryFile});
 		}
 
 		return temporaryFile;
 	}
+	
+	/**
+	 * Private variable that will be used to cache handles to downloaded files.
+	 */
 	private static final Map<String, File> DOWNLOADED_FILES = new HashMap<String, File>();
 
 	/**
@@ -147,23 +147,30 @@ public final class Files {
 
 		assert basedir != null;
 		assert basedir.isDirectory();
-		assert basedir.exists() ;
+		assert basedir.exists();
 		assert root != null;
-		
+
 		// get the file we're going to search in
 		final File file = new File(basedir, root);
-		
+
 		assert file.exists();
-		
+
 		if (!file.isDirectory()) {
+			
+			// if we're looking at a real file, we should add it after we remove the './' thing
 			files.add(root.replace("./", ""));
+			
 			return files;
 		} else {
+			
+			// loop through every name ...
 			for (final String name : file.list()) {
+				
+				// and add whatever you find there
 				files.addAll(getFileNamesInDirectory(basedir, root + '/' + name));
 			}
 		}
-		
+
 		return files;
 	}
 }

@@ -11,6 +11,7 @@ History
 =======
 DONE
 ----
+ * 1.1.2 : 100% Sonar compliance, 100% API documentation, >= 30% overall commenting
  * 1.1.1 : get it to "work" for libgdx (using new project)
  * 1.1.0 : allow the use of multiple (staggered) archives for a single project and recompile .java files that are extracted from sources with the same logic for all exclusions (instead of project source, then extracted source)
  * 1.0.3 : rename "resources" to "extracted" and "distributionZipURL" to "distribution" also rebuilt internals
@@ -21,7 +22,6 @@ DONE
 
 TODO
 ----
- * 1.1.2 : 100% Sonar compliance
  * 1.2.0 : preserve the timestamps from the extracted resources
  * 1.2.1 : skip extracting resources that are already present and up to date
  * 2.0.0 : move distribution and archives definition out of the MOJO configuration or find some other way to share the distribution and archives definition

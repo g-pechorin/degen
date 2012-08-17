@@ -54,8 +54,9 @@ public class RemoteDegen extends AbstractMojo {
 
 	/**
 	 * Retrieves or creates a handle to the ZipFile that we're pulling stuff out of
+	 *
 	 * @return
-	 * @throws MojoExecutionException 
+	 * @throws MojoExecutionException
 	 */
 	protected ZipFile getDistributionFile() throws MojoExecutionException {
 
@@ -70,7 +71,13 @@ public class RemoteDegen extends AbstractMojo {
 
 		} catch (IOException e) {
 
+			// displays the file name
+			getLog().debug("distribution=" + distribution);
+
+			// displays wheter or not it's a URL
 			getLog().debug("distribution.matches()=" + distribution.matches("^\\w+\\:.*$"));
+
+			// displays the path we're working from
 			getLog().debug("File(\".\").getAbsolutePath()=" + new File(".").getAbsolutePath());
 
 			throw new MojoExecutionException("couldn't locate the file `" + distribution + "`", e);
@@ -114,27 +121,26 @@ public class RemoteDegen extends AbstractMojo {
 		project.addCompileSourceRoot(outputDirectory);
 
 
-		final ZipFile distributionFile = getDistributionFile();
-		final List<ArchiveExtractionList> extractedArchives = makeListOfExtractedArchives(distributionFile);
+		final List<ArchiveExtractionList> extractedArchives = makeListOfExtractedArchives();
 
-		List<String> nextSources = getProjectSourceFiles();
+		List<String> currentSources = getProjectSourceFiles();
 
 		for (int i = 0; i < extractedArchives.size(); i++) {
 
-			final List<ArchiveExtractionList> remainingArchives = extractedArchives.subList(i, extractedArchives.size());
+			// check every source file in the "currentSources" ...
+			for (final String sourceFile : currentSources) {
 
-			for (final String sourceFile : nextSources) {
-
-				for (ArchiveExtractionList archive : remainingArchives) {
-
+				// ... and remove it from any following archive
+				for (ArchiveExtractionList archive : extractedArchives.subList(i, extractedArchives.size())) {
 					archive.removeAny(sourceFile);
-
 				}
 			}
 
-			nextSources = extractedArchives.get(i).linkedList;
+			// advance to the next set of sources
+			currentSources = extractedArchives.get(i).linkedList;
 		}
 
+		// we've checked everything - so dump what's left
 		for (final ArchiveExtractionList extractedArchive : extractedArchives) {
 			extractedArchive.extractTo(outputDirectory);
 		}
@@ -145,6 +151,7 @@ public class RemoteDegen extends AbstractMojo {
 	 */
 	public class ArchiveExtractionList implements Iterable<String> {
 
+		// handle tot eh actual zipFile
 		private final ZipFile zipFile;
 
 		/**
@@ -190,8 +197,9 @@ public class RemoteDegen extends AbstractMojo {
 
 				linkedList.add(name);
 			}
-
 		}
+		
+		// a list of all files that we might extract
 		private final List<String> linkedList = new LinkedList<String>();
 
 		/**
@@ -270,22 +278,29 @@ public class RemoteDegen extends AbstractMojo {
 	private String extracted;
 
 	/**
-	 * makes a list of all archives that we want from the passed distributionFile.
-	 * @param distributionFile
+	 * makes a list of all archives that we want from the distributionFile.
+	 *
 	 * @return
-	 * @throws MojoExecutionException 
+	 * @throws MojoExecutionException
 	 */
-	public List<ArchiveExtractionList> makeListOfExtractedArchives(final ZipFile distributionFile) throws MojoExecutionException {
+	public List<ArchiveExtractionList> makeListOfExtractedArchives() throws MojoExecutionException {
 		try {
-			final LinkedList<ArchiveExtractionList> archives = new LinkedList<ArchiveExtractionList>();
 			
+			// get the distribution archive
+			final ZipFile distributionFile = getDistributionFile();
+
+			final LinkedList<ArchiveExtractionList> archives = new LinkedList<ArchiveExtractionList>();
+
 			// archives can be separated by the pipe character or the newline
 			for (final String name : extracted.split("(\\||\n)")) {
-				if (name.trim().equals("")) {
+				
+				// skip empty entries
+				final String trim = name.trim();
+				if (trim.equals("")) {
 					continue;
 				}
 
-				archives.add(new ArchiveExtractionList(Files.getTemporaryFileFromZip(distributionFile, name.trim())));
+				archives.add(new ArchiveExtractionList(Files.getTemporaryFileFromZip(distributionFile, trim)));
 			}
 			return archives;
 		} catch (IOException ex) {
@@ -304,10 +319,11 @@ public class RemoteDegen extends AbstractMojo {
 	 * Produces a list of files that will be compiled
 	 */
 	public List<String> getProjectSourceFiles() throws MojoExecutionException {
-		final LinkedList<String> files = new LinkedList<String>();
 
+		// alert
 		getLog().debug("Scanning `" + projectSources + "` for .java sources");
 
+		final LinkedList<String> files = new LinkedList<String>();
 		for (final String file : Files.getFileNamesInDirectory(project.getBasedir(), projectSources)) {
 
 			// how does this happen? oh I don't care!

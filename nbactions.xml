@@ -26,4 +26,11 @@
                 <goal>install</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-sonar:sonar</actionName>
+            <displayName>sonar:sonar</displayName>
+            <goals>
+                <goal>sonar:sonar</goal>
+            </goals>
+        </action>
     </actions>
