@@ -22,11 +22,10 @@ DONE
 
 TODO
 ----
- * 1.2.0 : preserve the timestamps from the extracted resources
- * 1.2.1 : skip extracting resources that are already present and up to date
  * 2.0.0 : move distribution and archives definition out of the MOJO configuration or find some other way to share the distribution and archives definition
  * 2.0.1 : add "revert" MOJO which locates a .java file within the distribution and archives definition then copies it out into the src/main/java folder
  * 2.0.2 : add "remove" MOJO which deletes any .java files in src/main/java which match .java files within the distribution and archives definition
+ * ?.0.0 : skip extracting resources that are already present and up to date
  * ?.0.0 : allow remote/revert/remove from google code/browsable repos (already works with github due to the zipball)
  * ?.0.0 : allow non-zip archive formats (.tar .tar.gz .tar.bz .tar.bz2 .7z)
  * ?.0.0 : allow the use of dependencies in the plugin
