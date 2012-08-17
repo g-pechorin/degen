@@ -163,3 +163,5 @@ pip-log.txt
 .DS_Store
 /libgdx-degen.gdx.math/target/
 /libgdx-degen.gdx/target/
+/libgdx-degen.lwjgl/target/
+/libgdx-degen.android/target/

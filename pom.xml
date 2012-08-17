@@ -17,8 +17,8 @@
 	<modules>
 		<module>libgdx-degen.gdx.math</module>
 		<module>libgdx-degen.gdx</module>
-		<module>libgdx-degen.android</module>
 		<module>libgdx-degen.lwjgl</module>
+		<module>libgdx-degen.android</module>
 	</modules>
 
 	<build>
@@ -42,7 +42,6 @@
 		</repository>
 	</distributionManagement>
 
-	
 	<pluginRepositories>
 		<pluginRepository>
 			<id>dropbox.to.uk.orangedog</id>
@@ -51,8 +50,12 @@
 	</pluginRepositories>
 	
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<degen.version>1.1.1-SNAPSHOT</degen.version>
+<!--
+		<distributionURL>http://libgdx.googlecode.com/files/libgdx-${project.version}.zip</distributionURL>
+-->
+		<distributionURL>file:///C:/Users/Peter LaValle/Documents/GitHub/libgdx-repack-dist/libgdx-0.9.6.zip</distributionURL>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<repositories>
