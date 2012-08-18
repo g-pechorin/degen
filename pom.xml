@@ -50,8 +50,8 @@
 	</pluginRepositories>
 	
 	<properties>
-		<degen.version>1.1.1-SNAPSHOT</degen.version>
-		<distributionURL>http://libgdx.googlecode.com/files/libgdx-${project.version}.zip</distributionURL>
+		<degen.version>1.1.4</degen.version>
+		<distributionURL>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip</distributionURL>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 

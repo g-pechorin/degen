@@ -34,6 +34,12 @@
 								gdx-openal.jar
 								gdx-backend-lwjgl.jar
 							</extracted>
+							<excludeAny>
+								<exclude>^org.lwjgl..+\.(java|class)$</exclude>
+								<exclude>^javazoom.jl..+\.(java|class)$</exclude>
+								<exclude>^com.badlogic.gdx.backends.*.java</exclude>
+								<exclude>^META\-INF.*</exclude>
+							</excludeAny>
 						</configuration>
 					</execution>
 				</executions>
@@ -47,5 +53,26 @@
 			<artifactId>libgdx-degen.gdx</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.lwjgl.lwjgl</groupId>
+			<artifactId>lwjgl</artifactId>
+			<version>2.8.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.lwjgl.lwjgl</groupId>
+			<artifactId>lwjgl_util</artifactId>
+			<version>2.8.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.lwjgl.lwjgl</groupId>
+			<artifactId>lwjgl_util_applet</artifactId>
+			<version>2.8.4</version>
+		</dependency>
+		<dependency>
+			<groupId>de.huxhorn.sulky</groupId>
+			<artifactId>de.huxhorn.sulky.3rdparty.jlayer</artifactId>
+			<version>1.0</version>
+		</dependency>
+            
 	</dependencies>
 </project>

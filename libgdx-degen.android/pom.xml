@@ -30,6 +30,9 @@
 								sources/gdx-backend-android-sources.jar
 								gdx-backend-android.jar
 							</extracted>
+							<excludeAny>
+								<exclude>^META\-INF.*</exclude>
+							</excludeAny>
 						</configuration>
 					</execution>
 				</executions>

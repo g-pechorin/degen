@@ -32,6 +32,7 @@
 								<exclude>com.badlogic.gdx.utils.NumberUtils.*</exclude>
 								<exclude>com.badlogic.gdx.utils.GdxRuntimeException.*</exclude>
 								<exclude>com.badlogic.gdx.utils.GdxBuild.*</exclude>
+								<exclude>^META\-INF.*</exclude>
 							</excludeAny>
 						</configuration>
 					</execution>
