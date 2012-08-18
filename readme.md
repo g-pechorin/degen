@@ -11,6 +11,7 @@ History
 =======
 DONE
 ----
+ * 1.1.3 : bugfixes
  * 1.1.2 : 100% Sonar compliance, 100% API documentation, >= 30% overall commenting
  * 1.1.1 : get it to "work" for libgdx (using new project)
  * 1.1.0 : allow the use of multiple (staggered) archives for a single project and recompile .java files that are extracted from sources with the same logic for all exclusions (instead of project source, then extracted source)
@@ -22,11 +23,12 @@ DONE
 
 TODO
 ----
- * 2.0.0 : move distribution and archives definition out of the MOJO configuration or find some other way to share the distribution and archives definition
- * 2.0.1 : add "revert" MOJO which locates a .java file within the distribution and archives definition then copies it out into the src/main/java folder
+ * ?.0.0 : cache downloaded resources in target
+ * 2.0.0 : move distribution and archives definition out of the MOJO configuration (like sources.jar@zip://http://example.com/dist.zip)
+ * 2.0.1 : add non-scriptable "override" MOJO which locates a .java file within the distribution and archives, then copies it out into the src/main/java folder
  * 2.0.2 : add "remove" MOJO which deletes any .java files in src/main/java which match .java files within the distribution and archives definition
- * ?.0.0 : skip extracting resources that are already present and up to date
- * ?.0.0 : allow remote/revert/remove from google code/browsable repos (already works with github due to the zipball)
+ * ?.0.0 : skip extracting resources that are already present and up to date, remove extracted resources that don't exist
+ * ?.0.0 : allow google code and svn repos for import (should already work with github through zipballs)
  * ?.0.0 : allow non-zip archive formats (.tar .tar.gz .tar.bz .tar.bz2 .7z)
  * ?.0.0 : allow the use of dependencies in the plugin
- * ?.0.0 : import unit tests
+ * ?.0.0 : allow import of tests
