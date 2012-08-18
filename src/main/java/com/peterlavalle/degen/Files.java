@@ -4,11 +4,15 @@
  */
 package com.peterlavalle.degen;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.nio.LongBuffer;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import org.apache.maven.project.MavenProject;
+import org.apache.maven.plugin.logging.Log;
 
 /**
  *
@@ -42,7 +48,7 @@ public final class Files {
 	 */
 	public static void copyStream(final InputStream inputStream, final File output) throws IOException {
 
-		if (!output.getParentFile().exists() &&!output.getParentFile().mkdirs()) {
+		if (!output.getParentFile().exists() && !output.getParentFile().mkdirs()) {
 			throw new IOException("I was not able to create the folder `" + output.getParentFile() + "`");
 		}
 
@@ -123,21 +129,44 @@ public final class Files {
 	 * @return a file handle for the temporary copy
 	 * @throws IOException
 	 */
-	public static synchronized File getTemporaryFileFromURL(final File basedir, final String urlString) throws IOException {
+	public static synchronized File getTemporaryFileFromURL(final MavenProject project, final Log log, final String urlString) throws IOException {
 
 		// if it is a URL ...
 		if (urlString.matches("^\\w+\\:.*$")) {
 			// if the file hasn't been downloaded ...
 			if (!DOWNLOADED_FILES.containsKey(urlString)) {
+				final byte[] bytes = urlString.getBytes();
+
+				final IntBuffer wrap = ByteBuffer.wrap(Arrays.copyOf(bytes, (bytes.length % 4) != 0 ? ((bytes.length / 4) + 1) * 4 : bytes.length)).asIntBuffer();
+
+				final StringBuilder name = new StringBuilder(Files.class.getSimpleName() + ".");
+				while (wrap.hasRemaining()) {
+					name.append(Integer.toString(wrap.get(), 64));
+				}
+
+				MavenProject rootProject = project;
+				if (rootProject.getParent() != null && rootProject.getBasedir().getParentFile().equals(rootProject.getParent().getBasedir())) {
+					rootProject = rootProject.getParent();
+				}
+				
+				final File file = new File(rootProject.getBuild().getDirectory(), name.toString());
+
+				if (file.exists()) {
+					log.info("reusing `" + urlString + "` -> `" + file + "`");
+				} else {
+					log.info("Downloading `" + urlString + "` ...");
+					copyStream(new URL(urlString).openStream(), file);
+					log.info("... to `" + file + "`");
+				}
 
 				// ... download it now
-				DOWNLOADED_FILES.put(urlString, Files.makeTemporaryFileFromStream( new URL(urlString).openStream()));
+				DOWNLOADED_FILES.put(urlString, file);
 			}
 
 			// retrieve whatever has been downloaded
 			return DOWNLOADED_FILES.get(urlString);
 		} else {
-			return new File(basedir, urlString);
+			return new File(project.getBasedir(), urlString);
 		}
 	}
 

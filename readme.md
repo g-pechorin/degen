@@ -11,6 +11,7 @@ History
 =======
 DONE
 ----
+ * 1.1.4 : cache downloaded resources in root-parent's target
  * 1.1.3 : bugfixes
  * 1.1.2 : 100% Sonar compliance, 100% API documentation, >= 30% overall commenting
  * 1.1.1 : get it to "work" for libgdx (using new project)
@@ -23,7 +24,6 @@ DONE
 
 TODO
 ----
- * ?.0.0 : cache downloaded resources in target
  * 2.0.0 : move distribution and archives definition out of the MOJO configuration (like sources.jar@zip://http://example.com/dist.zip)
  * 2.0.1 : add non-scriptable "override" MOJO which locates a .java file within the distribution and archives, then copies it out into the src/main/java folder
  * 2.0.2 : add "remove" MOJO which deletes any .java files in src/main/java which match .java files within the distribution and archives definition
