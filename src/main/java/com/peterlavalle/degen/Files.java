@@ -25,6 +25,7 @@ import java.util.zip.ZipFile;
 public final class Files {
 
 	public static final int BUFFER_SIZE = 128;
+	private static final Logger LOGGER = Logger.getLogger(Files.class.getName());
 
 	/**
 	 * Just shuts up sonar
@@ -41,7 +42,7 @@ public final class Files {
 	 */
 	public static void copyStream(final InputStream inputStream, final File output) throws IOException {
 
-		if (!output.getParentFile().mkdirs()) {
+		if (!output.getParentFile().exists() &&!output.getParentFile().mkdirs()) {
 			throw new IOException("I was not able to create the folder `" + output.getParentFile() + "`");
 		}
 
@@ -70,6 +71,7 @@ public final class Files {
 
 		// create our temporary file
 		final File file = File.createTempFile(RemoteDegen.class.getName(), "");
+		file.deleteOnExit();
 
 		// copy the data to it
 		copyStream(inputStream, file);
@@ -93,23 +95,22 @@ public final class Files {
 
 		// check to make sure that we got something
 		if (entry == null || entry.isDirectory()) {
-			throw new IllegalArgumentException("`" + zipFile.getName() + (entry==null? "` has no entry named `":"` has no FILE named `" ) + name + "`");
+			throw new IllegalArgumentException("`" + zipFile.getName() + (entry == null ? "` has no entry named `" : "` has no FILE named `") + name + "`");
 		}
-		
+
 		// we'll need a temporary file to store our data
 		final File temporaryFile = makeTemporaryFileFromStream(zipFile.getInputStream(entry));
-		
+
 		// I don't know if this is needed
 		temporaryFile.deleteOnExit();
 
 		// set the time
 		if (!temporaryFile.setLastModified(entry.getTime())) {
-			Logger.getLogger(Files.class.getName()).log(Level.WARNING, "Unable to set time for `{0}` @ `{1}`", new Object[]{name, temporaryFile});
+			LOGGER.log(Level.WARNING, "Unable to set time for `{0}` @ `{1}`", new Object[]{name, temporaryFile});
 		}
 
 		return temporaryFile;
 	}
-	
 	/**
 	 * Private variable that will be used to cache handles to downloaded files.
 	 */
@@ -122,17 +123,22 @@ public final class Files {
 	 * @return a file handle for the temporary copy
 	 * @throws IOException
 	 */
-	public static synchronized File getTemporaryFileFromURL(final String urlString) throws IOException {
+	public static synchronized File getTemporaryFileFromURL(final File basedir, final String urlString) throws IOException {
 
-		// if the file hasn't been downloaded ...
-		if (!DOWNLOADED_FILES.containsKey(urlString)) {
+		// if it is a URL ...
+		if (urlString.matches("^\\w+\\:.*$")) {
+			// if the file hasn't been downloaded ...
+			if (!DOWNLOADED_FILES.containsKey(urlString)) {
 
-			// ... download it now
-			DOWNLOADED_FILES.put(urlString, Files.makeTemporaryFileFromStream(new URL(urlString).openStream()));
+				// ... download it now
+				DOWNLOADED_FILES.put(urlString, Files.makeTemporaryFileFromStream( new URL(urlString).openStream()));
+			}
+
+			// retrieve whatever has been downloaded
+			return DOWNLOADED_FILES.get(urlString);
+		} else {
+			return new File(basedir, urlString);
 		}
-
-		// retrieve whatever has been downloaded
-		return DOWNLOADED_FILES.get(urlString);
 	}
 
 	/**
@@ -156,16 +162,16 @@ public final class Files {
 		assert file.exists();
 
 		if (!file.isDirectory()) {
-			
+
 			// if we're looking at a real file, we should add it after we remove the './' thing
 			files.add(root.replace("./", ""));
-			
+
 			return files;
 		} else {
-			
+
 			// loop through every name ...
 			for (final String name : file.list()) {
-				
+
 				// and add whatever you find there
 				files.addAll(getFileNamesInDirectory(basedir, root + '/' + name));
 			}

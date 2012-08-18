@@ -66,8 +66,8 @@ public class RemoteDegen extends AbstractMojo {
 		// the file handle
 		final File fileFromURL;
 		try {
-			// either constructs a loca file (if you're reading data fromt eh local machine) or a cached file URL (if you're downloading it from teh interwebz)
-			fileFromURL = distribution.matches("^\\w+\\:.*$") ? Files.getTemporaryFileFromURL(distribution) : new File(project.getBasedir(), distribution);
+			// either constructs a loca file (if you're reading data from the local machine) or a cached file URL (if you're downloading it from teh interwebz)
+			fileFromURL = Files.getTemporaryFileFromURL(project.getBasedir(), distribution);
 
 		} catch (IOException e) {
 
