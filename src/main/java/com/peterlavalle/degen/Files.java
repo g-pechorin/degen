@@ -31,13 +31,12 @@ import org.apache.maven.plugin.logging.Log;
 public final class Files {
 
 	public static final int BUFFER_SIZE = 128;
-	private static final Logger LOGGER = Logger.getLogger(Files.class.getName());
-
 	/**
-	 * Just shuts up sonar
+	 * Private variable that will be used to cache handles to downloaded files.
 	 */
-	private Files() {
-	}
+	private static final Map<String, File> DOWNLOADED_FILES = new HashMap<String, File>();
+
+	private static final Logger LOGGER = Logger.getLogger(Files.class.getName());
 
 	/**
 	 * Copies the data from the stream to the specified file, then closes it.
@@ -71,56 +70,43 @@ public final class Files {
 	}
 
 	/**
-	 * Creates a temporary file, and fills it with the contents of a stream
-	 */
-	public static File makeTemporaryFileFromStream(final InputStream inputStream) throws IOException {
-
-		// create our temporary file
-		final File file = File.createTempFile(RemoteDegen.class.getName(), "");
-		file.deleteOnExit();
-
-		// copy the data to it
-		copyStream(inputStream, file);
-
-		// return the handle that we've created
-		return file;
-	}
-
-	/**
-	 * Extracts a named file form a zip archive into a temporary file and returns a handle to it.
+	 * Lists all files in root relative to basedir
 	 *
-	 * @param zipFile
-	 * @param name
+	 * @param basedir
+	 * @param root
 	 * @return
-	 * @throws IOException
 	 */
-	public static File getTemporaryFileFromZip(final ZipFile zipFile, final String name) throws IOException {
+	public static List<String> getFileNamesInDirectory(File basedir, final String root) {
+		final LinkedList<String> files = new LinkedList<String>();
 
-		// the zipEntry is like a File object, but for files inside of a zipfile
-		final ZipEntry entry = zipFile.getEntry(name);
+		assert basedir != null;
+		assert basedir.isDirectory();
+		assert basedir.exists();
+		assert root != null;
 
-		// check to make sure that we got something
-		if (entry == null || entry.isDirectory()) {
-			throw new IllegalArgumentException("`" + zipFile.getName() + (entry == null ? "` has no entry named `" : "` has no FILE named `") + name + "`");
+		// get the file we're going to search in
+		final File file = new File(basedir, root);
+
+		assert file.exists();
+
+		if (!file.isDirectory()) {
+
+			// if we're looking at a real file, we should add it after we remove the './' thing
+			files.add(root.replace("./", ""));
+
+			return files;
+		} else {
+
+			// loop through every name ...
+			for (final String name : file.list()) {
+
+				// and add whatever you find there
+				files.addAll(getFileNamesInDirectory(basedir, root + '/' + name));
+			}
 		}
 
-		// we'll need a temporary file to store our data
-		final File temporaryFile = makeTemporaryFileFromStream(zipFile.getInputStream(entry));
-
-		// I don't know if this is needed
-		temporaryFile.deleteOnExit();
-
-		// set the time
-		if (!temporaryFile.setLastModified(entry.getTime())) {
-			LOGGER.log(Level.WARNING, "Unable to set time for `{0}` @ `{1}`", new Object[]{name, temporaryFile});
-		}
-
-		return temporaryFile;
+		return files;
 	}
-	/**
-	 * Private variable that will be used to cache handles to downloaded files.
-	 */
-	private static final Map<String, File> DOWNLOADED_FILES = new HashMap<String, File>();
 
 	/**
 	 * Copies a file from a URL into a temporary file.
@@ -169,43 +155,57 @@ public final class Files {
 			return new File(project.getBasedir(), urlString);
 		}
 	}
-
 	/**
-	 * Lists all files in root relative to basedir
+	 * Extracts a named file form a zip archive into a temporary file and returns a handle to it.
 	 *
-	 * @param basedir
-	 * @param root
+	 * @param zipFile
+	 * @param name
 	 * @return
+	 * @throws IOException
 	 */
-	public static List<String> getFileNamesInDirectory(File basedir, final String root) {
-		final LinkedList<String> files = new LinkedList<String>();
+	public static File getTemporaryFileFromZip(final ZipFile zipFile, final String name) throws IOException {
 
-		assert basedir != null;
-		assert basedir.isDirectory();
-		assert basedir.exists();
-		assert root != null;
+		// the zipEntry is like a File object, but for files inside of a zipfile
+		final ZipEntry entry = zipFile.getEntry(name);
 
-		// get the file we're going to search in
-		final File file = new File(basedir, root);
-
-		assert file.exists();
-
-		if (!file.isDirectory()) {
-
-			// if we're looking at a real file, we should add it after we remove the './' thing
-			files.add(root.replace("./", ""));
-
-			return files;
-		} else {
-
-			// loop through every name ...
-			for (final String name : file.list()) {
-
-				// and add whatever you find there
-				files.addAll(getFileNamesInDirectory(basedir, root + '/' + name));
-			}
+		// check to make sure that we got something
+		if (entry == null || entry.isDirectory()) {
+			throw new IllegalArgumentException("`" + zipFile.getName() + (entry == null ? "` has no entry named `" : "` has no FILE named `") + name + "`");
 		}
 
-		return files;
+		// we'll need a temporary file to store our data
+		final File temporaryFile = makeTemporaryFileFromStream(zipFile.getInputStream(entry));
+
+		// I don't know if this is needed
+		temporaryFile.deleteOnExit();
+
+		// set the time
+		if (!temporaryFile.setLastModified(entry.getTime())) {
+			LOGGER.log(Level.WARNING, "Unable to set time for `{0}` @ `{1}`", new Object[]{name, temporaryFile});
+		}
+
+		return temporaryFile;
+	}
+
+	/**
+	 * Creates a temporary file, and fills it with the contents of a stream
+	 */
+	public static File makeTemporaryFileFromStream(final InputStream inputStream) throws IOException {
+
+		// create our temporary file
+		final File file = File.createTempFile(RemoteDegen.class.getName(), "");
+		file.deleteOnExit();
+
+		// copy the data to it
+		copyStream(inputStream, file);
+
+		// return the handle that we've created
+		return file;
+	}
+
+	/**
+	 * Just shuts up sonar
+	 */
+	private Files() {
 	}
 }

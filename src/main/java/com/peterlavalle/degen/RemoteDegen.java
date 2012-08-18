@@ -27,23 +27,128 @@ import org.apache.maven.project.MavenProjectHelper;
 public class RemoteDegen extends AbstractMojo {
 
 	/**
-	 * the directory to output the generated sources to
-	 *
-	 * @parameter expression="${project.build.directory}/generated-sources/degen"
+	 * Contains a list of files that will be extracted from a single ZipFile
 	 */
-	private String outputDirectory;
-	/**
-	 * What files (from the binaries and the sources, but not the real sources or real resources) should we always skip
-	 *
-	 * @parameter expression="${degen.excludeAny}" default-value=""
-	 */
-	private String[] excludeAny;
-	/**
-	 * If set it'll limit what is included
-	 *
-	 * @parameter expression="${degen.includeOnly}" default-value=""
-	 */
-	private String[] includeOnly;
+	public class ArchiveExtractionList implements Iterable<String> {
+
+		// a list of all files that we might extract
+		private final List<String> linkedList = new LinkedList<String>();
+
+		// handle tot eh actual zipFile
+		private final ZipFile zipFile;
+		
+		/**
+		 * Constructs a new object to represent the named zipfile.
+		 *
+		 * @param file
+		 * @throws IOException
+		 */
+		public ArchiveExtractionList(final File file) throws IOException {
+			this.zipFile = new ZipFile(file);
+
+			nextEntry:
+			for (final ZipEntry entry : Collections.list(this.zipFile.entries())) {
+
+				if (entry.isDirectory()) {
+					continue nextEntry;
+				}
+
+				final String name = entry.getName();
+
+				if (includeOnly != null && includeOnly.length > 0) {
+					boolean keep = false;
+
+					for (final String includeRegex : includeOnly) {
+						keep = name.matches(includeRegex);
+						if (keep) {
+							break;
+						}
+					}
+
+					if (!keep) {
+						getLog().info("Skipping `" + name + "` due to include rules");
+						continue nextEntry;
+					}
+				}
+
+				for (final String skipRegex : excludeAny) {
+					if (name.matches(skipRegex)) {
+						getLog().info("Skipping `" + name + "` due to exclude rules");
+						continue nextEntry;
+					}
+				}
+
+				linkedList.add(name);
+			}
+		}
+
+		/**
+		 * Extracts all files remaining in the list into the passed directory
+		 *
+		 * @param outputFolder
+		 * @throws MojoExecutionException
+		 */
+		public void extractTo(String outputFolder) throws MojoExecutionException {
+			for (final String resourceFile : this) {
+				extractTo(outputFolder, resourceFile);
+			}
+		}
+
+		/**
+		 * Extracts a single pathed file to the named parent folder
+		 *
+		 * @param parent
+		 * @param name
+		 * @throws MojoExecutionException
+		 */
+		public void extractTo(final String parent, final String name) throws MojoExecutionException {
+			final File file = new File(parent, name);
+			try {
+				Files.copyStream(zipFile.getInputStream(zipFile.getEntry(name)), file);
+			} catch (IOException ex) {
+				throw new MojoExecutionException("name=`" + name + "` file=`" + file + "`", ex);
+			}
+		}
+
+		/**
+		 * Iterates through the remaining entries that will be copied out of this archive
+		 *
+		 * @return an iterator for the member list
+		 */
+		@Override
+		public Iterator<String> iterator() {
+			return new LinkedList<String>(linkedList).iterator();
+		}
+
+		/**
+		 * Removes any source file with the passed name, or any class file (based on folder paths) likely to have been compiled from that source file.
+		 *
+		 * @param sourceFile
+		 */
+		public void removeAny(String sourceFile) {
+			final String substring = sourceFile.endsWith(".java") ? sourceFile.substring(0, sourceFile.length() - ".java".length()) : null;
+
+			for (final String resourceFile : this) {
+				if (sourceFile.equals(resourceFile)) {
+					getLog().debug("Archive `" + this.zipFile.getName() + "` is dropping `" + resourceFile + "`");
+					this.linkedList.remove(resourceFile);
+				}
+
+				if (sourceFile.endsWith(".java") && resourceFile.endsWith(".class")) {
+					if (substring == null || !resourceFile.startsWith(substring)) {
+						continue;
+					}
+
+					final String resourceSubstring = resourceFile.substring(substring.length(), resourceFile.length() - ".class".length());
+
+					assert resourceSubstring.matches("^[a-zA-Z0-9$_]*$");
+
+					getLog().debug("Archive `" + this.zipFile.getName() + "` is dropping `" + resourceFile + "`");
+					this.linkedList.remove(resourceFile);
+				}
+			}
+		}
+	}
 	/**
 	 * URL (possibly HTTP://) to the distribution's zip file
 	 *
@@ -51,6 +156,89 @@ public class RemoteDegen extends AbstractMojo {
 	 * @required
 	 */
 	private String distribution;
+	/**
+	 * What files (from the binaries and the sources, but not the real sources or real resources) should we always skip
+	 *
+	 * @parameter expression="${degen.excludeAny}" default-value=""
+	 */
+	private String[] excludeAny;
+	/**
+	 * Path within the distribution's zip file to the source zip file we want
+	 *
+	 * @parameter expression="${degen.extracted}"
+	 * @required
+	 */
+	private String extracted;
+
+	/**
+	 * If set it'll limit what is included
+	 *
+	 * @parameter expression="${degen.includeOnly}" default-value=""
+	 */
+	private String[] includeOnly;
+	/**
+	 * the directory to output the generated sources to
+	 *
+	 * @parameter expression="${project.build.directory}/generated-sources/degen"
+	 */
+	private String outputDirectory;
+	/**
+	 * @parameter expression="${project}"
+	 * @required
+	 */
+	private MavenProject project;
+
+	/**
+	 * the maven project helper class for adding resources
+	 *
+	 * @parameter expression="${component.org.apache.maven.project.MavenProjectHelper}"
+	 */
+	private MavenProjectHelper projectHelper;
+
+	/**
+	 * Where should we copy the project's source files from?
+	 *
+	 * @parameter expression="${degen.projectSources}" default-value="src/main/java"
+	 * @required
+	 */
+	private String projectSources;
+	/**
+	 * Runs the guts of this plugin
+	 */
+	@Override
+	public void execute() throws MojoExecutionException {
+
+		// anything in the outputDirectory which is NOT a .java file should be copied as-is into our output
+		projectHelper.addResource(project, outputDirectory, new ArrayList(), Collections.singletonList("**/**.java"));
+
+		// tell maven to compile all .java in the outputDirectory
+		project.addCompileSourceRoot(outputDirectory);
+
+
+		final List<ArchiveExtractionList> extractedArchives = makeListOfExtractedArchives();
+
+		List<String> currentSources = getProjectSourceFiles();
+
+		for (int i = 0; i < extractedArchives.size(); i++) {
+
+			// check every source file in the "currentSources" ...
+			for (final String sourceFile : currentSources) {
+
+				// ... and remove it from any following archive
+				for (ArchiveExtractionList archive : extractedArchives.subList(i, extractedArchives.size())) {
+					archive.removeAny(sourceFile);
+				}
+			}
+
+			// advance to the next set of sources
+			currentSources = extractedArchives.get(i).linkedList;
+		}
+
+		// we've checked everything - so dump what's left
+		for (final ArchiveExtractionList extractedArchive : extractedArchives) {
+			extractedArchive.extractTo(outputDirectory);
+		}
+	}
 
 	/**
 	 * Retrieves or creates a handle to the ZipFile that we're pulling stuff out of
@@ -97,185 +285,30 @@ public class RemoteDegen extends AbstractMojo {
 		}
 	}
 	/**
-	 * the maven project helper class for adding resources
-	 *
-	 * @parameter expression="${component.org.apache.maven.project.MavenProjectHelper}"
+	 * Produces a list of files that will be compiled
 	 */
-	private MavenProjectHelper projectHelper;
-	/**
-	 * @parameter expression="${project}"
-	 * @required
-	 */
-	private MavenProject project;
+	public List<String> getProjectSourceFiles() throws MojoExecutionException {
 
-	/**
-	 * Runs the guts of this plugin
-	 */
-	@Override
-	public void execute() throws MojoExecutionException {
+		// alert
+		getLog().debug("Scanning `" + projectSources + "` for .java sources");
 
-		// anything in the outputDirectory which is NOT a .java file should be copied as-is into our output
-		projectHelper.addResource(project, outputDirectory, new ArrayList(), Collections.singletonList("**/**.java"));
+		final LinkedList<String> files = new LinkedList<String>();
+		for (final String file : Files.getFileNamesInDirectory(project.getBasedir(), projectSources)) {
 
-		// tell maven to compile all .java in the outputDirectory
-		project.addCompileSourceRoot(outputDirectory);
-
-
-		final List<ArchiveExtractionList> extractedArchives = makeListOfExtractedArchives();
-
-		List<String> currentSources = getProjectSourceFiles();
-
-		for (int i = 0; i < extractedArchives.size(); i++) {
-
-			// check every source file in the "currentSources" ...
-			for (final String sourceFile : currentSources) {
-
-				// ... and remove it from any following archive
-				for (ArchiveExtractionList archive : extractedArchives.subList(i, extractedArchives.size())) {
-					archive.removeAny(sourceFile);
-				}
+			// how does this happen? oh I don't care!
+			if (file.equals(projectSources)) {
+				continue;
 			}
 
-			// advance to the next set of sources
-			currentSources = extractedArchives.get(i).linkedList;
-		}
-
-		// we've checked everything - so dump what's left
-		for (final ArchiveExtractionList extractedArchive : extractedArchives) {
-			extractedArchive.extractTo(outputDirectory);
-		}
-	}
-
-	/**
-	 * Contains a list of files that will be extracted from a single ZipFile
-	 */
-	public class ArchiveExtractionList implements Iterable<String> {
-
-		// handle tot eh actual zipFile
-		private final ZipFile zipFile;
-
-		/**
-		 * Constructs a new object to represent the named zipfile.
-		 *
-		 * @param file
-		 * @throws IOException
-		 */
-		public ArchiveExtractionList(final File file) throws IOException {
-			this.zipFile = new ZipFile(file);
-
-			nextEntry:
-			for (final ZipEntry entry : Collections.list(this.zipFile.entries())) {
-
-				if (entry.isDirectory()) {
-					continue nextEntry;
-				}
-
-				final String name = entry.getName();
-
-				if (includeOnly != null && includeOnly.length > 0) {
-					boolean keep = false;
-
-					for (final String includeRegex : includeOnly) {
-						keep = name.matches(includeRegex);
-						if (keep) {
-							break;
-						}
-					}
-
-					if (!keep) {
-						getLog().info("Skipping `" + name + "` due to include rules");
-						continue nextEntry;
-					}
-				}
-
-				for (final String skipRegex : excludeAny) {
-					if (name.matches(skipRegex)) {
-						getLog().info("Skipping `" + name + "` due to exclude rules");
-						continue nextEntry;
-					}
-				}
-
-				linkedList.add(name);
-			}
-		}
-		
-		// a list of all files that we might extract
-		private final List<String> linkedList = new LinkedList<String>();
-
-		/**
-		 * Extracts a single pathed file to the named parent folder
-		 *
-		 * @param parent
-		 * @param name
-		 * @throws MojoExecutionException
-		 */
-		public void extractTo(final String parent, final String name) throws MojoExecutionException {
-			final File file = new File(parent, name);
 			try {
-				Files.copyStream(zipFile.getInputStream(zipFile.getEntry(name)), file);
-			} catch (IOException ex) {
-				throw new MojoExecutionException("name=`" + name + "` file=`" + file + "`", ex);
+				files.add(file.substring(projectSources.length() + 1));
+			} catch (StringIndexOutOfBoundsException e) {
+				throw new MojoExecutionException("file=`" + file + "` projectSources=`" + projectSources + "`", e);
 			}
 		}
 
-		/**
-		 * Extracts all files remaining in the list into the passed directory
-		 *
-		 * @param outputFolder
-		 * @throws MojoExecutionException
-		 */
-		public void extractTo(String outputFolder) throws MojoExecutionException {
-			for (final String resourceFile : this) {
-				extractTo(outputFolder, resourceFile);
-			}
-		}
-
-		/**
-		 * Removes any source file with the passed name, or any class file (based on folder paths) likely to have been compiled from that source file.
-		 *
-		 * @param sourceFile
-		 */
-		public void removeAny(String sourceFile) {
-			final String substring = sourceFile.endsWith(".java") ? sourceFile.substring(0, sourceFile.length() - ".java".length()) : null;
-
-			for (final String resourceFile : this) {
-				if (sourceFile.equals(resourceFile)) {
-					getLog().debug("Archive `" + this.zipFile.getName() + "` is dropping `" + resourceFile + "`");
-					this.linkedList.remove(resourceFile);
-				}
-
-				if (sourceFile.endsWith(".java") && resourceFile.endsWith(".class")) {
-					if (substring == null || !resourceFile.startsWith(substring)) {
-						continue;
-					}
-
-					final String resourceSubstring = resourceFile.substring(substring.length(), resourceFile.length() - ".class".length());
-
-					assert resourceSubstring.matches("^[a-zA-Z0-9$_]*$");
-
-					getLog().debug("Archive `" + this.zipFile.getName() + "` is dropping `" + resourceFile + "`");
-					this.linkedList.remove(resourceFile);
-				}
-			}
-		}
-
-		/**
-		 * Iterates through the remaining entries that will be copied out of this archive
-		 *
-		 * @return an iterator for the member list
-		 */
-		@Override
-		public Iterator<String> iterator() {
-			return new LinkedList<String>(linkedList).iterator();
-		}
+		return files;
 	}
-	/**
-	 * Path within the distribution's zip file to the source zip file we want
-	 *
-	 * @parameter expression="${degen.extracted}"
-	 * @required
-	 */
-	private String extracted;
 
 	/**
 	 * makes a list of all archives that we want from the distributionFile.
@@ -306,38 +339,5 @@ public class RemoteDegen extends AbstractMojo {
 		} catch (IOException ex) {
 			throw new MojoExecutionException("extracted=`" + extracted + "`", ex);
 		}
-	}
-	/**
-	 * Where should we copy the project's source files from?
-	 *
-	 * @parameter expression="${degen.projectSources}" default-value="src/main/java"
-	 * @required
-	 */
-	private String projectSources;
-
-	/**
-	 * Produces a list of files that will be compiled
-	 */
-	public List<String> getProjectSourceFiles() throws MojoExecutionException {
-
-		// alert
-		getLog().debug("Scanning `" + projectSources + "` for .java sources");
-
-		final LinkedList<String> files = new LinkedList<String>();
-		for (final String file : Files.getFileNamesInDirectory(project.getBasedir(), projectSources)) {
-
-			// how does this happen? oh I don't care!
-			if (file.equals(projectSources)) {
-				continue;
-			}
-
-			try {
-				files.add(file.substring(projectSources.length() + 1));
-			} catch (StringIndexOutOfBoundsException e) {
-				throw new MojoExecutionException("file=`" + file + "` projectSources=`" + projectSources + "`", e);
-			}
-		}
-
-		return files;
 	}
 }
