@@ -165,3 +165,4 @@ pip-log.txt
 /libgdx-degen.gdx/target/
 /libgdx-degen.lwjgl/target/
 /libgdx-degen.android/target/
+/libgdx-degen.javazoom/target/

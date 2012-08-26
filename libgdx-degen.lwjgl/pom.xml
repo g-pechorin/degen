@@ -35,9 +35,6 @@
 								gdx-backend-lwjgl.jar
 							</extracted>
 							<excludeAny>
-								<exclude>^org.lwjgl..+\.(java|class)$</exclude>
-								<exclude>^javazoom.jl..+\.(java|class)$</exclude>
-								<exclude>^com.badlogic.gdx.backends.*.java</exclude>
 								<exclude>^META\-INF.*</exclude>
 							</excludeAny>
 						</configuration>
@@ -73,6 +70,5 @@
 			<artifactId>de.huxhorn.sulky.3rdparty.jlayer</artifactId>
 			<version>1.0</version>
 		</dependency>
-            
 	</dependencies>
 </project>
