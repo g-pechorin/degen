@@ -29,8 +29,11 @@
 							<extracted>
 								sources/gdx-backend-android-sources.jar
 								gdx-backend-android.jar
+								armeabi/(.*) : lib/armeabi/$1
+								armeabi-v7a/(.*) : lib/armeabi-v7a/$1
 							</extracted>
 							<excludeAny>
+								<exclude>.*.gwt.xml</exclude>
 								<exclude>^META\-INF.*</exclude>
 							</excludeAny>
 						</configuration>

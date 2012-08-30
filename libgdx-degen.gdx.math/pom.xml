@@ -33,6 +33,7 @@
 								<include>com.badlogic.gdx.utils.GdxRuntimeException.*</include>
 							</includeOnly>
 							<excludeAny>
+								<exclude>.*.gwt.xml</exclude>
 								<exclude>^META\-INF.*</exclude>
 							</excludeAny>
 						</configuration>

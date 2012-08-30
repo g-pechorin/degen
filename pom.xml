@@ -49,7 +49,7 @@
 	</pluginRepositories>
 	
 	<properties>
-		<degen.version>1.1.4</degen.version>
+		<degen.version>1.2.0</degen.version>
 		<distributionURL>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip</distributionURL>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

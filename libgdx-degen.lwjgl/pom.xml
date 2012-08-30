@@ -35,6 +35,7 @@
 								gdx-backend-lwjgl.jar
 							</extracted>
 							<excludeAny>
+								<exclude>.*.gwt.xml</exclude>
 								<exclude>^META\-INF.*</exclude>
 							</excludeAny>
 						</configuration>
