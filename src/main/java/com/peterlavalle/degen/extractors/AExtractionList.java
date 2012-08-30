@@ -25,10 +25,6 @@ public abstract class AExtractionList implements Iterable<String> {
 	}
 	
 	
-	public abstract void removeResource(String resourceFile);
-
-	public abstract String getName();
-
 	/**
 	 * Extracts a single pathed file to the named parent folder
 	 *
@@ -38,6 +34,8 @@ public abstract class AExtractionList implements Iterable<String> {
 	 */
 	public abstract void extractTo(final String parent, final String name) throws MojoExecutionException;
 
+	public abstract String getName();
+
 	/**
 	 * Iterates through the remaining entries that will be copied out of this archive
 	 *
@@ -45,28 +43,30 @@ public abstract class AExtractionList implements Iterable<String> {
 	 */
 	@Override
 	public abstract Iterator<String> iterator();
-/**
-	 * Removes any source file with the passed name, or any class file (based on folder paths) likely to have been compiled from that source file.
-	 *
-	 * @param sourceFile
-	 */
-	public void removeAny(String sourceFile) {
-		final String substring = sourceFile.endsWith(".java") ? sourceFile.substring(0, sourceFile.length() - ".java".length()) : null;
-		for (final String resourceFile : this) {
-			if (sourceFile.equals(resourceFile)) {
-				outer.getLog().debug(getName() + " is dropping `" + resourceFile + "`");
-				removeResource(resourceFile);
-			}
-			if (sourceFile.endsWith(".java") && resourceFile.endsWith(".class")) {
-				if (substring == null || !resourceFile.startsWith(substring)) {
-					continue;
+
+	/**
+		 * Removes any source file with the passed name, or any class file (based on folder paths) likely to have been compiled from that source file.
+		 *
+		 * @param sourceFile
+		 */
+		public void removeAny(String sourceFile) {
+			final String substring = sourceFile.endsWith(".java") ? sourceFile.substring(0, sourceFile.length() - ".java".length()) : null;
+			for (final String resourceFile : this) {
+				if (sourceFile.equals(resourceFile)) {
+					outer.getLog().debug(getName() + " is dropping `" + resourceFile + "`");
+					removeResource(resourceFile);
 				}
-				final String resourceSubstring = resourceFile.substring(substring.length(), resourceFile.length() - ".class".length());
-				assert resourceSubstring.matches("^[a-zA-Z0-9$_]*$");
-				outer.getLog().debug(getName() + " is dropping `" + resourceFile + "`");
-				removeResource(resourceFile);
+				if (sourceFile.endsWith(".java") && resourceFile.endsWith(".class")) {
+					if (substring == null || !resourceFile.startsWith(substring)) {
+						continue;
+					}
+					final String resourceSubstring = resourceFile.substring(substring.length(), resourceFile.length() - ".class".length());
+					assert resourceSubstring.matches("^[a-zA-Z0-9$_]*$");
+					outer.getLog().debug(getName() + " is dropping `" + resourceFile + "`");
+					removeResource(resourceFile);
+				}
 			}
 		}
-	}
+public abstract void removeResource(String resourceFile);
 	
 }

@@ -39,16 +39,14 @@ public class RemoteDegen extends AbstractMojo {
 	 * @required
 	 */
 	private String distribution;
+	private transient ZipFile distributionFile = null;
+
 	/**
 	 * What files (from the binaries and the sources, but not the real sources or real resources) should we always skip
 	 *
 	 * @parameter expression="${degen.excludeAny}" default-value=""
 	 */
 	private String[] excludeAny;
-
-	public String[] getExcludeAny() {
-		return Arrays.copyOf(excludeAny, excludeAny.length);
-	}
 	/**
 	 * Path within the distribution's zip file to the source zip file we want
 	 *
@@ -63,9 +61,6 @@ public class RemoteDegen extends AbstractMojo {
 	 */
 	private String[] includeOnly;
 
-	public String[] getIncludeOnly() {
-		return Arrays.copyOf(includeOnly, includeOnly.length);
-	}
 	/**
 	 * the directory to output the generated sources to
 	 *
@@ -90,7 +85,6 @@ public class RemoteDegen extends AbstractMojo {
 	 * @required
 	 */
 	private String projectSources;
-
 	/**
 	 * Runs the guts of this plugin
 	 */
@@ -157,7 +151,6 @@ public class RemoteDegen extends AbstractMojo {
 			}
 		}
 	}
-	private transient ZipFile distributionFile = null;
 
 	/**
 	 * Retrieves or creates a handle to the ZipFile that we're pulling stuff out of
@@ -210,6 +203,13 @@ public class RemoteDegen extends AbstractMojo {
 
 		distribution = distributionFile.getName();
 		return distributionFile;
+	}
+	public String[] getExcludeAny() {
+		return Arrays.copyOf(excludeAny, excludeAny.length);
+	}
+
+	public String[] getIncludeOnly() {
+		return Arrays.copyOf(includeOnly, includeOnly.length);
 	}
 
 	/**

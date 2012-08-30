@@ -185,6 +185,21 @@ public final class Files {
 		return entry.isDirectory() ? getTemporaryFileFromZip_Dir(zipFile, name, entry) : getTemporaryFileFromZip_File(zipFile, name, entry);
 	}
 
+	private static File getTemporaryFileFromZip_Dir(final ZipFile zipFile, final String name, final ZipEntry entry) throws IOException {
+		final StringBuilder builder = new StringBuilder("\n\tname=" + name);
+		final File file = makeTemporaryFolder();
+
+		for (final ZipEntry subEntry : Collections.list(zipFile.entries())) {
+			if (subEntry.getName().startsWith(name)) {
+				builder.append("\n\t\t").append(subEntry);
+			}
+		}
+		LOGGER.info("builder=" + builder);
+
+		throw new UnsupportedOperationException("TODO");
+
+	}
+
 	private static File getTemporaryFileFromZip_File(final ZipFile zipFile, final String name, final ZipEntry entry) throws IOException {
 
 		// connect the input stream
@@ -212,19 +227,10 @@ public final class Files {
 
 	}
 
-	private static File getTemporaryFileFromZip_Dir(final ZipFile zipFile, final String name, final ZipEntry entry) throws IOException {
-		final StringBuilder builder = new StringBuilder("\n\tname=" + name);
-		final File file = makeTemporaryFolder();
-
-		for (final ZipEntry subEntry : Collections.list(zipFile.entries())) {
-			if (subEntry.getName().startsWith(name)) {
-				builder.append("\n\t\t").append(subEntry);
-			}
-		}
-		LOGGER.info("builder=" + builder);
-
-		throw new UnsupportedOperationException("TODO");
-
+	private static File makeTemporaryFile() throws IOException {
+		final File file = File.createTempFile(RemoteDegen.class.getName(), "");
+		file.deleteOnExit();
+		return file;
 	}
 
 	/**
@@ -238,12 +244,6 @@ public final class Files {
 		copyStream(inputStream, file);
 
 		// return the handle that we've created
-		return file;
-	}
-
-	private static File makeTemporaryFile() throws IOException {
-		final File file = File.createTempFile(RemoteDegen.class.getName(), "");
-		file.deleteOnExit();
 		return file;
 	}
 

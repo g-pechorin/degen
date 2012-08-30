@@ -88,6 +88,10 @@ public class ArchiveExtractionList extends AExtractionList {
 		}
 	}
 
+	public String getName() {
+		return "Archive `" + this.zipFile.getName() + "`";
+	}
+
 	/**
 	 * Iterates through the remaining entries that will be copied out of this archive
 	 *
@@ -101,9 +105,5 @@ public class ArchiveExtractionList extends AExtractionList {
 	public void removeResource(String resourceFile) {
 		assert linkedList.contains(resourceFile);
 		this.linkedList.remove(resourceFile);
-	}
-
-	public String getName() {
-		return "Archive `" + this.zipFile.getName() + "`";
 	}
 }

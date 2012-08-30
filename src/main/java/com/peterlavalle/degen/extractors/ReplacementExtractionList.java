@@ -55,6 +55,11 @@ public class ReplacementExtractionList extends AExtractionList {
 	}
 
 	@Override
+	public String getName() {
+		return "ReplacementExtractionList("+regex+","+replacement+")";
+	}
+
+	@Override
 	public Iterator<String> iterator() {
 		return finalToOriginal.keySet().iterator();
 	}
@@ -63,10 +68,5 @@ public class ReplacementExtractionList extends AExtractionList {
 	public void removeResource(String resourceFile) {
 		assert finalToOriginal.containsKey(resourceFile);
 		finalToOriginal.remove(resourceFile);
-	}
-
-	@Override
-	public String getName() {
-		return "ReplacementExtractionList("+regex+","+replacement+")";
 	}
 }
