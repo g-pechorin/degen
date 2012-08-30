@@ -11,6 +11,9 @@ History
 =======
 DONE
 ----
+ * 1.2.0 : two new features to actually work with libGDX on android
+  * allows directories to be extracted from the archive (not just whole zip files anymore)
+  * allows contents to be renamed
  * 1.1.4 : cache downloaded resources in root-parent's target
  * 1.1.3 : bugfixes
  * 1.1.2 : 100% Sonar compliance, 100% API documentation, >= 30% overall commenting

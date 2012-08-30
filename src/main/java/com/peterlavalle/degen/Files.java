@@ -4,7 +4,6 @@
  */
 package com.peterlavalle.degen;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,6 +16,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
@@ -35,7 +36,6 @@ public final class Files {
 	 * Private variable that will be used to cache handles to downloaded files.
 	 */
 	private static final Map<String, File> DOWNLOADED_FILES = new HashMap<String, File>();
-
 	private static final Logger LOGGER = Logger.getLogger(Files.class.getName());
 
 	/**
@@ -134,7 +134,7 @@ public final class Files {
 				if (rootProject.getParent() != null && rootProject.getBasedir().getParentFile().equals(rootProject.getParent().getBasedir())) {
 					rootProject = rootProject.getParent();
 				}
-				
+
 				final File file = new File(rootProject.getBuild().getDirectory(), name.toString());
 
 				if (file.exists()) {
@@ -155,6 +155,7 @@ public final class Files {
 			return new File(project.getBasedir(), urlString);
 		}
 	}
+
 	/**
 	 * Extracts a named file form a zip archive into a temporary file and returns a handle to it.
 	 *
@@ -165,41 +166,91 @@ public final class Files {
 	 */
 	public static File getTemporaryFileFromZip(final ZipFile zipFile, final String name) throws IOException {
 
+		LOGGER.info("name=" + name);
+
 		// the zipEntry is like a File object, but for files inside of a zipfile
 		final ZipEntry entry = zipFile.getEntry(name);
+		LOGGER.info("entry=" + entry + ", entry.isDirectory()=" + (entry == null ? "null" : entry.isDirectory()));
+
 
 		// check to make sure that we got something
-		if (entry == null || entry.isDirectory()) {
-			throw new IllegalArgumentException("`" + zipFile.getName() + (entry == null ? "` has no entry named `" : "` has no FILE named `") + name + "`");
+		if (entry == null) {
+			throw new IllegalArgumentException("`" + zipFile.getName() + "` has no entry named `" + name + "`");
+		}
+
+		return entry.isDirectory() ? getTemporaryFileFromZip_Dir(zipFile, name, entry) : getTemporaryFileFromZip_File(zipFile, name, entry);
+	}
+
+	private static File getTemporaryFileFromZip_File(final ZipFile zipFile, final String name, final ZipEntry entry) throws IOException {
+
+		// connect the input stream
+		final InputStream inputStream = zipFile.getInputStream(entry);
+		LOGGER.info("inputStream=" + inputStream);
+
+		// check for a null input stream
+		if (inputStream == null) {
+			LOGGER.info("Retrying `" + name + "` @ `" + zipFile.getName() + "` as a directory");
+			return getTemporaryFileFromZip(zipFile, name + '/');
 		}
 
 		// we'll need a temporary file to store our data
-		final File temporaryFile = makeTemporaryFileFromStream(zipFile.getInputStream(entry));
+		final File temporaryFile = makeTemporaryFileFromStream(inputStream);
 
 		// I don't know if this is needed
 		temporaryFile.deleteOnExit();
 
 		// set the time
 		if (!temporaryFile.setLastModified(entry.getTime())) {
-			LOGGER.log(Level.WARNING, "Unable to set time for `{0}` @ `{1}`", new Object[]{name, temporaryFile});
+			LOGGER.info("Unable to set time for `" + name + "` @ `" + temporaryFile + "`");
 		}
 
 		return temporaryFile;
+
+	}
+
+	private static File getTemporaryFileFromZip_Dir(final ZipFile zipFile, final String name, final ZipEntry entry) throws IOException {
+		final StringBuilder builder = new StringBuilder("\n\tname=" + name);
+		final File file = makeTemporaryFolder();
+
+		for (final ZipEntry subEntry : Collections.list(zipFile.entries())) {
+			if (subEntry.getName().startsWith(name)) {
+				builder.append("\n\t\t").append(subEntry);
+			}
+		}
+		LOGGER.info("builder=" + builder);
+
+		throw new UnsupportedOperationException("TODO");
+
 	}
 
 	/**
 	 * Creates a temporary file, and fills it with the contents of a stream
 	 */
 	public static File makeTemporaryFileFromStream(final InputStream inputStream) throws IOException {
-
 		// create our temporary file
-		final File file = File.createTempFile(RemoteDegen.class.getName(), "");
-		file.deleteOnExit();
+		File file = makeTemporaryFile();
 
 		// copy the data to it
 		copyStream(inputStream, file);
 
 		// return the handle that we've created
+		return file;
+	}
+
+	private static File makeTemporaryFile() throws IOException {
+		final File file = File.createTempFile(RemoteDegen.class.getName(), "");
+		file.deleteOnExit();
+		return file;
+	}
+
+	private static File makeTemporaryFolder() throws IOException {
+		final File file = makeTemporaryFile();
+
+		if (!(file.delete() && file.mkdirs())) {
+			throw new IOException("Failed to delete temporary file and turn it into a folder");
+		}
+
+		file.deleteOnExit();
 		return file;
 	}
 
