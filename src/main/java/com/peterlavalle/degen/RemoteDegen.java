@@ -5,19 +5,16 @@
 package com.peterlavalle.degen;
 
 import com.google.common.collect.Lists;
-import com.peterlavalle.degen.extractors.ArchiveExtractionList;
 import com.peterlavalle.degen.extractors.AExtractionList;
+import com.peterlavalle.degen.extractors.ArchiveExtractionList;
 import com.peterlavalle.degen.extractors.ReplacementExtractionList;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -100,9 +97,6 @@ public class RemoteDegen extends AbstractMojo {
 
 		final List<AExtractionList> extractedArchives = new LinkedList<AExtractionList>();
 		try {
-			// get the distribution archive
-			final ZipFile distributionFile = getDistributionFile();
-
 			// archives can be separated by the pipe character or the newline
 			for (final String line : extracted.split("(\\||\n)")) {
 

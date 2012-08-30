@@ -88,6 +88,7 @@ public class ArchiveExtractionList extends AExtractionList {
 		}
 	}
 
+	@Override
 	public String getName() {
 		return "Archive `" + this.zipFile.getName() + "`";
 	}
@@ -102,6 +103,7 @@ public class ArchiveExtractionList extends AExtractionList {
 		return new LinkedList<String>(linkedList).iterator();
 	}
 
+	@Override
 	public void removeResource(String resourceFile) {
 		assert linkedList.contains(resourceFile);
 		this.linkedList.remove(resourceFile);
