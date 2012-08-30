@@ -4,6 +4,10 @@
  */
 package com.peterlavalle.degen;
 
+import com.google.common.collect.Lists;
+import com.peterlavalle.degen.extractors.ArchiveExtractionList;
+import com.peterlavalle.degen.extractors.AExtractionList;
+import com.peterlavalle.degen.extractors.ReplacementExtractionList;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ import org.apache.maven.project.MavenProjectHelper;
  * @version $Id$
  */
 public class RemoteDegen extends AbstractMojo {
+
 	/**
 	 * URL (possibly HTTP://) to the distribution's zip file
 	 *
@@ -40,21 +45,10 @@ public class RemoteDegen extends AbstractMojo {
 	 * @parameter expression="${degen.excludeAny}" default-value=""
 	 */
 	private String[] excludeAny;
-	
-	
+
 	public String[] getExcludeAny() {
 		return Arrays.copyOf(excludeAny, excludeAny.length);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Path within the distribution's zip file to the source zip file we want
 	 *
@@ -68,11 +62,10 @@ public class RemoteDegen extends AbstractMojo {
 	 * @parameter expression="${degen.includeOnly}" default-value=""
 	 */
 	private String[] includeOnly;
-	
+
 	public String[] getIncludeOnly() {
 		return Arrays.copyOf(includeOnly, includeOnly.length);
 	}
-	
 	/**
 	 * the directory to output the generated sources to
 	 *
@@ -111,32 +104,25 @@ public class RemoteDegen extends AbstractMojo {
 		project.addCompileSourceRoot(outputDirectory);
 
 
-		final List<ArchiveExtractionList> extractedArchives = new LinkedList<ArchiveExtractionList>();
+		final List<AExtractionList> extractedArchives = new LinkedList<AExtractionList>();
 		try {
 			// get the distribution archive
 			final ZipFile distributionFile = getDistributionFile();
 
 			// archives can be separated by the pipe character or the newline
-			for (final String name : extracted.split("(\\||\n)")) {
+			for (final String line : extracted.split("(\\||\n)")) {
 
 				// skip empty entries
-				final String[] split =  name.trim().split(":");
-				final String	trim = split[0].trim();
-				if (trim.equals("")) {
+				if (line.trim().equals("")) {
 					continue;
 				}
 
-				if (split.length == 1) {
-					extractedArchives.add(new ArchiveExtractionList(this,Files.getTemporaryFileFromZip(distributionFile, trim)));
-				} else if (split.length == 3) {
-					
-					
-					final String regex = split[1].trim();
-					final String replacement = split[2].trim();
-					
-					extractedArchives.add(new ArchiveExtractionList(this,Files.getTemporaryFileFromZip(distributionFile, trim),regex,replacement));
-				}else {
-					throw new UnsupportedOperationException("TODO : name="+name);
+				if (!line.contains(":")) {
+					extractedArchives.add(new ArchiveExtractionList(this, line.trim()));
+				} else {
+					extractedArchives.add(new ReplacementExtractionList(this, line.split(":")[0].trim(), line.split(":")[1].trim()));
+					//} else {
+					//	throw new UnsupportedOperationException("TODO : name=`" + name + "` line=`" + line + "`");
 				}
 			}
 		} catch (IOException ex) {
@@ -154,21 +140,24 @@ public class RemoteDegen extends AbstractMojo {
 				for (final String sourceFile : currentSources) {
 
 					// ... and remove it from any following archive
-					for (ArchiveExtractionList archive : extractedArchives.subList(i, extractedArchives.size())) {
+					for (AExtractionList archive : extractedArchives.subList(i, extractedArchives.size())) {
 						archive.removeAny(sourceFile);
 					}
 				}
 
 				// advance to the next set of sources
-				currentSources = extractedArchives.get(i).linkedList;
+				currentSources = Lists.newArrayList(extractedArchives.get(i));
 			}
 		}
 
 		// we've checked everything - so dump what's left
-		for (final ArchiveExtractionList extractedArchive : extractedArchives) {
-			extractedArchive.extractTo(outputDirectory);
+		for (final AExtractionList extractedArchive : extractedArchives) {
+			for (final String sourceFile : extractedArchive) {
+				extractedArchive.extractTo(outputDirectory, sourceFile);
+			}
 		}
 	}
+	private transient ZipFile distributionFile = null;
 
 	/**
 	 * Retrieves or creates a handle to the ZipFile that we're pulling stuff out of
@@ -176,7 +165,11 @@ public class RemoteDegen extends AbstractMojo {
 	 * @return
 	 * @throws MojoExecutionException
 	 */
-	protected ZipFile getDistributionFile() throws MojoExecutionException {
+	public ZipFile getDistributionFile() throws MojoExecutionException {
+
+		if (distributionFile != null && distributionFile.getName().equals(distribution)) {
+			return distributionFile;
+		}
 
 		assert distribution != null;
 		assert !distribution.equals("");
@@ -206,13 +199,17 @@ public class RemoteDegen extends AbstractMojo {
 
 		try {
 			// read it as a zip file
-			return new ZipFile(fileFromURL);
+			distributionFile = new ZipFile(fileFromURL);
+
 		} catch (IOException e) {
 
 			getLog().debug("fileFromURL.getAbsolutePath()=" + fileFromURL.getAbsolutePath());
 
 			throw new MojoExecutionException("couldn't read the file `" + distribution + "` as a zip file", e);
 		}
+
+		distribution = distributionFile.getName();
+		return distributionFile;
 	}
 
 	/**

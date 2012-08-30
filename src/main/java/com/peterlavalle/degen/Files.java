@@ -38,6 +38,10 @@ public final class Files {
 	private static final Map<String, File> DOWNLOADED_FILES = new HashMap<String, File>();
 	private static final Logger LOGGER = Logger.getLogger(Files.class.getName());
 
+	static {
+		LOGGER.setLevel(Level.WARNING);
+	}
+
 	/**
 	 * Copies the data from the stream to the specified file, then closes it.
 	 *
