@@ -10,4 +10,12 @@
                 <goal>deploy</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-install deploy</actionName>
+            <displayName>install deploy</displayName>
+            <goals>
+                <goal>install</goal>
+                <goal>deploy</goal>
+            </goals>
+        </action>
     </actions>

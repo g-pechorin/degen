@@ -4,7 +4,7 @@
 
 	<groupId>com.peterlavalle</groupId>
 	<artifactId>libgdx-degen</artifactId>
-	<version>0.9.6</version>
+	<version>1.3.0</version>
 	<packaging>pom</packaging>
 
 	<url>https://github.com/g-pechorin/degen</url>
@@ -49,8 +49,9 @@
 	</pluginRepositories>
 	
 	<properties>
+		<libgdx.version>0.9.6</libgdx.version>
 		<degen.version>1.2.0</degen.version>
-		<distributionURL>http://libgdx.googlecode.com/files/libgdx-${project.version}.zip</distributionURL>
+		<distributionURL>http://libgdx.googlecode.com/files/libgdx-${libgdx.version}.zip</distributionURL>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
