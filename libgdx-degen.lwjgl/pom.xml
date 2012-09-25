@@ -36,6 +36,10 @@
 								gdx-backend-lwjgl.jar
 							</extracted>
 							<excludeAny>
+								<exclude>com.badlogic.gdx.math.*</exclude>
+								<exclude>com.badlogic.gdx.utils.NumberUtils.*</exclude>
+								<exclude>com.badlogic.gdx.utils.GdxRuntimeException.*</exclude>
+								<exclude>com.badlogic.gdx.utils.GdxBuild.*</exclude>
 								<exclude>.*.gwt.xml</exclude>
 								<exclude>^META\-INF.*</exclude>
 							</excludeAny>
