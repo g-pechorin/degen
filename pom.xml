@@ -15,6 +15,7 @@
 
 	<modules>
 		<module>libgdx-degen.root-0.9.6</module>
+		<module>libgdx-degen.root-0.9.2</module>
 	</modules>
 
 	<build>

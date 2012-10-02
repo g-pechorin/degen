@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.peterlavalle</groupId>
+		<artifactId>libgdx-degen.root-0.9.2</artifactId>
+		<version>0.9.2</version>
+	</parent>
+
+	<artifactId>libgdx-degen.gdx</artifactId>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.peterlavalle</groupId>
+				<artifactId>degen</artifactId>
+				<version>${degen.version}</version>		
+				<executions>
+					<execution>
+						<id>generate</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>remote</goal>
+						</goals>						
+						<configuration>
+							<distribution>${distributionURL}</distribution>
+							<extracted>
+								gdx-sources.jar
+								gdx.jar
+							</extracted>
+							<excludeAny>
+								<exclude>com.badlogic.gdx.utils.GdxBuild.*</exclude>
+								<exclude>.*.gwt.xml</exclude>
+								<exclude>^META\-INF.*</exclude>
+							</excludeAny>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
