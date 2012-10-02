@@ -14,10 +14,7 @@
 	</description>
 
 	<modules>
-		<module>libgdx-degen.gdx.math</module>
-		<module>libgdx-degen.gdx</module>
-		<module>libgdx-degen.lwjgl</module>
-		<module>libgdx-degen.android</module>
+		<module>libgdx-degen.root-0.9.6</module>
 	</modules>
 
 	<build>
@@ -62,9 +59,8 @@
 	</pluginRepositories>
 	
 	<properties>
-		<libgdx.version>0.9.6</libgdx.version>
 		<degen.version>1.2.0</degen.version>
-		<distributionURL>http://libgdx.googlecode.com/files/libgdx-${libgdx.version}.zip</distributionURL>
+		<distributionURL>http://libgdx.googlecode.com/files/libgdx-${version}.zip</distributionURL>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
