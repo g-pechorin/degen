@@ -14,7 +14,7 @@
 
 	<name>degen</name>
 	<description>
-		A Maven Mojo to "degenerate" non-maven projects into sources and binaries
+		A Maven Mojo to download and "degenerate" non-maven projects into sources and binaries
 
 		This MOJO is supposed to scrape and "de-generate" a zip file containing jars into a project's generated-sources folder.
 		It is intended for "mavenize-with-changes" existing projects and allow the user (of the MOJO) to replaces certain classes which the do not have the ability/desire to recompile.
