@@ -1,5 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<groupId>com.peterlavalle</groupId>
 	<artifactId>degen</artifactId>
@@ -7,12 +13,16 @@
 	<packaging>maven-plugin</packaging>
 
 	<name>degen</name>
-	<url>https://github.com/g-pechorin/degen</url>
 	<description>
-		This is a plugin that allows a project to "extend" a non-maven project by dumping the other project's binaries and sources as generated-* but skip any files which appear to be present in the project sources.
+		A Maven Mojo to "degenerate" non-maven projects into sources and binaries
 
-		I wanted to replace libGDX's Matrix4 class with non-native methods, without setting up Eclipse to build libGDX
+		This MOJO is supposed to scrape and "de-generate" a zip file containing jars into a project's generated-sources folder.
+		It is intended for "mavenize-with-changes" existing projects and allow the user (of the MOJO) to replaces certain classes which the do not have the ability/desire to recompile.
+
+		The itch I wanted to scratch was to replace libGDX's native methods on Matrix4, without setting up an environment to build the library.
+		In essence - it's an alternative to patching someone else's project.
 	</description>
+	<url>https://github.com/g-pechorin/degen</url>
     
 	<licenses>
 		<license>
@@ -21,6 +31,22 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	
+	<scm>
+		<connection>scm:git:git://github.com/g-pechorin/degen.git</connection>
+		<developerConnection>scm:git:git@github.com:g-pechorin/degen.git</developerConnection>
+		<url>https://github.com/g-pechorin/degen</url>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>g-pechorin</id>
+			<roles>
+				<role>Software Development</role>
+			</roles>
+			<url>https://github.com/g-pechorin</url>
+		</developer>
+	</developers>
 
 	<build>
 		<plugins>
@@ -46,30 +72,38 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
-	<distributionManagement>
-		<repository>
-			<id>dropbox.public</id>
-			<url>${dropbox.root}/Public/mvn-repo</url>
-		</repository>
-		<snapshotRepository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>dropbox.public</id>
-			<url>${dropbox.root}/Public/mvn-repo</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
-	<scm>
-		<connection>scm:git:git://github.com/g-pechorin/degen.git</connection>
-		<developerConnection>scm:git:git@github.com:g-pechorin/degen.git</developerConnection>
-		<url>https://github.com/g-pechorin/degen</url>
-	</scm>
 
 	<dependencies>
 		<dependency>
@@ -83,9 +117,9 @@
 			<version>2.2.0</version>
 		</dependency>
 		<dependency>
-    <groupId>com.google.guava</groupId>
-    <artifactId>guava</artifactId>
-    <version>13.0.1</version>
-</dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>13.0.1</version>
+		</dependency>
 	</dependencies>
 </project>
