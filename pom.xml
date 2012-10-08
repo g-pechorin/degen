@@ -16,8 +16,9 @@
 	<description>
 		A Maven Mojo to download and "degenerate" non-maven projects into sources and binaries
 
-		This MOJO is supposed to scrape and "de-generate" a zip file containing jars into a project's generated-sources folder.
-		It is intended for "mavenize-with-changes" existing projects and allow the user (of the MOJO) to replaces certain classes which the do not have the ability/desire to recompile.
+		This MOJO is supposed to scrape and "de-generate" a zip file containing jars into a project's generated-sources folder, skipping items provided in the `src/` folder.
+		It is intended to "mavenize-with-changes" an existing project and allow the user (of the Mojo) to replace classes which they do not have the ability/desire to recompile without setting up a full build.
+		It can also be used to import non-maven projects by not changing anything.
 
 		The itch I wanted to scratch was to replace libGDX's native methods on Matrix4, without setting up an environment to build the library.
 		In essence - it's an alternative to patching someone else's project.
