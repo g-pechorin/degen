@@ -7,6 +7,11 @@ It is intended for "mavenize-with-changes" existing projects and allow the user 
 The itch I wanted to scratch was to replace libGDX's native methods on Matrix4, without setting up an environment to build the library.
 In essence - it's an alternative to setting up a patch, which should be more robust when used with continuous integration / cron jobs.
 
+Example
+=======
+
+See my other project [libgdx-degen](https://github.com/g-pechorin/libgdx-degen)
+
 History
 =======
 DONE
