@@ -16,7 +16,7 @@ History
 =======
 DONE
 ----
- * 1.2.2 : use more complex recipes for sources, allowing multiple sources to be pulled in, extracted, examined, and renamed
+ * 1.3.0 : use more complex recipes for sources, allowing multiple sources to be pulled in, extracted, examined, and renamed
  * 1.2.0 : two new features to actually work with libGDX on android
   * allows directories to be extracted from the archive (not just whole zip files anymore)
   * allows contents to be renamed
