@@ -23,6 +23,10 @@ public class FileSource {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
+	public FileSource(String line) {
+		this(new Recipe(line));
+	}
+
 	void inTest() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}

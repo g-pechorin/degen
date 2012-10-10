@@ -6,8 +6,7 @@ package com.peterlavalle.degen;
 
 import com.google.common.collect.Lists;
 import com.peterlavalle.degen.extractors.AExtractionList;
-import com.peterlavalle.degen.extractors.ArchiveExtractionList;
-import com.peterlavalle.degen.extractors.ReplacementExtractionList;
+import com.peterlavalle.degen.extractors.FileSource;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,15 +27,6 @@ import org.apache.maven.project.MavenProjectHelper;
  * @version $Id$
  */
 public class RemoteDegen extends AbstractMojo {
-
-	/**
-	 * URL (possibly HTTP://) to the distribution's zip file
-	 *
-	 * @parameter expression="${degen.distribution}"
-	 * @required
-	 */
-	private String distribution;
-	private transient ZipFile distributionFile = null;
 
 	/**
 	 * What files (from the binaries and the sources, but not the real sources or real resources) should we always skip
@@ -104,21 +94,24 @@ public class RemoteDegen extends AbstractMojo {
 				if (line.trim().equals("")) {
 					continue;
 				}
-
-				if (!line.contains(":")) {
-					extractedArchives.add(new ArchiveExtractionList(this, line.trim()));
-				} else {
-					extractedArchives.add(new ReplacementExtractionList(this, line.split(":")[0].trim(), line.split(":")[1].trim()));
-					//} else {
-					//	throw new UnsupportedOperationException("TODO : name=`" + name + "` line=`" + line + "`");
-				}
+				
+				extractedArchives.add(new FileSource(line).getExtractionList(this));
 			}
 		} catch (IOException ex) {
 			throw new MojoExecutionException("extracted=`" + extracted + "`", ex);
 		}
 
+		// TODO : handle exclusions
+		if ( true ) {
+			throw new MojoExecutionException("TODO : handle exclusions");
+		}
 
-		// cascade the archives
+		// TODO : handle inclusions
+		if ( true ) {
+			throw new MojoExecutionException("TODO : handle inclusions");
+		}
+
+		// cascade the archives. if a file is in an earlier archive, skip it from a later one
 		{
 			List<String> currentSources = getProjectSourceFiles();
 
@@ -146,58 +139,7 @@ public class RemoteDegen extends AbstractMojo {
 		}
 	}
 
-	/**
-	 * Retrieves or creates a handle to the ZipFile that we're pulling stuff out of
-	 *
-	 * @return
-	 * @throws MojoExecutionException
-	 */
-	public ZipFile getDistributionFile() throws MojoExecutionException {
-
-		if (distributionFile != null && distributionFile.getName().equals(distribution)) {
-			return distributionFile;
-		}
-
-		assert distribution != null;
-		assert !distribution.equals("");
-
-		// the file handle
-		final File fileFromURL;
-		try {
-			// either constructs a loca file (if you're reading data from the local machine) or a cached file URL (if you're downloading it from teh interwebz)
-			fileFromURL = Files.getTemporaryFileFromURL(project, getLog(), distribution);
-
-		} catch (IOException e) {
-
-			// displays the file name
-			getLog().debug("distribution=" + distribution);
-
-			// displays wheter or not it's a URL
-			getLog().debug("distribution.matches()=" + distribution.matches("^\\w+\\:.*$"));
-
-			// displays the path we're working from
-			getLog().debug("File(\".\").getAbsolutePath()=" + new File(".").getAbsolutePath());
-
-			throw new MojoExecutionException("couldn't locate the file `" + distribution + "`", e);
-		}
-		assert fileFromURL != null;
-		assert fileFromURL.exists();
-		assert fileFromURL.canRead();
-
-		try {
-			// read it as a zip file
-			distributionFile = new ZipFile(fileFromURL);
-
-		} catch (IOException e) {
-
-			getLog().debug("fileFromURL.getAbsolutePath()=" + fileFromURL.getAbsolutePath());
-
-			throw new MojoExecutionException("couldn't read the file `" + distribution + "` as a zip file", e);
-		}
-
-		distribution = distributionFile.getName();
-		return distributionFile;
-	}
+	
 	public String[] getExcludeAny() {
 		return Arrays.copyOf(excludeAny, excludeAny.length);
 	}
