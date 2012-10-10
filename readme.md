@@ -16,6 +16,7 @@ History
 =======
 DONE
 ----
+ * 1.2.2 : use more complex recipes for sources, allowing multiple sources to be pulled in, extracted, examined, and renamed
  * 1.2.0 : two new features to actually work with libGDX on android
   * allows directories to be extracted from the archive (not just whole zip files anymore)
   * allows contents to be renamed
@@ -32,7 +33,6 @@ DONE
 
 TODO
 ----
- * 2.0.0 : move distribution and archives definition out of the MOJO configuration (like sources.jar@zip://http://example.com/dist.zip)
  * 2.0.1 : add non-scriptable "override" MOJO which locates a .java file within the distribution and archives, then copies it out into the src/main/java folder
  * 2.0.2 : add "remove" MOJO which deletes any .java files in src/main/java which match .java files within the distribution and archives definition
  * ?.0.0 : skip extracting resources that are already present and up to date, remove extracted resources that don't exist
