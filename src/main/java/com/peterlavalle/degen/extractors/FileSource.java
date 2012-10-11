@@ -7,6 +7,7 @@ package com.peterlavalle.degen.extractors;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.peterlavalle.degen.RemoteDegen;
+import com.sun.org.apache.bcel.internal.generic.GETFIELD;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,27 +33,38 @@ public class FileSource {
 		this(new Recipe(line));
 	}
 
-	/**
-	 * Switch this instance to test mode.
-	 */
-	void inTest() {
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
 	public List<String> getOriginalNames() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
-	public String getFinalName(String string) {
-		return string.matches(recipe.expression)?string.replaceAll(recipe.expression,recipe.replacement):null;
+	public String getFinalName(final String originalName) {
+		return originalName.matches(recipe.expression) ? originalName.replaceAll(recipe.expression, recipe.replacement) : null;
 	}
 
-	public byte[] getBytes(String get) {
+	public byte[] getBytes(final String originalName) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	static class Recipe {
 
+		@Override
+		public String toString() {
+			final StringBuilder builder = new StringBuilder(getUrl().toString());
+
+			for (final String zip : getZipList()) {
+				builder.append(" @").append(zip);
+			}
+
+			if (!expression.equals("^.*$")) {
+				builder.append(" ~").append(expression);
+			}
+
+			if (!replacement.equals("$0")) {
+				builder.append(" =").append(replacement);
+			}
+
+			return builder.toString();
+		}
 		private final URL url;
 		private final List<String> zipList;
 
@@ -164,7 +176,7 @@ public class FileSource {
 
 		@Override
 		public String getName() {
-			throw new UnsupportedOperationException("Not supported yet.");
+			return recipe.toString();
 		}
 
 		@Override

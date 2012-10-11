@@ -156,9 +156,6 @@ public class FileSourceTest extends TestCase {
 		// create the object (yay!)
 		final FileSource source = new FileSource(recipe);
 
-		// tell it we're in test mode
-		source.inTest();
-
 		// check that we have the right names
 		assertEquals(3, source.getOriginalNames());
 		assertEquals("bar", source.getOriginalNames().get(0));
@@ -171,9 +168,9 @@ public class FileSourceTest extends TestCase {
 		assertEquals("bi-da", source.getFinalName(source.getOriginalNames().get(2)));
 
 		// check that the reads work (when they should)
-		assertEquals("bar".getBytes(), source.getBytes(source.getFinalName(source.getOriginalNames().get(0))));
-		assertEquals("bur".getBytes(), source.getBytes(source.getFinalName(source.getOriginalNames().get(1))));
-		assertEquals("bir".getBytes(), source.getBytes(source.getFinalName(source.getOriginalNames().get(2))));
+		assertEquals("bar".getBytes(), source.getBytes((source.getOriginalNames().get(0))));
+		assertEquals("bur".getBytes(), source.getBytes((source.getOriginalNames().get(1))));
+		assertEquals("bir".getBytes(), source.getBytes((source.getOriginalNames().get(2))));
 
 		// check that the reads don't work (when they should not)
 		assertNull(source.getBytes(source.getOriginalNames().get(0)));
