@@ -4,11 +4,14 @@
  */
 package com.peterlavalle.degen.extractors;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.peterlavalle.degen.RemoteDegen;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -19,14 +22,19 @@ import org.apache.maven.plugin.MojoExecutionException;
  */
 public class FileSource {
 
+	private final Recipe recipe;
+
 	FileSource(Recipe recipe) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		this.recipe = recipe;
 	}
 
-	public FileSource(String line) {
+	public FileSource(String line) throws MalformedURLException {
 		this(new Recipe(line));
 	}
 
+	/**
+	 * Switch this instance to test mode.
+	 */
 	void inTest() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -36,7 +44,7 @@ public class FileSource {
 	}
 
 	public String getFinalName(String string) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return string.matches(recipe.expression)?string.replaceAll(recipe.expression,recipe.replacement):null;
 	}
 
 	public byte[] getBytes(String get) {
@@ -45,16 +53,58 @@ public class FileSource {
 
 	static class Recipe {
 
-		Recipe(String test) {
-			throw new UnsupportedOperationException("Not yet implemented");
+		private final URL url;
+		private final List<String> zipList;
+
+		Recipe(String test) throws MalformedURLException {
+			final String[] split = test.trim().split("\\s+");
+
+			if (split.length == 0) {
+
+				throw new IllegalArgumentException("You need at least a URL");
+			}
+
+			this.url = new URL(split[0].trim());
+
+
+			String expressionTmp = ".*";
+			String replacementTmp = "$0";
+			LinkedList<String> zipListTmp = new LinkedList<String>();
+
+			int i = 1;
+
+			// get any zipListEntries (if present)
+			for (i = 1; i < split.length && split[i].startsWith("@"); i++) {
+				zipListTmp.add(split[i].substring(1));
+			}
+
+			// get the pattern (if present)
+			if (i < split.length && split[i].startsWith("~")) {
+				expressionTmp = split[i++].substring(1);
+			}
+
+			// get the replacement (if present)
+			if (i < split.length && split[i].startsWith("=")) {
+				replacementTmp = split[i++].substring(1);
+			}
+
+			if (i < split.length) {
+				throw new RuntimeException("Your zips and replacements are done worng");
+			}
+
+			expressionTmp = !expressionTmp.startsWith("^") ? "^" + expressionTmp : expressionTmp;
+			expressionTmp = !expressionTmp.endsWith("$") ? expressionTmp + "$" : expressionTmp;
+			this.expression = expressionTmp;
+			this.replacement = replacementTmp;
+			this.zipList = ImmutableList.copyOf(zipListTmp);
 		}
 
-		List<String> getZipList() {
-			throw new UnsupportedOperationException("Not yet implemented");
+		public List<String> getZipList() {
+			return this.zipList;
 		}
 
-		URL getUrl() {
-			throw new UnsupportedOperationException("Not yet implemented");
+		public URL getUrl() {
+			return this.url;
 		}
 		private final String expression;
 		private final String replacement;
@@ -76,7 +126,7 @@ public class FileSource {
 
 		public ExtractionList(RemoteDegen outer) throws IOException {
 			super(outer);
-			
+
 			class NameTransformer implements Iterable<String> {
 
 				@Override

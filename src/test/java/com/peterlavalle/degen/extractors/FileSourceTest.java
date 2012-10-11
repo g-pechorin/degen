@@ -8,6 +8,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import junit.framework.TestCase;
@@ -18,7 +19,7 @@ import junit.framework.TestCase;
  */
 public class FileSourceTest extends TestCase {
 
-	public void testParseFileSourceRecipe_full() {
+	public void testParseFileSourceRecipe_full() throws MalformedURLException {
 		final String test = "file://something @h/a @h/i/zip ~foo. =bar";
 
 		final FileSource.Recipe recipe = new FileSource.Recipe(test);
@@ -27,35 +28,55 @@ public class FileSourceTest extends TestCase {
 		assertEquals(2, recipe.getZipList().size());
 		assertEquals("h/a", recipe.getZipList().get(0));
 		assertEquals("h/i/zip", recipe.getZipList().get(1));
-		assertEquals("foo.", recipe.getExpression());
+		assertEquals("^foo.$", recipe.getExpression());
 		assertEquals("bar", recipe.getReplacement());
 	}
 
-	public void testParseFileSourceString_simple() {
+	public void testParseFileSourceString_simple() throws MalformedURLException {
 		final String test = "       file://something.else   ";
 
 		final FileSource.Recipe recipe = new FileSource.Recipe(test);
 
 		assertEquals("file://something.else", recipe.getUrl().toString());
 		assertEquals(0, recipe.getZipList().size());
-		assertEquals(".*", recipe.getExpression());
+		assertEquals("^.*$", recipe.getExpression());
 		assertEquals("$0", recipe.getReplacement());
 	}
 
-	public void testParseFileSourceString_simpleSelect() {
+	public void testParseFileSourceString_simpleSelect() throws MalformedURLException {
+		final String test = "       file://something.el2se  ~bar  ";
+
+		final FileSource.Recipe recipe = new FileSource.Recipe(test);
+
+		assertEquals("file://something.el2se", recipe.getUrl().toString());
+		assertEquals(0, recipe.getZipList().size());
+		assertEquals("^bar$", recipe.getExpression());
+		assertEquals("$0", recipe.getReplacement());
+	}
+
+	public void testParseFileSourceString_simpleRewrite() throws MalformedURLException {
 		final String test = "       file://something.el2se  ~bar =foo. ";
 
 		final FileSource.Recipe recipe = new FileSource.Recipe(test);
 
 		assertEquals("file://something.el2se", recipe.getUrl().toString());
 		assertEquals(0, recipe.getZipList().size());
-		assertEquals("bar", recipe.getExpression());
+		assertEquals("^bar$", recipe.getExpression());
 		assertEquals("foo.", recipe.getReplacement());
+	}
+	public void testParseFileSourceString_simpleReplace() throws MalformedURLException {
+		final String test = "       file://something.el2se   =foo.$0 ";
+
+		final FileSource.Recipe recipe = new FileSource.Recipe(test);
+
+		assertEquals("file://something.el2se", recipe.getUrl().toString());
+		assertEquals(0, recipe.getZipList().size());
+		assertEquals("^.*$", recipe.getExpression());
+		assertEquals("foo.$0", recipe.getReplacement());
 	}
 
 	public void testFinalName0() throws IOException {
 		final FileSource source = new FileSource(new FileSource.Recipe("file:///???? ~(b.)r =$1-da"));
-
 
 		assertEquals("ba-da", source.getFinalName("bar"));
 	}
