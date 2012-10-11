@@ -15,7 +15,7 @@ import org.apache.maven.plugin.MojoExecutionException;
  */
 public abstract class AExtractionList implements Iterable<String> {
 
-	protected final RemoteDegen outer;
+	private final RemoteDegen outer;
 
 	public AExtractionList(final RemoteDegen outer) throws IOException {
 		this.outer = outer;
@@ -64,5 +64,9 @@ public abstract class AExtractionList implements Iterable<String> {
 		}
 	}
 
+	/**
+	 * Removes a single file, no special rules are applied it's a match removal
+	 * @param resourceFile the file to remove
+	 */
 	public abstract void removeResource(String resourceFile);
 }

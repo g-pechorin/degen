@@ -7,14 +7,12 @@ package com.peterlavalle.degen;
 import com.google.common.collect.Lists;
 import com.peterlavalle.degen.extractors.AExtractionList;
 import com.peterlavalle.degen.extractors.FileSource;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.zip.ZipFile;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
@@ -47,7 +45,6 @@ public class RemoteDegen extends AbstractMojo {
 	 * @parameter expression="${degen.includeOnly}" default-value=""
 	 */
 	private String[] includeOnly;
-
 	/**
 	 * the directory to output the generated sources to
 	 *
@@ -72,6 +69,7 @@ public class RemoteDegen extends AbstractMojo {
 	 * @required
 	 */
 	private String projectSources;
+
 	/**
 	 * Runs the guts of this plugin
 	 */
@@ -94,26 +92,42 @@ public class RemoteDegen extends AbstractMojo {
 				if (line.trim().equals("")) {
 					continue;
 				}
-				
+
 				extractedArchives.add(new FileSource(line).getExtractionList(this));
 			}
 		} catch (IOException ex) {
 			throw new MojoExecutionException("extracted=`" + extracted + "`", ex);
 		}
 
-		// TODO : handle exclusions
-		if ( true ) {
-			throw new MojoExecutionException("TODO : handle exclusions");
-		}
+		// get the lists to manipulate
+		final List<String> excludeList = Arrays.asList(getExcludeAny());
+		final List<String> includeOnlyList = Arrays.asList(getIncludeOnly());
+		for (AExtractionList list : extractedArchives) {
+			next_listed_file:
+			for (final String file : Lists.newArrayList(list)) {
 
-		// TODO : handle inclusions
-		if ( true ) {
-			throw new MojoExecutionException("TODO : handle inclusions");
+				// handle exclusions
+				for (final String pattern : excludeList) {
+					if (file.matches(pattern)) {
+						list.removeResource(file);
+					}
+				}
+
+				// handle inclusions
+				if (!includeOnlyList.isEmpty()) {
+					for (final String pattern : includeOnlyList) {
+						if (file.matches(pattern)) {
+							continue next_listed_file;
+						}
+					}
+					list.removeResource(file);
+				}
+			}
 		}
 
 		// cascade the archives. if a file is in an earlier archive, skip it from a later one
 		{
-			List<String> currentSources = getProjectSourceFiles();
+			List<String> currentSources = Lists.newArrayList(getProjectSourceFiles()); //
 
 			for (int i = 0; i < extractedArchives.size(); i++) {
 
@@ -139,7 +153,6 @@ public class RemoteDegen extends AbstractMojo {
 		}
 	}
 
-	
 	public String[] getExcludeAny() {
 		return Arrays.copyOf(excludeAny, excludeAny.length);
 	}

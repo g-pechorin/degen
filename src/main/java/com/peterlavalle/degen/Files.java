@@ -31,6 +31,7 @@ import org.apache.maven.project.MavenProject;
 public final class Files {
 
 	public static final int BUFFER_SIZE = 128;
+	public static final int INT_BYTE_SIZE = 4;
 	/**
 	 * Private variable that will be used to cache handles to downloaded files.
 	 */
@@ -126,9 +127,9 @@ public final class Files {
 			if (!DOWNLOADED_FILES.containsKey(urlString)) {
 				final byte[] bytes = urlString.getBytes();
 
-				final IntBuffer wrap = ByteBuffer.wrap(Arrays.copyOf(bytes, (bytes.length % 4) != 0 ? ((bytes.length / 4) + 1) * 4 : bytes.length)).asIntBuffer();
+				final IntBuffer wrap = ByteBuffer.wrap(Arrays.copyOf(bytes, (bytes.length % INT_BYTE_SIZE) != 0 ? ((bytes.length / INT_BYTE_SIZE) + 1) * INT_BYTE_SIZE : bytes.length)).asIntBuffer();
 
-				final StringBuilder name = new StringBuilder(Files.class.getSimpleName() + ".");
+				final StringBuilder name = new StringBuilder(Files.class.getSimpleName()).append(".");
 				while (wrap.hasRemaining()) {
 					name.append(Integer.toString(wrap.get(), 64));
 				}

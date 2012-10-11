@@ -19,7 +19,7 @@ import org.apache.maven.plugin.MojoExecutionException;
  */
 public class FileSource {
 
-	public FileSource(Recipe recipe) {
+	FileSource(Recipe recipe) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -76,8 +76,8 @@ public class FileSource {
 
 		public ExtractionList(RemoteDegen outer) throws IOException {
 			super(outer);
-
-			names = Lists.newLinkedList(new Iterable<String>() {
+			
+			class NameTransformer implements Iterable<String> {
 
 				@Override
 				public Iterator<String> iterator() {
@@ -101,7 +101,9 @@ public class FileSource {
 						}
 					};
 				}
-			});
+			}
+
+			names = Lists.newLinkedList(new NameTransformer());
 		}
 		private final List<String> names;
 
