@@ -19,6 +19,12 @@
 		<module>libgdx-degen.root-0.9.6</module>
 		<module>demos</module>
 	</modules>
+	
+	<properties>
+		<degen.version>1.2.1</degen.version>
+		<distributionURL>http://libgdx.googlecode.com/files/libgdx-${version}.zip</distributionURL>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<build>
 		<plugins>
@@ -69,16 +75,10 @@
 
 	<pluginRepositories>
 		<pluginRepository>
-			<id>dropbox.to.uk.orangedog</id>
-			<url>http://dl.dropbox.com/u/15094498/mvn-repo</url>
+			<id>oss.sonatype.org-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
 		</pluginRepository>
 	</pluginRepositories>
-	
-	<properties>
-		<degen.version>1.2.0</degen.version>
-		<distributionURL>http://libgdx.googlecode.com/files/libgdx-${version}.zip</distributionURL>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 
 	<repositories>
 		<repository>
