@@ -10,12 +10,18 @@ import com.google.common.collect.Lists;
 import com.peterlavalle.degen.RemoteDegen;
 import com.peterlavalle.degen.util.Collections3;
 import com.sun.org.apache.bcel.internal.generic.GETFIELD;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -25,6 +31,18 @@ import org.apache.maven.plugin.MojoExecutionException;
  */
 public class FileSource {
 
+	private File downloadFile(URL url) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	public static class UnknownProtocolInRecipeException extends Exception {
+
+		public final String protocol;
+
+		public UnknownProtocolInRecipeException(final String protocol) {
+			this.protocol = protocol;
+		}
+	}
 	private final Recipe recipe;
 	private List<String> originalNames;
 
@@ -40,26 +58,75 @@ public class FileSource {
 
 		String getGUID();
 	}
+	private transient WrappedOriginal wrappedOriginalSource = null;
 
-	synchronized WrappedOriginal getWrappedOriginal() {
+	private String genGUID(String toString) {
 		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	synchronized WrappedOriginal getWrappedOriginal() throws URISyntaxException, UnknownProtocolInRecipeException, ZipException, IOException {
 
 		// if leaready known
-		// - return that
+		if (wrappedOriginalSource != null) {
+			// - return that
+			return wrappedOriginalSource;
+		}
 
 
 		// ===================
 		// - Get the outer list of files
 		// -------
 		// if URL is a http
-		// - download the zip
-		// - wrap access to it
-		// else if its a file that points to a zip
-		// - wrap access to it
-		// else if its a file that points to a dir
-		// - wrap access to dir
-		// else
-		// - flip out
+		if (recipe.getUrl().getProtocol().equals("http")) {
+
+			// - download the zip
+			final File downloadFile = downloadFile(recipe.getUrl());
+			final ZipFile file = new ZipFile(downloadFile);
+
+			// - wrap access to it
+			wrappedOriginalSource = new WrappedOriginal() {
+
+				@Override
+				public String getGUID() {
+					return genGUID(recipe.getUrl().toString());
+				}
+
+				@Override
+				public Iterator<String> iterator() {
+					final Iterator<? extends ZipEntry> entries = Collections.list(file.entries()).iterator();
+					return new Iterator<String>() {
+
+						@Override
+						public boolean hasNext() {
+							return entries.hasNext();
+						}
+
+						@Override
+						public String next() {
+							return entries.next().getName();
+						}
+
+						@Override
+						public void remove() {
+							entries.remove();
+						}
+					};
+				}
+			};
+		} // else if its a file that points to a zip
+		else if (recipe.getUrl().getProtocol().equals("file") && new File(recipe.getUrl().toURI()).isFile()) {
+			throw new UnsupportedOperationException("Not yet implemented");
+			// - wrap access to it
+		} // else if its a file that points to a dir
+		else if (recipe.getUrl().getProtocol().equals("file") && new File(recipe.getUrl().toURI()).isDirectory()) {
+			throw new UnsupportedOperationException("Not yet implemented");
+			// - wrap access to dir
+		} // else
+		else {
+			// - flip out
+			throw new UnknownProtocolInRecipeException(recipe.getUrl().getProtocol());
+		}
+		throw new UnsupportedOperationException("Not yet implemented");
 
 		// ============
 		// - handle extraction
@@ -70,7 +137,7 @@ public class FileSource {
 
 	}
 
-	public List<String> getOriginalNames() {
+	public List<String> getOriginalNames() throws URISyntaxException, UnknownProtocolInRecipeException, ZipException, IOException {
 
 		if (this.originalNames == null) {
 			this.originalNames = Collections3.filter(new Function<String, Boolean>() {
