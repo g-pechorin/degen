@@ -179,6 +179,11 @@ public class FileSourceTest extends TestCase {
 	}
 	
 	
+	public void testWrappedOriginal() throws IOException {
+		fail("not ready");
+	}
+	
+	
 	public void testExtractor() throws IOException {
 		fail("There is no test of the extractor ready");
 	}

@@ -4,9 +4,11 @@
  */
 package com.peterlavalle.degen.extractors;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.peterlavalle.degen.RemoteDegen;
+import com.peterlavalle.degen.util.Collections3;
 import com.sun.org.apache.bcel.internal.generic.GETFIELD;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -24,6 +26,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 public class FileSource {
 
 	private final Recipe recipe;
+	private List<String> originalNames;
 
 	FileSource(Recipe recipe) {
 		this.recipe = recipe;
@@ -33,8 +36,53 @@ public class FileSource {
 		this(new Recipe(line));
 	}
 
-	public List<String> getOriginalNames() {
+	interface WrappedOriginal extends Iterable<String> {
+
+		String getGUID();
+	}
+
+	synchronized WrappedOriginal getWrappedOriginal() {
 		throw new UnsupportedOperationException("Not yet implemented");
+
+		// if leaready known
+		// - return that
+
+
+		// ===================
+		// - Get the outer list of files
+		// -------
+		// if URL is a http
+		// - download the zip
+		// - wrap access to it
+		// else if its a file that points to a zip
+		// - wrap access to it
+		// else if its a file that points to a dir
+		// - wrap access to dir
+		// else
+		// - flip out
+
+		// ============
+		// - handle extraction
+		// -------
+		// for each zip in the list
+		// - extract it from the wraped (using wrapped.getGUID() + zip_path to build the new GUID)
+		// - wrap the extracted file
+
+	}
+
+	public List<String> getOriginalNames() {
+
+		if (this.originalNames == null) {
+			this.originalNames = Collections3.filter(new Function<String, Boolean>() {
+
+				@Override
+				public Boolean apply(String name) {
+					return name.matches(recipe.expression);
+				}
+			}, getWrappedOriginal());
+		}
+
+		return this.originalNames;
 	}
 
 	public String getFinalName(final String originalName) {
