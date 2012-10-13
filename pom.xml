@@ -9,7 +9,7 @@
 
 	<groupId>com.peterlavalle</groupId>
 	<artifactId>degen</artifactId>
-	<version>1.2.1</version>
+	<version>1.2.2-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 
 	<name>degen</name>
