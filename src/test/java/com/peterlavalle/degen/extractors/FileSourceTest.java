@@ -177,4 +177,9 @@ public class FileSourceTest extends TestCase {
 		assertNull(source.getBytes(source.getOriginalNames().get(1)));
 		assertNull(source.getBytes(source.getOriginalNames().get(2)));
 	}
+	
+	
+	public void testExtractor() throws IOException {
+		fail("There is no test of the extractor ready");
+	}
 }
