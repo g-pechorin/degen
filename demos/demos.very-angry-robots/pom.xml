@@ -1,0 +1,47 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.peterlavalle.libgdx</groupId>
+		<artifactId>demos</artifactId>
+		<version>1.3.3-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>demos.very-angry-robots</artifactId>
+	<packaging>pom</packaging>
+	
+	<modules>
+		<module>demos.very-angry-robots.shared</module>
+		<module>demos.very-angry-robots.lwjgl</module>
+		<!--<module>demos.invaders.lwjgl</module>
+		<module>demos.very-angry-robots.android</module>-->
+	</modules>
+	
+	<licenses>
+		<license>
+			<name>Apache License</name>
+			<distribution>in LICENSE</distribution>
+		</license>
+		<license>
+			<name>CC License</name>
+			<distribution>in CC-LICENSE</distribution>
+		</license>
+	</licenses>
+	<contributors>
+		<contributor>
+			<name>Rod Hyde</name>
+			<email>rod@badlydrawngames.com</email>
+			<roles>
+				<role>Original Author</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<email>grigorii.pechorin@gmail.com</email>
+			<roles>
+				<role>Port Editor</role>
+			</roles>
+		</contributor>
+	</contributors>
+</project>

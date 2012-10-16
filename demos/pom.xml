@@ -15,6 +15,7 @@
 
 	<modules>
 		<module>demos.invaders</module>
+		<module>demos.very-angry-robots</module>
 	</modules>
 	
 	<properties>
