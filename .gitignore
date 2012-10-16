@@ -161,6 +161,11 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+# Java crash logs
+hs_err_pid*.log
+
+# User defined
 /libgdx-degen.gdx.math/target/
 /libgdx-degen.gdx/target/
 /libgdx-degen.lwjgl/target/
