@@ -188,3 +188,4 @@ hs_err_pid*.log
 /demos/demos.invaders/demos.invaders.android/target/
 /demos/demos.very-angry-robots/demos.very-angry-robots.lwjgl/target/
 /demos/demos.very-angry-robots/demos.very-angry-robots.shared/target/
+/droid-assist/target/
