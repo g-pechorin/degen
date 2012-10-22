@@ -20,7 +20,7 @@
 				<version>${project.version}</version>
 				<executions>
 					<execution>
-						<phase>compile</phase>
+						<phase>test-compile</phase>
 						<goals>
 							<goal>assets</goal>
 						</goals>

@@ -13,7 +13,7 @@
 	<description>
 		This is a Maven plugin to automate some parts of the android:maven build process.
 		
-		(1) It copies certain files (.mp3|.ogg) to the android assets folder (typically target/assets)
+		(1) It copies certain files (.mp3|.ogg) to the android assets folder (typically target/assets) from both the target and the dependecies
 		(2) It generates a AndroidAsset file (from the pom)
 		(3) It removes those files from the target/classes folder
 	</description>
@@ -64,6 +64,11 @@
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-project</artifactId>
 			<version>2.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>13.0.1</version>
 		</dependency>
 	</dependencies>
 </project>
