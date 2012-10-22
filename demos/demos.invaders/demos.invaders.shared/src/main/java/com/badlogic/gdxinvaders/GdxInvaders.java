@@ -71,7 +71,7 @@ public class GdxInvaders extends Game {
 	@Override
 	public void create () {
 		setScreen(new MainMenu());
-		Music music = Gdx.audio.newMusic(Gdx.files.getFileHandle("data/8.12.mp3", FileType.Internal));
+		Music music = Gdx.audio.newMusic(Gdx.files.internal("data/8.12.mp3"));
 		music.setLooping(true);
 		music.play();
 		Gdx.input.setInputProcessor(new InputAdapter() {

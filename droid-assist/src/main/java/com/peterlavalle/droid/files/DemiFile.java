@@ -5,7 +5,11 @@
 package com.peterlavalle.droid.files;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -62,7 +66,7 @@ public class DemiFile {
 							nextElement = entries.nextElement();
 
 							if (nextElement.isDirectory()) {
-							nextElement = null;
+								nextElement = null;
 							}
 
 
@@ -79,6 +83,11 @@ public class DemiFile {
 						nextElement = null;
 
 						return new DemiFile(null, entry.getName()) {
+
+							@Override
+							protected InputStream openInputStream() throws IOException {
+								return zipFile.getInputStream(entry);
+							}
 
 							@Override
 							public Iterable<DemiFile> listFiles() {
@@ -157,5 +166,64 @@ public class DemiFile {
 
 	public String getName() {
 		return path;
+	}
+
+	public void copyTo(File folder) throws MojoExecutionException {
+
+		// get teh file object
+		final File outputFile = new File(folder, getName());
+
+		// make the parent directories
+		outputFile.getParentFile().mkdirs();
+
+		// get an input stream to this file
+		final InputStream inputStream;
+		try {
+			inputStream = openInputStream();
+		} catch (IOException ex) {
+			throw new MojoExecutionException("While trying to openInputStream() `" + getName() + "`", ex);
+		}
+
+		// open the output stream
+		final OutputStream outputStream;
+		try {
+			outputStream = new FileOutputStream(outputFile);
+		} catch (FileNotFoundException ex) {
+			throw new MojoExecutionException("While trying to open FileOutputStream `" + getName() + "`", ex);
+		}
+
+		// copy bytes
+		{
+			final byte[] data = new byte[1024];
+			try {
+				// read bytes
+				for (int i = 0; (i = inputStream.read(data)) != -1;) {
+					// write bytes
+					try {
+						outputStream.write(data, 0, i);
+					} catch (IOException ex) {
+						throw new MojoExecutionException("While writing bytes for `" + getName() + "`", ex);
+					}
+				}
+			} catch (IOException ex) {
+				throw new MojoExecutionException("While reading bytes from `" + getName() + "`", ex);
+			}
+		}
+
+		// close the streams here to avoid swallowing the exception
+		try {
+			outputStream.close();
+		} catch (IOException ex) {
+			throw new MojoExecutionException("While closing output stream for `" + getName() + "`", ex);
+		}
+		try {
+			inputStream.close();
+		} catch (IOException ex) {
+			throw new MojoExecutionException("While closing input stream for `" + getName() + "`", ex);
+		}
+	}
+
+	protected InputStream openInputStream() throws IOException {
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 }

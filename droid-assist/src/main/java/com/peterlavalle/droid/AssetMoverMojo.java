@@ -60,11 +60,18 @@ public class AssetMoverMojo extends AbstractMojo {
 	 * @required
 	 */
 	private String assetsCriteria;
+	
 	/**
-	 * @parameter expression="${droid.target}" default-value="classes"
+	 * @parameter expression="${droid.classes}" default-value="classes"
 	 * @required
 	 */
 	private String classesFolder;
+	
+	/**
+	 * @parameter expression="${droid.assets}" default-value="assets"
+	 * @required
+	 */
+	private String assetsFolder;
 
 	//
 	// ================================
@@ -111,8 +118,8 @@ public class AssetMoverMojo extends AbstractMojo {
 			
 			// talk about any file that we add
 			getLog().info("OTTHNOI : assetize " + file.getName());;
-
-			getLog().error("TODO : You need to actually copy the file!");
+			
+			file.copyTo(new File(project.getBuild().getDirectory(),assetsFolder));
 		}
 	}
 }

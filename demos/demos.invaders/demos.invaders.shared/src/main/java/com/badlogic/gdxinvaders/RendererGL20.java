@@ -95,37 +95,37 @@ public class RendererGL20 implements Renderer {
 		try {
 			spriteBatch = new SpriteBatch();
 
-			texShader = new ShaderProgram(Gdx.files.classpath("data/shaders/tex-vs.glsl"), Gdx.files.classpath("data/shaders/tex-fs.glsl"));
-			colorShader = new ShaderProgram(Gdx.files.classpath("data/shaders/color-vs.glsl"), Gdx.files.classpath("data/shaders/color-fs.glsl"));
-			lightTexShader = new ShaderProgram(Gdx.files.classpath("data/shaders/light-tex-vs.glsl"), Gdx.files.classpath("data/shaders/light-tex-fs.glsl"));
+			texShader = new ShaderProgram(Gdx.files.internal("data/shaders/tex-vs.glsl"), Gdx.files.internal("data/shaders/tex-fs.glsl"));
+			colorShader = new ShaderProgram(Gdx.files.internal("data/shaders/color-vs.glsl"), Gdx.files.internal("data/shaders/color-fs.glsl"));
+			lightTexShader = new ShaderProgram(Gdx.files.internal("data/shaders/light-tex-vs.glsl"), Gdx.files.internal("data/shaders/light-tex-fs.glsl"));
 			
 			if(!texShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile tex shader");
 			if(!colorShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile color shader");
 			if(!lightTexShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile light/tex shader");
 			
-			InputStream in = Gdx.files.classpath("data/ship.obj").read();
+			InputStream in = Gdx.files.internal("data/ship.obj").read();
 			shipMesh = ObjLoader.loadObj(in);
 			in.close();
 
-			in = Gdx.files.classpath("data/invader.obj").read();
+			in = Gdx.files.internal("data/invader.obj").read();
 			invaderMesh = ObjLoader.loadObj(in);
 			in.close();
 
-			in = Gdx.files.classpath("data/block.obj").read();
+			in = Gdx.files.internal("data/block.obj").read();
 			blockMesh = ObjLoader.loadObj(in);
 			in.close();
 
-			in = Gdx.files.classpath("data/shot.obj").read();
+			in = Gdx.files.internal("data/shot.obj").read();
 			shotMesh = ObjLoader.loadObj(in);
 			in.close();
 
-			shipTexture = new Texture(Gdx.files.classpath("data/ship.png"), Format.RGB565, true);
+			shipTexture = new Texture(Gdx.files.internal("data/ship.png"), Format.RGB565, true);
 			shipTexture.setFilter(TextureFilter.MipMap, TextureFilter.Linear);
-			invaderTexture = new Texture(Gdx.files.classpath("data/invader.png"), Format.RGB565, true);
+			invaderTexture = new Texture(Gdx.files.internal("data/invader.png"), Format.RGB565, true);
 			invaderTexture.setFilter(TextureFilter.MipMap, TextureFilter.Linear);
-			backgroundTexture = new Texture(Gdx.files.classpath("data/planet.jpg"), Format.RGB565, true);
+			backgroundTexture = new Texture(Gdx.files.internal("data/planet.jpg"), Format.RGB565, true);
 			backgroundTexture.setFilter(TextureFilter.MipMap, TextureFilter.Linear);
-			explosionTexture = new Texture(Gdx.files.classpath("data/explode.png"), Format.RGBA4444, true);
+			explosionTexture = new Texture(Gdx.files.internal("data/explode.png"), Format.RGBA4444, true);
 			explosionTexture.setFilter(TextureFilter.MipMap, TextureFilter.Linear);
 
 			explosionMesh = new Mesh(true, 4 * 16, 0, new VertexAttribute(Usage.Position, 3, "a_position"), new VertexAttribute(
@@ -162,7 +162,7 @@ public class RendererGL20 implements Renderer {
 			}
 
 			explosionMesh.setVertices(vertices);
-			font = new BitmapFont(Gdx.files.classpath("data/font10.fnt"), Gdx.files.classpath("data/font10.png"), false);
+			font = new BitmapFont(Gdx.files.internal("data/font10.fnt"), Gdx.files.internal("data/font10.png"), false);
 
 			camera = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		} catch (Exception ex) {
