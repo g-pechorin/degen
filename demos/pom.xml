@@ -16,10 +16,4 @@
 	<modules>
 		<module>demos.invaders</module>
 	</modules>
-	
-	<properties>
-		<demos.libgdx.version>0.9.6</demos.libgdx.version>
-		<demos.android.platform>7</demos.android.platform>
-		<demos.android.version>2.1_r1</demos.android.version>
-	</properties>
 </project>

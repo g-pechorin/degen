@@ -17,7 +17,7 @@
 			<plugin>
 				<groupId>com.peterlavalle</groupId>
 				<artifactId>droid-maven-plugin</artifactId>
-				<version>${project.version}</version>
+				<version>${droid.version}</version>
 				<executions>
 					<execution>
 						<phase>test-compile</phase>
