@@ -10,7 +10,6 @@
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 package com.badlogic.gdxinvaders;
 
 import com.badlogic.gdx.Application.ApplicationType;
@@ -20,14 +19,16 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdxinvaders.screens.GameLoop;
 import com.badlogic.gdxinvaders.screens.GameOver;
 import com.badlogic.gdxinvaders.screens.InvadersScreen;
 import com.badlogic.gdxinvaders.screens.MainMenu;
 
 public class GdxInvaders extends Game {
+
 	@Override
-	public void render () {
+	public void render() {
 		InvadersScreen currentScreen = getScreen();
 
 		// update the screen
@@ -44,9 +45,7 @@ public class GdxInvaders extends Game {
 			// the game loop
 			if (currentScreen instanceof MainMenu) {
 				setScreen(new GameLoop());
-			}
-			else
-			{
+			} else {
 				// if the current screen is a game loop screen we switch to the
 				// game over screen
 				if (currentScreen instanceof GameLoop) {
@@ -60,7 +59,7 @@ public class GdxInvaders extends Game {
 		}
 
 		// sleep on desktop as Jogl backend vsynch is broken...
-		if(Gdx.app.getType() == ApplicationType.Desktop) {
+		if (Gdx.app.getType() == ApplicationType.Desktop) {
 			try {
 				Thread.sleep(16);
 			} catch (InterruptedException e) {
@@ -69,16 +68,25 @@ public class GdxInvaders extends Game {
 	}
 
 	@Override
-	public void create () {
+	public void create() {
 		setScreen(new MainMenu());
-		Music music = Gdx.audio.newMusic(Gdx.files.internal("data/8.12.mp3"));
+
+		// play some music
+		final FileHandle song = Gdx.files.internal("data/8.12.mp3");
+
+		final Music music = Gdx.audio.newMusic(song);
 		music.setLooping(true);
 		music.play();
+
+
 		Gdx.input.setInputProcessor(new InputAdapter() {
+
 			@Override
-			public boolean keyUp (int keycode) {
-				if(keycode == Keys.ENTER && Gdx.app.getType() == ApplicationType.WebGL) {
-					if(!Gdx.graphics.isFullscreen()) Gdx.graphics.setDisplayMode(Gdx.graphics.getDisplayModes()[0]);
+			public boolean keyUp(int keycode) {
+				if (keycode == Keys.ENTER && Gdx.app.getType() == ApplicationType.WebGL) {
+					if (!Gdx.graphics.isFullscreen()) {
+						Gdx.graphics.setDisplayMode(Gdx.graphics.getDisplayModes()[0]);
+					}
 				}
 				return true;
 			}
@@ -89,7 +97,7 @@ public class GdxInvaders extends Game {
 	 * For this game each of our screens is an instance of InvadersScreen.
 	 * @return the currently active {@link InvadersScreen}. */
 	@Override
-	public InvadersScreen getScreen () {
-		return (InvadersScreen)super.getScreen();
+	public InvadersScreen getScreen() {
+		return (InvadersScreen) super.getScreen();
 	}
 }

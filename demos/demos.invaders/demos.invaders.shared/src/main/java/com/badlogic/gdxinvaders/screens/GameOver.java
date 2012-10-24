@@ -45,13 +45,13 @@ public class GameOver extends InvadersScreen {
 
 	public GameOver () {
 		spriteBatch = new SpriteBatch();
-		background = new Texture(Gdx.files.internal("data/planet.jpg"));
+		background = new Texture(Gdx.files.classpath("data/planet.jpg"));
 		background.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
-		logo = new Texture(Gdx.files.internal("data/title.png"));
+		logo = new Texture(Gdx.files.classpath("data/title.png"));
 		logo.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
-		font = new BitmapFont(Gdx.files.internal("data/font16.fnt"), Gdx.files.internal("data/font16.png"), false);
+		font = new BitmapFont(Gdx.files.classpath("data/font16.fnt"), Gdx.files.classpath("data/font16.png"), false);
 	}
 
 	@Override
