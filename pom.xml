@@ -22,8 +22,14 @@
 	
 	<properties>
 		<degen.version>1.2.1</degen.version>
+		
 		<distributionURL>http://libgdx.googlecode.com/files/libgdx-${version}.zip</distributionURL>
+		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<deploy.id>dropbox.Public.mvn-repo</deploy.id>
+		<deploy.url>${dropbox.root}/Public/mvn-repo</deploy.url>
+		
 	</properties>
 
 	<build>
@@ -68,8 +74,8 @@
 
 	<distributionManagement>
 		<repository>
-			<id>dropbox.Public.mvn-repo</id>
-			<url>${dropbox.root}/Public/mvn-repo</url>
+			<id>${deploy.id}</id>
+			<url>${deploy.url}</url>
 		</repository>
 	</distributionManagement>
 
