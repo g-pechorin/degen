@@ -36,8 +36,6 @@ public class AssetMoverMojo extends AbstractDroidMojo {
 
 			// add the guts of the zip
 			files.addAll(Lists.newArrayList(DemiFile.listFiles(dependency.getFile())));
-			
-			getLog().error("TODO : Can I remove the dependency?");
 		}
 
 		// process all demi files
@@ -60,7 +58,7 @@ public class AssetMoverMojo extends AbstractDroidMojo {
 			}
 			
 			// talk about any file that we add
-			getLog().info("OTTHNOI : assetize " + file.getName());;
+			getLog().info("Copying asset " + file.getName());;
 			
 			file.copyTo( getAssetsFolder());
 		}
