@@ -35,7 +35,7 @@ public final class Util {
 	}
 
 	public static <T> Iterable<T> toIterable(final Enumeration<T> enumeration) {
-		return Lists.newArrayList(toIterable(enumeration));
+		return Lists.newArrayList(toIterator(enumeration));
 	}
 
 	public static <T> Iterator<T> toIterator(final Enumeration<T> enumeration) {
