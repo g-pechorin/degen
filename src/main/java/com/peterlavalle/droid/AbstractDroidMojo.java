@@ -16,19 +16,12 @@ import org.apache.maven.project.MavenProjectHelper;
  * @author Peter LaValle
  */
 public abstract class AbstractDroidMojo extends AbstractMojo {
+
 	/**
 	 * @parameter expression="${project}"
 	 * @required
 	 */
 	private MavenProject project;
-	
-	
-	/**
-	 * @parameter expression="${droid.apkFile}" default-value="${project.build.dir}/${project.final.name}.apk"
-	 * @required
-	 */
-	private File apkFile;
-	
 	/**
 	 * the maven project helper class for adding resources
 	 *
@@ -40,13 +33,11 @@ public abstract class AbstractDroidMojo extends AbstractMojo {
 	 * @required
 	 */
 	private String assetsCriteria;
-	
 	/**
 	 * @parameter expression="${droid.classes}" default-value="classes"
 	 * @required
 	 */
 	private String classesFolder;
-	
 	/**
 	 * @parameter expression="${droid.assets}" default-value="assets"
 	 * @required
@@ -72,16 +63,17 @@ public abstract class AbstractDroidMojo extends AbstractMojo {
 	protected File getAssetsFolder() {
 		return new File(getProject().getBuild().getDirectory(), assetsFolder);
 	}
+
 	protected File getApkFile() throws MojoExecutionException {
-		return apkFile;
+		return new File(getProject().getBuild().getDirectory(), getProject().getBuild().getFinalName() + '.' + getProject().getPackaging());
 	}
 
 	protected ZipFile getApkZipFile() throws MojoExecutionException {
+		final File apkFile = getApkFile();
 		try {
 			return new ZipFile(apkFile);
 		} catch (IOException ex) {
-			throw new MojoExecutionException("While trying top open zip file `"+apkFile+"`", ex);
+			throw new MojoExecutionException("While trying top open zip file `" + apkFile + "`", ex);
 		}
 	}
-
 }

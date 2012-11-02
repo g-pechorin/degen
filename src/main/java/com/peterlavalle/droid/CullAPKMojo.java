@@ -22,14 +22,16 @@ import org.apache.maven.plugin.MojoFailureException;
 /**
  *
  * @author Peter LaValle
+ * @goal cull
+ * @phase package
+ * @version $Id$
  */
 public class CullAPKMojo extends AbstractDroidMojo {
-	
+
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
+
 		final ZipFile apkFile = getApkZipFile();
-
-
 
 		// start a new zip output file (on max compression)
 		final File tempFile;
@@ -41,7 +43,7 @@ public class CullAPKMojo extends AbstractDroidMojo {
 		} catch (IOException ex) {
 			throw new MojoExecutionException("Problem while trying to open temporary file", ex);
 		}
-		
+
 		for (final ZipEntry entry : Util.toIterable(apkFile.entries())) {
 			if (!new File(getAssetsFolder(), entry.getName()).exists() && entry.getName().matches(getAssetsCriteria()) && apkFile.getEntry("assets/" + entry.getName()) != null) {
 				try {
@@ -71,7 +73,7 @@ public class CullAPKMojo extends AbstractDroidMojo {
 				} catch (IOException ex) {
 					throw new MojoExecutionException("Problem closing entry `" + entry.getName() + "`", ex);
 				}
-				
+
 				getLog().info("I removed the duplicate `" + entry.getName() + "`");
 			}
 		}
