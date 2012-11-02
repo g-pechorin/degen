@@ -18,7 +18,7 @@ import org.apache.maven.project.MavenProjectHelper;
  * @phase compile
  * @version $Id$
  */
-public class AssetMoverMojo extends DroidAbstractMojo {
+public class AssetMoverMojo extends AbstractDroidMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -62,7 +62,7 @@ public class AssetMoverMojo extends DroidAbstractMojo {
 			// talk about any file that we add
 			getLog().info("OTTHNOI : assetize " + file.getName());;
 			
-			file.copyTo(new File(getProject().getBuild().getDirectory(), getAssetsFolder()));
+			file.copyTo( getAssetsFolder());
 		}
 	}
 }

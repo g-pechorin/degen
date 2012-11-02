@@ -1,7 +1,13 @@
 package com.peterlavalle.droid;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
@@ -9,7 +15,7 @@ import org.apache.maven.project.MavenProjectHelper;
  *
  * @author Peter LaValle
  */
-public abstract class DroidAbstractMojo extends AbstractMojo {
+public abstract class AbstractDroidMojo extends AbstractMojo {
 	/**
 	 * @parameter expression="${project}"
 	 * @required
@@ -17,6 +23,11 @@ public abstract class DroidAbstractMojo extends AbstractMojo {
 	private MavenProject project;
 	
 	
+	/**
+	 * @parameter expression="${droid.apkFile}" default-value="${project.build.dir}/${project.final.name}.apk"
+	 * @required
+	 */
+	private File apkFile;
 	
 	/**
 	 * the maven project helper class for adding resources
@@ -58,8 +69,19 @@ public abstract class DroidAbstractMojo extends AbstractMojo {
 		return classesFolder;
 	}
 
-	protected String getAssetsFolder() {
-		return assetsFolder;
+	protected File getAssetsFolder() {
+		return new File(getProject().getBuild().getDirectory(), assetsFolder);
+	}
+	protected File getApkFile() throws MojoExecutionException {
+		return apkFile;
+	}
+
+	protected ZipFile getApkZipFile() throws MojoExecutionException {
+		try {
+			return new ZipFile(apkFile);
+		} catch (IOException ex) {
+			throw new MojoExecutionException("While trying top open zip file `"+apkFile+"`", ex);
+		}
 	}
 
 }
