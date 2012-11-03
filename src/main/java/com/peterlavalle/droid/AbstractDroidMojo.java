@@ -29,7 +29,7 @@ public abstract class AbstractDroidMojo extends AbstractMojo {
 	 */
 	private MavenProjectHelper projectHelper;
 	/**
-	 * @parameter expression="${droid.assetsCriteria}" default-value=".*\.(mp3|ogg|wav)"
+	 * @parameter expression="${assetsCriteria}" default-value=".*\.(mp3|ogg|wav)"
 	 * @required
 	 */
 	private String assetsCriteria;
@@ -64,12 +64,12 @@ public abstract class AbstractDroidMojo extends AbstractMojo {
 		return new File(getProject().getBuild().getDirectory(), assetsFolder);
 	}
 
-	protected File getApkFile() throws MojoExecutionException {
+	protected File getBuiltFile() throws MojoExecutionException {
 		return new File(getProject().getBuild().getDirectory(), getProject().getBuild().getFinalName() + '.' + getProject().getPackaging());
 	}
 
 	protected ZipFile getApkZipFile() throws MojoExecutionException {
-		final File apkFile = getApkFile();
+		final File apkFile = getBuiltFile();
 		try {
 			return new ZipFile(apkFile);
 		} catch (IOException ex) {

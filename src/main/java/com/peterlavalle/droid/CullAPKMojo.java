@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -54,7 +56,7 @@ public class CullAPKMojo extends AbstractDroidMojo {
 			}
 
 			// set the compression level (assets can't be compressed see - http://ponystyle.com/blog/2010/03/26/dealing-with-asset-compression-in-android-apps/)
-			zipOutputStream.setLevel(isAsset ? 0 : 9);
+			zipOutputStream.setLevel(isAsset && entry.getSize() >= (1024 * 1024) ? 0 : 9);
 
 			// put the entry
 			try {
@@ -90,12 +92,16 @@ public class CullAPKMojo extends AbstractDroidMojo {
 			throw new MojoExecutionException("IOException while trying to close the zipfile", ex);
 		}
 
-		// copy the old apk file to "original"
-		getLog().warn("Forgot to copy original...");
+		// copy the old apk file to ".original"
+	//	try {
+	//		Util.copyStream(new FileInputStream(getBuiltFile(".original")), new FileOutputStream(tempFile)).close();
+	//	} catch (IOException ex) {
+	//		throw new MojoExecutionException("IOException while trying to copy original", ex);
+	//	}
 
 		// copy the new zip file as the apk file
 		try {
-			Util.copyStream(new FileInputStream(tempFile), new FileOutputStream(getApkFile())).close();
+			Util.copyStream(new FileInputStream(tempFile), new FileOutputStream(getBuiltFile())).close();
 		} catch (FileNotFoundException ex) {
 			throw new MojoExecutionException("Inexplicable FNF exception", ex);
 		} catch (IOException ex) {
