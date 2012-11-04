@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,9 +44,10 @@ public class CullAPKMojo extends AbstractDroidMojo {
 
 		final ZipFile apkZipFile = getApkZipFile();
 
-		final File aapt = new File(androidHome, "platform-tools/aapt.exe");
+		final LineCommand lineCommand = newLineCommand(new File(androidHome, "platform-tools/"), "aapt");
 
-		final LinkedList<String> removeables = new LinkedList<String>();
+		lineCommand.addArgument("r");
+		lineCommand.addArgument(getBuiltFile().getAbsolutePath());
 
 		for (final ZipEntry entry : Util.toIterable(apkZipFile.entries())) {
 
@@ -59,10 +61,33 @@ public class CullAPKMojo extends AbstractDroidMojo {
 
 				getLog().info("I will remove the duplicate `" + entry.getName() + "`");
 
-				removeables.add(name);
+				lineCommand.addArgument(name);
 			}
 		}
+
+		// setup the streams
+		lineCommand.pipeErrorTo(new OutputStream() {
+
+			@Override
+			public void write(int b) throws IOException {
+				throw new UnsupportedOperationException("Not supported yet.");
+			}
+		});
+		lineCommand.pipeOutputTo(new OutputStream() {
+
+			@Override
+			public void write(int b) throws IOException {
+				throw new UnsupportedOperationException("Not supported yet.");
+			}
+		});
+		lineCommand.pipeInputFrom(new InputStream() {
+
+			@Override
+			public int read() throws IOException {
+				throw new UnsupportedOperationException("Not supported yet.");
+			}
+		});
 		
-		throw new MojoExecutionException("You must run the command: \n\n\taapt r \"" + getBuiltFile().getAbsolutePath() + " " + removeables.toString().replaceAll("[\\[\\],]", "")+"\n");
+		lineCommand.run();
 	}
 }
