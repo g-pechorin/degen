@@ -2,14 +2,10 @@ package com.peterlavalle.droid;
 
 import com.google.common.collect.Lists;
 import com.peterlavalle.droid.files.DemiFile;
-import java.io.File;
 import java.util.LinkedList;
 import org.apache.maven.artifact.DefaultArtifact;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.project.MavenProject;
-import org.apache.maven.project.MavenProjectHelper;
 
 /**
  * Copies all "things" from classes/ and "compile" dependencies to a target/assets/ folder for Android builds.

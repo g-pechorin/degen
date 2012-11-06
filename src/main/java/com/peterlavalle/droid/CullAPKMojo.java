@@ -4,25 +4,14 @@
  */
 package com.peterlavalle.droid;
 
+import com.peterlavalle.util.ByYourCommand;
+import com.peterlavalle.util.Callback;
 import com.peterlavalle.util.Util;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.codehaus.plexus.util.cli.CommandLineException;
-import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  *
@@ -44,7 +33,7 @@ public class CullAPKMojo extends AbstractDroidMojo {
 
 		final ZipFile apkZipFile = getApkZipFile();
 
-		final LineCommand lineCommand = newLineCommand(new File(androidHome, "platform-tools/"), "aapt");
+		final ByYourCommand lineCommand = new ByYourCommand(new File(androidHome, "platform-tools/"), "aapt");
 
 		lineCommand.addArgument("r");
 		lineCommand.addArgument(getBuiltFile().getAbsolutePath());
@@ -66,28 +55,23 @@ public class CullAPKMojo extends AbstractDroidMojo {
 		}
 
 		// setup the streams
-		lineCommand.pipeErrorTo(new OutputStream() {
-
+		lineCommand.pipeErrorTo(new Callback.StringCallbackOutputStream(new Callback<String>() {
 			@Override
-			public void write(int b) throws IOException {
-				throw new UnsupportedOperationException("Not supported yet.");
+			public void callback(final String toString) {
+				getLog().error(toString);
 			}
-		});
-		lineCommand.pipeOutputTo(new OutputStream() {
-
+		}));
+		lineCommand.pipeOutputTo(new Callback.StringCallbackOutputStream(new Callback<String>() {
 			@Override
-			public void write(int b) throws IOException {
-				throw new UnsupportedOperationException("Not supported yet.");
+			public void callback(final String toString) {
+				getLog().info(toString);
 			}
-		});
-		lineCommand.pipeInputFrom(new InputStream() {
+		}));
 
-			@Override
-			public int read() throws IOException {
-				throw new UnsupportedOperationException("Not supported yet.");
-			}
-		});
-		
-		lineCommand.run();
+		final int result = lineCommand.run();
+
+		if (result != 0) {
+			throw new MojoExecutionException("Command result=" + result);
+		}
 	}
 }
