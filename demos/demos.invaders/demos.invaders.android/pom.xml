@@ -20,9 +20,17 @@
 				<version>${droid.version}</version>
 				<executions>
 					<execution>
+						<id>copy-assets</id>
 						<phase>test-compile</phase>
 						<goals>
 							<goal>assets</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>cull-assets</id>
+						<phase>package</phase>
+						<goals>
+							<goal>cull</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -42,6 +50,21 @@
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
 				</configuration>
 				<extensions>true</extensions>
+				
+				<executions>
+					<execution>
+						<id>alignApk</id>
+						<phase>package</phase>
+						<goals>
+							<goal>zipalign</goal>              
+						</goals>          
+					</execution>
+					<execution>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

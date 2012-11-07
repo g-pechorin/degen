@@ -89,9 +89,17 @@
 			<id>oss.sonatype.org-releases</id>
 			<url>https://oss.sonatype.org/content/repositories/releases</url>
 		</pluginRepository>
+		<pluginRepository>
+			<id>dropbox.to.uk.orangedog</id>
+			<url>http://dl.dropbox.com/u/15094498/mvn-repo</url>
+		</pluginRepository>
 	</pluginRepositories>
 
 	<repositories>
+		<repository>
+			<id>oss.sonatype.org-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+		</repository>
 		<repository>
 			<id>dropbox.to.uk.orangedog</id>
 			<url>http://dl.dropbox.com/u/15094498/mvn-repo</url>
