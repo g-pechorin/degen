@@ -47,8 +47,7 @@ public class CullAPKMojo extends AbstractDroidMojo {
 			// determin if it's a duplicate
 			if (name.matches(getAssetsCriteria()) && apkZipFile.getEntry("assets/" + name) != null) {
 
-
-				getLog().info("I will remove the duplicate `" + entry.getName() + "`");
+				getLog().info("I will remove the duplicate `" + entry.getName() + "` from the apk");
 
 				lineCommand.addArgument(name);
 			}

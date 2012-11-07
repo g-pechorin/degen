@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,6 +22,19 @@ public class ByYourCommand {
 	private OutputStream pipeOutput;
 	private final File directory;
 	private final String command;
+
+	public File getCommand() {
+
+		for (final String suffix : Arrays.asList("", ".exe", ".bat", ".sh")) {
+			
+			final File executable = new File(directory, command + suffix);
+			if (executable.canExecute()) {
+				return executable;
+			}
+		}
+		
+		throw new IllegalArgumentException();
+	}
 
 	public ByYourCommand(final File directory, final String command) {
 		this.command = command;
@@ -49,11 +63,9 @@ public class ByYourCommand {
 	}
 
 	public int run() {
-		
-		
-		
 		try {
-			final ProcessBuilder builder = new ProcessBuilder(Lists.asList(command, (String[]) args.toArray()));
+			
+			final ProcessBuilder builder = new ProcessBuilder(Lists.asList(getCommand().getAbsolutePath(), args.toArray(new String[args.size()])));
 
 			builder.redirectErrorStream(this.pipeError == null && this.pipeOutput != null);
 			builder.directory(directory);

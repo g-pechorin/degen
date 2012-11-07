@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.zip.ZipFile;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
@@ -12,9 +13,9 @@ import org.apache.maven.project.MavenProjectHelper;
  *
  * @author Peter LaValle
  */
-public abstract class AbstractDroidMojo extends AbstractMojo {
+public class AbstractDroidMojo extends AbstractMojo {
 	
-	protected AbstractDroidMojo() {
+	public AbstractDroidMojo() {
 		super();
 	}
 	
@@ -76,5 +77,10 @@ public abstract class AbstractDroidMojo extends AbstractMojo {
 		} catch (IOException ex) {
 			throw new MojoExecutionException("While trying top open zip file `" + apkFile + "`", ex);
 		}
+	}
+
+	@Override
+	public void execute() throws MojoExecutionException, MojoFailureException {
+		throw new UnsupportedOperationException("This is supposed to be an abstract method.");
 	}
 }
