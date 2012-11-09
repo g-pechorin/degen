@@ -12,9 +12,12 @@ import java.util.List;
  * @author Peter LaValle
  */
 public class MasterURL {
+	public static final Replacor NIL_REPLACOR = new Replacor("{.*@$0}");
 
 	public MasterURL(final String string) throws MalformedURLException {
-		final String[] split = string.replaceAll("@\\s+([^\\s])", "@$1").split("\\s");
+
+		replacor = string.matches(".*\\{[^\\}]+\\}\\s*") ? new Replacor(string.replaceAll(".*(\\{[^\\}]+\\})\\s*", "$1")) : NIL_REPLACOR;
+		final String[] split = string.trim().replaceAll("(.*)\\{[^\\}]+\\}", "$1").trim().replaceAll("\\s*\\@\\s*", " @").split("\\s");
 
 		this.url = new URL(split[0]);
 
@@ -29,12 +32,6 @@ public class MasterURL {
 				strings.add(substring);
 			}
 			zips = strings;
-		}
-
-		{
-			final String text = split[split.length - 1];
-
-			replacor = !text.matches("^\\{(.*)\\}$") ? new Replacor("{.*@$0}") : new Replacor(text);
 		}
 	}
 	public final URL url;

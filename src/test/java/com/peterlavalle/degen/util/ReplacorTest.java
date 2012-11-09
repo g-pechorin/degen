@@ -35,12 +35,29 @@ public class ReplacorTest extends TestCase {
 		assertEquals("right  ", replacor.replacement);
 	}
 
-	public void testExtracAll() {
-		fail("not implemented");
+	public void testExtracAll0() {
 
-		final String body = "<foo> sakjhfdsakjhas<<bar>> jkhadshj<goo<sad>>";
-		final Replacor replacor = new Replacor("{<(.*)>@$0:$1}");
+		final String body = " sakjhfdsakjhas<ba> ";
+		final Replacor replacor = new Replacor("{<([^.]*)>@$1}");
 
-		assertEquals(Arrays.asList("<foo>:foo", "<<bar>>:<bar>", "<bar>:bar", "<goo<sad>>:goo<sad>", "<sad>:sad"), new String[0]);
+		assertEquals(Arrays.asList( "ba" ), replacor.extractAll(body));
+
+	}
+
+	public void testExtracAll1() {
+
+		final String body = " sakjhfdsakjhas<ba> ";
+		final Replacor replacor = new Replacor("{<([^.]*)>@$0:$1}");
+
+		assertEquals(Arrays.asList( "<ba>:ba" ), replacor.extractAll(body));
+
+	}
+	
+	public void testExtracAll2() {
+
+		final String body = "<foo> sakjhfdsakjhas<ba> jkhadshj<goosad>>";
+		final Replacor replacor = new Replacor("{<([^>]*)>@$0:$1}");
+
+		assertEquals(Arrays.asList("<foo>:foo", "<ba>:ba", "<goosad>:goosad"), replacor.extractAll(body));
 	}
 }

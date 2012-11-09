@@ -58,11 +58,11 @@ public class MasterURLTest extends TestCase {
 	}
 
 	public void testBig() throws MalformedURLException {
-		final MasterURL masterURL = new MasterURL("http://blah-blah.url/zome.zip  {pattern@replacement}");
+		final MasterURL masterURL = new MasterURL("http://blah-blah.url/zome.zip  {pattern@replacem ent}");
 
 		assertEquals(new URL("http://blah-blah.url/zome.zip"), masterURL.url);
 		assertEquals("pattern", masterURL.replacor.pattern);
-		assertEquals("replacement", masterURL.replacor.replacement);
+		assertEquals("replacem ent", masterURL.replacor.replacement);
 		assertEquals(Arrays.asList(), masterURL.zips);
 	}
 }

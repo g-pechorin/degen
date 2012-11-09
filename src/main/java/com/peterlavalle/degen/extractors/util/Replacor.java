@@ -5,6 +5,10 @@
 package com.peterlavalle.degen.extractors.util;
 
 import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -12,12 +16,27 @@ import com.google.common.base.Function;
  */
 public class Replacor implements Function<String, String> {
 
+	@Override
+	public int hashCode() {
+		return toString().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof Replacor && toString().equals(obj.toString());
+	}
+
+	@Override
+	public String toString() {
+		return '{' + this.pattern + '@' + this.replacement + '}';
+	}
+
 	public Replacor(final String text) {
-		if (!text.matches("^\\{(.*)\\}$")) {
-			throw new IllegalArgumentException();
+		if (!text.trim().matches("^*\\{(.*)\\}$")) {
+			throw new IllegalArgumentException("text=`" + text + "`");
 		}
 
-		final String last = text.replaceAll("^\\{(.*)\\}$", "$1");
+		final String last = text.trim().replaceAll("^\\{(.*)\\}$", "$1");
 
 		// TODO : error checking
 
@@ -40,5 +59,14 @@ public class Replacor implements Function<String, String> {
 	@Override
 	public String apply(final String input) {
 		return input.matches(pattern) ? input.replaceAll(pattern, replacement) : null;
+	}
+
+	public List<String> extractAll(String input) {
+		final List<String> extracted = Lists.newLinkedList();
+		final Matcher matcher = Pattern.compile(pattern).matcher(input);
+		while (matcher.find()) {
+			extracted.add(apply(matcher.group()));
+		}
+		return extracted;
 	}
 }
