@@ -4,22 +4,18 @@
  */
 package com.peterlavalle.degen.extractors.util;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
  *
  * @author Peter LaValle
  */
-public class FileHook {
-	public String getName() {
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
+public interface FileHook {
 
-	public InputStream openInputStream() {
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
+	String getName();
 
-	public long lastModified() {
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
+	InputStream openInputStream() throws IOException;
+
+	long lastModified();
 }

@@ -258,6 +258,14 @@ public final class Files {
 		return file;
 	}
 
+	static File downloadFile(File cacheDir, URL url) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	static File extractArchiveFile(File archiveFile, String string) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
 	/**
 	 * Just shuts up sonar
 	 */

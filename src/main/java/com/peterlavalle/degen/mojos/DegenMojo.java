@@ -4,13 +4,17 @@
  */
 package com.peterlavalle.degen.mojos;
 
-import com.peterlavalle.degen.extractors.util.MasterURL;
-import com.peterlavalle.degen.extractors.util.Files;
+import com.google.common.collect.Sets;
 import com.peterlavalle.degen.extractors.util.FileHook;
+import com.peterlavalle.degen.extractors.util.Files;
+import com.peterlavalle.degen.extractors.util.MasterURL;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.maven.plugin.AbstractMojo;
@@ -31,7 +35,7 @@ public class DegenMojo extends AbstractMojo {
 	/**
 	 * Which files are sources?
 	 *
-	 * @parameter expression="${source_filter}" default-value=".*\.java"
+	 * @parameter expression="${source_filter}" default-value=".*\.java$"
 	 * @required
 	 */
 	private String source_filter;
@@ -60,55 +64,102 @@ public class DegenMojo extends AbstractMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		final Set<FileHook> hooks = null;
+
+
+		final Map<String, FileHook> hooks = new TreeMap<String, FileHook>();
 
 		// find all hooks
 		for (final String source : sources) {
 			final MasterURL masterURL;
 			try {
 				masterURL = new MasterURL(source);
-			} catch (MalformedURLException ex) {
-				throw new MojoExecutionException("source=`" + source + "`", ex);
+			} catch (final MalformedURLException ex) {
+				throw new MojoExecutionException("MasterURL(`" + source + "`)", ex);
 			}
+			try {
+				for (final FileHook hook : masterURL.listFiles(getCacheDir(project))) {
+					final String name = hook.getName();
 
-			for (final FileHook hook : masterURL.listFiles(getCacheDir(project))) {
-				// check that the hook's name isn't already covered, then add it
-				throw new UnsupportedOperationException("check that the hook's name isn't already covered");
+					// if we've already got this one, skip it
+					if (hooks.containsKey(name)) {
+						continue;
+					}
+
+					// if this is a .class file and we've already got the .java file - skip this one
+					if (name.endsWith(".class") && hooks.containsKey(name.replaceAll("\\.class$", "\\.java"))) {
+						continue;
+					}
+
+					// save it
+					hooks.put(name, hook);
+
+					// if this was a .java file, we may need to remove keys (sorry)
+					if (name.endsWith(".java")) {
+						final String replaceAll = name.replaceAll("\\.java", "");
+
+						for (final String hookName : hooks.keySet()) {
+							if (!hookName.endsWith(".class")) {
+								continue;
+							}
+							if (!hookName.startsWith(replaceAll)) {
+								continue;
+							}
+							if (hookName.substring(replaceAll.length()).matches("^(\\$|\\.).*class$")) {
+								hooks.remove(hookName);
+							}
+						}
+					}
+				}
+			} catch (final IOException ex) {
+				throw new MojoExecutionException("MasterURL(`" + source + "`).listFiles()", ex);
 			}
 		}
 
-		final Set<String> activeSources = null;
-		final Set<String> activeResources = null;
-		for (final FileHook hook : hooks) {
+		final Set<String> activeSources = Sets.newHashSet();
+		final Set<String> activeResources = Sets.newHashSet();
+		for (final FileHook hook : hooks.values()) {
+
 			final String name = hook.getName();
+			(hook.getName().matches(source_filter) ? activeSources : activeResources).add(name);
+
 			try {
-
-				(hook.getName().matches(source_filter) ? activeSources : activeResources).add(name);
-
 				pullHook(hook, hook.getName().matches(source_filter));
 			} catch (final IOException ex) {
 				throw new MojoExecutionException("Problem with `" + name + "`", ex);
 			}
 		}
 
-		// remove anything in sources or resources that isn't relevant
-		throw new UnsupportedOperationException("Not supported yet.");
+		// TODO : remove anything in sources or resources that isn't relevant
+		getLog().info("TODO : remove anything in sources or resources that isn't relevant");
 	}
+	/**
+	 * Where to put the generated source
+	 *
+	 * @parameter expression="${gensource_folder}" default-value="${project.build.directory}/degen/generated-source"
+	 * @required
+	 */
+	private String gensource_folder;
 
 	public File getGeneratedSources() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return new File(gensource_folder);
 	}
+	
+	/**
+	 * Where to put the generated resource
+	 *
+	 * @parameter expression="${genresource_folder}" default-value="${project.build.directory}/degen/generated-resource"
+	 * @required
+	 */
+	private String genresource_folder;
 
 	public File getGeneratedResources() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return new File(genresource_folder);
 	}
 
 	private void pullHook(FileHook hook, final boolean isSource) throws IOException {
 		final File finalName = new File(isSource ? getGeneratedSources() : getGeneratedResources(), hook.getName());
 
 		if (finalName.lastModified() < hook.lastModified()) {
-
-
 			Files.copyStream(hook.openInputStream(), finalName);
 		}
 	}
