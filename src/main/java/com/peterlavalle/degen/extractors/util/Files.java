@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.peterlavalle.degen;
+package com.peterlavalle.degen.extractors.util;
 
+import com.peterlavalle.degen.mojos.RemoteDegen;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

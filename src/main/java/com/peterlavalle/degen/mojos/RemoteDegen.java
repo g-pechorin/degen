@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.peterlavalle.degen;
+package com.peterlavalle.degen.mojos;
 
+import com.peterlavalle.degen.extractors.util.Files;
 import com.google.common.collect.Lists;
 import com.peterlavalle.degen.extractors.AExtractionList;
 import com.peterlavalle.degen.extractors.ArchiveExtractionList;

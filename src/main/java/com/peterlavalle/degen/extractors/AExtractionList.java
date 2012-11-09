@@ -4,7 +4,7 @@
  */
 package com.peterlavalle.degen.extractors;
 
-import com.peterlavalle.degen.RemoteDegen;
+import com.peterlavalle.degen.mojos.RemoteDegen;
 import java.io.IOException;
 import java.util.Iterator;
 import org.apache.maven.plugin.MojoExecutionException;

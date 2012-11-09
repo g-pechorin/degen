@@ -4,8 +4,8 @@
  */
 package com.peterlavalle.degen.extractors;
 
-import com.peterlavalle.degen.Files;
-import com.peterlavalle.degen.RemoteDegen;
+import com.peterlavalle.degen.extractors.util.Files;
+import com.peterlavalle.degen.mojos.RemoteDegen;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
