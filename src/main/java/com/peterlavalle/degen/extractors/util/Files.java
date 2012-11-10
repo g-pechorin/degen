@@ -258,11 +258,45 @@ public final class Files {
 		return file;
 	}
 
-	static File downloadFile(File cacheDir, URL url) {
-		throw new UnsupportedOperationException("Not yet implemented");
+	public static String encodedGUIDName(final Object object) {
+
+		final ByteBuffer buffer;
+		{
+			final String toString = object.toString();
+			buffer = ByteBuffer.allocate(toString.length() * 2);
+
+			for (final char c : toString.toCharArray()) {
+				buffer.putChar(c);
+			}
+		}
+		final StringBuilder builder = new StringBuilder();
+
+		buffer.flip();
+
+		while (buffer.position() < buffer.capacity()) {
+			builder.append(Integer.toHexString(buffer.get()));
+		}
+
+		return builder.toString();
 	}
 
-	static File extractArchiveFile(File archiveFile, String string) {
+	public static File downloadFile(final File cacheDir, final URL url) throws IOException {
+
+		final File file = new File(cacheDir, encodedGUIDName(url));
+
+		if (!file.exists()) {
+
+			System.out.println("Downloading " + url + " ...");
+
+			copyStream(url.openStream(), file);
+			
+			System.out.println("... done");
+		}
+
+		return file;
+	}
+
+	public static File extractArchiveFile(File archiveFile, String string) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 

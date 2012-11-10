@@ -11,12 +11,10 @@ import com.peterlavalle.degen.extractors.util.MasterURL;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -131,6 +129,9 @@ public class DegenMojo extends AbstractMojo {
 
 		// TODO : remove anything in sources or resources that isn't relevant
 		getLog().info("TODO : remove anything in sources or resources that isn't relevant");
+		
+		project.addCompileSourceRoot(gensource_folder);
+		projectHelper.addResource(project, genresource_folder, new ArrayList(), new ArrayList());
 	}
 	/**
 	 * Where to put the generated source
@@ -141,6 +142,7 @@ public class DegenMojo extends AbstractMojo {
 	private String gensource_folder;
 
 	public File getGeneratedSources() {
+		
 		return new File(gensource_folder);
 	}
 	

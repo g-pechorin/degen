@@ -18,7 +18,7 @@ import java.util.zip.ZipFile;
  * @author Peter LaValle
  */
 public class MasterURL {
-
+	
 	public static final Replacor NIL_REPLACOR = new Replacor("{.*@$0}");
 
 	public MasterURL(final String string) throws MalformedURLException {
@@ -75,7 +75,7 @@ public class MasterURL {
 
 							nextElement = entries.nextElement();
 
-							if (replacor.apply(nextElement.getName()) == null) {
+							if (nextElement.getName().endsWith("/") || replacor.apply(nextElement.getName()) == null) {
 								nextElement = null;
 							}
 						}
