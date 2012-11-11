@@ -27,9 +27,6 @@
 		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
-		<deploy.id>dropbox.Public.mvn-repo</deploy.id>
-		<deploy.url>${dropbox.root}/Public/mvn-repo</deploy.url>
-		
 		<demos.libgdx.version>0.9.6</demos.libgdx.version>
 		<demos.android.version>2.1_r1</demos.android.version>
 		<demos.android.platform>7</demos.android.platform>
@@ -79,8 +76,8 @@
 
 	<distributionManagement>
 		<repository>
-			<id>${deploy.id}</id>
-			<url>${deploy.url}</url>
+			<id>dropbox.Public.mvn-repo</id>
+			<url>${dropbox.root}/Public/mvn-repo</url>
 		</repository>
 	</distributionManagement>
 
