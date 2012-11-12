@@ -4,14 +4,18 @@
  */
 package com.peterlavalle.degen.mojos;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.peterlavalle.degen.extractors.util.FileHook;
 import com.peterlavalle.degen.extractors.util.Files;
 import com.peterlavalle.degen.extractors.util.MasterURL;
+import com.peterlavalle.degen.extractors.util.Replacor;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -28,15 +32,8 @@ import org.apache.maven.project.MavenProjectHelper;
  * @phase generate-sources
  * @version $Id$
  */
-public class DegenMojo extends AbstractMojo {
+public class DegenMojo extends AMojo {
 
-	/**
-	 * Which files are sources?
-	 *
-	 * @parameter expression="${source_filter}" default-value=".*\.java$"
-	 * @required
-	 */
-	private String source_filter;
 	/**
 	 * Whher do we look for things
 	 *
@@ -44,17 +41,6 @@ public class DegenMojo extends AbstractMojo {
 	 * @required
 	 */
 	private String[] sources;
-	/**
-	 * @parameter expression="${project}"
-	 * @required
-	 */
-	private MavenProject project;
-	/**
-	 * the maven project helper class for adding resources
-	 *
-	 * @parameter expression="${component.org.apache.maven.project.MavenProjectHelper}"
-	 */
-	private MavenProjectHelper projectHelper;
 
 	public File getCacheDir(final MavenProject project) {
 		return project.getParent() != null ? getCacheDir(project.getParent()) : new File(project.getBuild().getDirectory());
@@ -66,6 +52,18 @@ public class DegenMojo extends AbstractMojo {
 
 		final Map<String, FileHook> hooks = new TreeMap<String, FileHook>();
 
+		// collect all "normal" source files
+		for (final String src : (List<String>) getProject().getCompileSourceRoots()) {
+			for (final String sourceFile : scanFolderForSourceFiles(src, "")) {
+				hooks.put(sourceFile, null);
+			}
+		}
+
+		for (final String src : hooks.keySet()) {
+			getLog().info("src=\t" + src);
+		}
+
+
 		// find all hooks
 		for (final String source : sources) {
 			final MasterURL masterURL;
@@ -75,16 +73,18 @@ public class DegenMojo extends AbstractMojo {
 				throw new MojoExecutionException("MasterURL(`" + source + "`)", ex);
 			}
 			try {
-				for (final FileHook hook : masterURL.listFiles(getCacheDir(project))) {
+				for (final FileHook hook : masterURL.listFiles(getCacheDir(getProject()))) {
 					final String name = hook.getName();
 
 					// if we've already got this one, skip it
 					if (hooks.containsKey(name)) {
+						getLog().info("skip: source (" + source + ") contians an extra copy of `" + hook.getName() + "`");
 						continue;
 					}
 
 					// if this is a .class file and we've already got the .java file - skip this one
 					if (name.endsWith(".class") && hooks.containsKey(name.replaceAll("\\.class$", "\\.java"))) {
+						getLog().info("skip: class `" + hook.getName() + "` already has a source file");
 						continue;
 					}
 
@@ -103,6 +103,7 @@ public class DegenMojo extends AbstractMojo {
 								continue;
 							}
 							if (hookName.substring(replaceAll.length()).matches("^(\\$|\\.).*class$")) {
+								getLog().info("skip: removing class  `" + hook.getName() + "` becasuse of `" + name + "`");
 								hooks.remove(hookName);
 							}
 						}
@@ -117,52 +118,53 @@ public class DegenMojo extends AbstractMojo {
 		final Set<String> activeResources = Sets.newHashSet();
 		for (final FileHook hook : hooks.values()) {
 
+			// if it was a "normal" one - ignore
+			if (hook == null) {
+				continue;
+			}
+
 			final String name = hook.getName();
-			(hook.getName().matches(source_filter) ? activeSources : activeResources).add(name);
+			(hook.getName().matches(getSourceFilter()) ? activeSources : activeResources).add(name);
 
 			try {
-				pullHook(hook, hook.getName().matches(source_filter));
+				pullHook(hook, hook.getName().matches(getSourceFilter()));
 			} catch (final IOException ex) {
 				throw new MojoExecutionException("Problem with `" + name + "`", ex);
 			}
 		}
 
-		// TODO : remove anything in sources or resources that isn't relevant
-		getLog().info("TODO : remove anything in sources or resources that isn't relevant");
-		
-		project.addCompileSourceRoot(gensource_folder);
-		projectHelper.addResource(project, genresource_folder, new ArrayList(), new ArrayList());
-	}
-	/**
-	 * Where to put the generated source
-	 *
-	 * @parameter expression="${gensource_folder}" default-value="${project.build.directory}/degen/generated-source"
-	 * @required
-	 */
-	private String gensource_folder;
-
-	public File getGeneratedSources() {
-		
-		return new File(gensource_folder);
-	}
-	
-	/**
-	 * Where to put the generated resource
-	 *
-	 * @parameter expression="${genresource_folder}" default-value="${project.build.directory}/degen/generated-resource"
-	 * @required
-	 */
-	private String genresource_folder;
-
-	public File getGeneratedResources() {
-		return new File(genresource_folder);
+		getProject().addCompileSourceRoot(getGeneratedSources());
+		getProjectHelper().addResource(getProject(), getGeneratedResources(), new ArrayList(), new ArrayList());
 	}
 
 	private void pullHook(FileHook hook, final boolean isSource) throws IOException {
-		final File finalName = new File(isSource ? getGeneratedSources() : getGeneratedResources(), hook.getName());
+		final File finalName = new File(isSource ? getGeneratedSourcesFile() : getGeneratedResourcesFile(), hook.getName());
 
 		if (finalName.lastModified() < hook.lastModified()) {
 			Files.copyStream(hook.openInputStream(), finalName);
 		}
+	}
+
+	/**
+	 * Scans the folder for files matching the configured regular expression.
+	 *
+	 * @param folder the folder to scan, relative to the project's basedir
+	 *
+	 */
+	public List<String> scanFolderForSourceFiles(String root, String folder) {
+
+		final File folderFile = new File(root, folder);
+		final List<String> strings = Lists.newLinkedList();
+
+		for (final File file : folderFile.listFiles()) {
+
+			if (file.isDirectory()) {
+				strings.addAll(scanFolderForSourceFiles(root, folder + file.getName() + '/'));
+			} else {
+				strings.add(folder + file.getName());
+			}
+		}
+
+		return strings;
 	}
 }

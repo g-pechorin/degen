@@ -49,7 +49,7 @@ public class MasterURL {
 
 		final File file;
 		{
-			File archiveFile = Files.downloadFile(cacheDir, url);
+			File archiveFile = Files.cacheFile(cacheDir, url);
 
 			for (final String string : zips) {
 				archiveFile = Files.extractArchiveFile(archiveFile, string);

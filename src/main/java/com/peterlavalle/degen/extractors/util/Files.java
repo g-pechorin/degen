@@ -5,10 +5,14 @@
 package com.peterlavalle.degen.extractors.util;
 
 import com.peterlavalle.degen.mojos.RemoteDegen;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -31,7 +35,7 @@ import org.apache.maven.project.MavenProject;
  */
 public final class Files {
 
-	public static final int BUFFER_SIZE = 128;
+	public static final int BUFFER_SIZE = 256;
 	/**
 	 * Private variable that will be used to cache handles to downloaded files.
 	 */
@@ -42,6 +46,23 @@ public final class Files {
 		LOGGER.setLevel(Level.WARNING);
 	}
 
+	public static <T extends OutputStream> T copyStream(final InputStream inputStream, final T outputStream) throws IOException {
+		// we'll need a buffer of bytes
+		byte[] buffer = new byte[BUFFER_SIZE];
+
+		// read all bytes from the file
+		for (int read = 0; read != -1; read = inputStream.read(buffer)) {
+			outputStream.write(buffer, 0, read);
+
+			//buffer = new byte[(int)(buffer.length * 1.5)];
+		}
+
+		// close the input
+		inputStream.close();
+
+		return outputStream;
+	}
+
 	/**
 	 * Copies the data from the stream to the specified file, then closes it.
 	 *
@@ -49,28 +70,17 @@ public final class Files {
 	 * @param output the file to store the data in. it will be overwritten
 	 * @throws IOException if any other method does, or if the output file has no parent
 	 */
-	public static void copyStream(final InputStream inputStream, final File output) throws IOException {
+	public static File copyStream(final InputStream inputStream, final File output) throws IOException {
 
 		if (!output.getParentFile().exists() && !output.getParentFile().mkdirs()) {
 			throw new IOException("I was not able to create the folder `" + output.getParentFile() + "`");
 		}
 
 		final FileOutputStream outputStream = new FileOutputStream(output);
-		try {
 
-			// we'll need a buffer of bytes
-			final byte[] buffer = new byte[BUFFER_SIZE];
+		copyStream(inputStream, new FileOutputStream(output)).close();
 
-			// read all bytes from the file
-			for (int read = 0; read != -1; read = inputStream.read(buffer)) {
-				outputStream.write(buffer, 0, read);
-			}
-		} finally {
-
-			// close both handles
-			outputStream.close();
-			inputStream.close();
-		}
+		return output;
 	}
 
 	/**
@@ -129,16 +139,17 @@ public final class Files {
 
 				final IntBuffer wrap = ByteBuffer.wrap(Arrays.copyOf(bytes, (bytes.length % 4) != 0 ? ((bytes.length / 4) + 1) * 4 : bytes.length)).asIntBuffer();
 
-				final StringBuilder name = new StringBuilder(Files.class.getSimpleName() + ".");
+				final StringBuilder name = new StringBuilder(Files.class
+						.getSimpleName() + ".");
 				while (wrap.hasRemaining()) {
 					name.append(Integer.toString(wrap.get(), 64));
 				}
-
 				MavenProject rootProject = project;
-				if (rootProject.getParent() != null && rootProject.getBasedir().getParentFile().equals(rootProject.getParent().getBasedir())) {
+
+				if (rootProject.getParent()
+						!= null && rootProject.getBasedir().getParentFile().equals(rootProject.getParent().getBasedir())) {
 					rootProject = rootProject.getParent();
 				}
-
 				final File file = new File(rootProject.getBuild().getDirectory(), name.toString());
 
 				if (file.exists()) {
@@ -152,8 +163,7 @@ public final class Files {
 				// ... download it now
 				DOWNLOADED_FILES.put(urlString, file);
 			}
-
-			// retrieve whatever has been downloaded
+// retrieve whatever has been downloaded
 			return DOWNLOADED_FILES.get(urlString);
 		} else {
 			return new File(project.getBasedir(), urlString);
@@ -228,7 +238,8 @@ public final class Files {
 	}
 
 	private static File makeTemporaryFile() throws IOException {
-		final File file = File.createTempFile(RemoteDegen.class.getName(), "");
+		final File file = File.createTempFile(RemoteDegen.class
+				.getName(), "");
 		file.deleteOnExit();
 		return file;
 	}
@@ -258,46 +269,67 @@ public final class Files {
 		return file;
 	}
 
-	public static String encodedGUIDName(final Object object) {
+	public static String encodedGUIDName(final URL object) {
 
-		final ByteBuffer buffer;
-		{
-			final String toString = object.toString();
-			buffer = ByteBuffer.allocate(toString.length() * 2);
+		final String toString = object.toString();
+		
+		
+		
+		int length = toString.length() * 2;
 
-			for (final char c : toString.toCharArray()) {
-				buffer.putChar(c);
-			}
+		while (length % 4 != 0) {
+			++length;
 		}
+
+		final ByteBuffer buffer = ByteBuffer.allocate(length);
+		Arrays.fill(buffer.array(), (byte) 0);// may be redundant
+
+		for (final char c : toString.toCharArray()) {
+			buffer.putChar(c);
+		}
+		buffer.position(0);
+
+
 		final StringBuilder builder = new StringBuilder();
-
-		buffer.flip();
-
 		while (buffer.position() < buffer.capacity()) {
-			builder.append(Integer.toHexString(buffer.get()));
+			builder.append(Integer.toString(buffer.getInt(), 32));
 		}
 
 		return builder.toString();
 	}
 
-	public static File downloadFile(final File cacheDir, final URL url) throws IOException {
+	public static File cacheFile(final File cacheDir, final URL url) throws IOException {
 
 		final File file = new File(cacheDir, encodedGUIDName(url));
 
 		if (!file.exists()) {
 
-			System.out.println("Downloading " + url + " ...");
+			System.out.println("Caching " + url + " ...");
 
 			copyStream(url.openStream(), file);
-			
+
 			System.out.println("... done");
 		}
 
 		return file;
 	}
 
-	public static File extractArchiveFile(File archiveFile, String string) {
-		throw new UnsupportedOperationException("Not yet implemented");
+	/**
+	 * Extracts the named file from the archive.
+	 */
+	public static File extractArchiveFile(ZipFile archiveFile, String name) throws IOException {
+		return copyStream(archiveFile.getInputStream(archiveFile.getEntry(name)), Files.makeTemporaryFile());
+	}
+
+	/**
+	 * Extracts the named file from the archive.
+	 */
+	public static File extractArchiveFile(File archiveFile, String name) throws IOException {
+		return extractArchiveFile(new ZipFile(archiveFile), name);
+	}
+
+	public static String openFileAsString(File file) throws IOException {
+		return new String(Files.copyStream(new FileInputStream(file), new ByteArrayOutputStream()).toByteArray());
 	}
 
 	/**
