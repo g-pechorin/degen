@@ -41,7 +41,7 @@ public abstract class AMojo extends AbstractMojo {
 	/**
 	 * Where to put the generated source
 	 *
-	 * @parameter expression="${gensource_folder}" default-value="${project.build.directory}/generate-sources/degen-source"
+	 * @parameter expression="${gensource_folder}" default-value="${project.build.directory}/generated-sources/degen"
 	 * @required
 	 */
 	private String gensource_folder;
@@ -56,7 +56,7 @@ public abstract class AMojo extends AbstractMojo {
 	/**
 	 * Where to put the generated resource
 	 *
-	 * @parameter expression="${genresource_folder}" default-value="${project.build.directory}/generate-sources/degen-resource"
+	 * @parameter expression="${genresource_folder}" default-value="${project.build.directory}/generated-sources/degen"
 	 * @required
 	 */
 	private String genresource_folder;

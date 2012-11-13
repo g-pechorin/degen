@@ -9,21 +9,18 @@ import com.google.common.collect.Sets;
 import com.peterlavalle.degen.extractors.util.FileHook;
 import com.peterlavalle.degen.extractors.util.Files;
 import com.peterlavalle.degen.extractors.util.MasterURL;
-import com.peterlavalle.degen.extractors.util.Replacor;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.project.MavenProjectHelper;
 
 /**
  *
@@ -35,7 +32,7 @@ import org.apache.maven.project.MavenProjectHelper;
 public class DegenMojo extends AMojo {
 
 	/**
-	 * Whher do we look for things
+	 * Where do we look for things? Each of these strings should be "URL of a zip file [@some zip file inside of the URL] a regular expression of what to extract"
 	 *
 	 * @parameter expression="${sources}"
 	 * @required
@@ -134,7 +131,7 @@ public class DegenMojo extends AMojo {
 		}
 
 		getProject().addCompileSourceRoot(getGeneratedSources());
-		getProjectHelper().addResource(getProject(), getGeneratedResources(), new ArrayList(), new ArrayList());
+		getProjectHelper().addResource(getProject(), getGeneratedResources(), new ArrayList(), Collections.singletonList("**/**.java"));
 	}
 
 	private void pullHook(FileHook hook, final boolean isSource) throws IOException {

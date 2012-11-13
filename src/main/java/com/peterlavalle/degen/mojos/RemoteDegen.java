@@ -4,11 +4,11 @@
  */
 package com.peterlavalle.degen.mojos;
 
-import com.peterlavalle.degen.extractors.util.Files;
 import com.google.common.collect.Lists;
 import com.peterlavalle.degen.extractors.AExtractionList;
 import com.peterlavalle.degen.extractors.ArchiveExtractionList;
 import com.peterlavalle.degen.extractors.ReplacementExtractionList;
+import com.peterlavalle.degen.extractors.util.Files;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

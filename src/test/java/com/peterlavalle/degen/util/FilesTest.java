@@ -5,6 +5,8 @@
 package com.peterlavalle.degen.util;
 
 import com.peterlavalle.degen.extractors.util.Files;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import junit.framework.TestCase;
 
@@ -29,23 +31,23 @@ public class FilesTest extends TestCase {
 		assertEquals(4, buffer.position());
 	}
 
-	public void testEncodedGUIDName0() {
-		Files.encodedGUIDName("");
+	public void testEncodedGUIDName0() throws MalformedURLException {
+		Files.encodedGUIDName(new URL("http://12"));
 	}
 
-	public void testEncodedGUIDName1() {
-		Files.encodedGUIDName("1");
+	public void testEncodedGUIDName1() throws MalformedURLException {
+		Files.encodedGUIDName(new URL("http://1"));
 	}
 
-	public void testEncodedGUIDName2() {
-		Files.encodedGUIDName("12");
+	public void testEncodedGUIDName2() throws MalformedURLException {
+		Files.encodedGUIDName(new URL("http://12"));
 	}
 
-	public void testEncodedGUIDName3() {
-		Files.encodedGUIDName("123");
+	public void testEncodedGUIDName3() throws MalformedURLException {
+		Files.encodedGUIDName(new URL("http://123"));
 	}
 
-	public void testEncodedGUIDName4() {
-		Files.encodedGUIDName("1234");
+	public void testEncodedGUIDName4() throws MalformedURLException {
+		Files.encodedGUIDName(new URL("http://1234"));
 	}
 }

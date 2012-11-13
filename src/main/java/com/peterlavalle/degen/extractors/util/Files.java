@@ -8,7 +8,6 @@ import com.peterlavalle.degen.mojos.RemoteDegen;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -272,30 +271,8 @@ public final class Files {
 	public static String encodedGUIDName(final URL object) {
 
 		final String toString = object.toString();
-		
-		
-		
-		int length = toString.length() * 2;
 
-		while (length % 4 != 0) {
-			++length;
-		}
-
-		final ByteBuffer buffer = ByteBuffer.allocate(length);
-		Arrays.fill(buffer.array(), (byte) 0);// may be redundant
-
-		for (final char c : toString.toCharArray()) {
-			buffer.putChar(c);
-		}
-		buffer.position(0);
-
-
-		final StringBuilder builder = new StringBuilder();
-		while (buffer.position() < buffer.capacity()) {
-			builder.append(Integer.toString(buffer.getInt(), 32));
-		}
-
-		return builder.toString();
+		return toString.replaceAll("[^a-z0-9A-Z]+", "_") + '.' + toString.hashCode() + ".zip";
 	}
 
 	public static File cacheFile(final File cacheDir, final URL url) throws IOException {
