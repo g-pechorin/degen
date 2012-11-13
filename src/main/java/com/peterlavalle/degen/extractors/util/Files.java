@@ -4,7 +4,6 @@
  */
 package com.peterlavalle.degen.extractors.util;
 
-import com.peterlavalle.degen.mojos.RemoteDegen;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -236,13 +235,6 @@ public final class Files {
 
 	}
 
-	private static File makeTemporaryFile() throws IOException {
-		final File file = File.createTempFile(RemoteDegen.class
-				.getName(), "");
-		file.deleteOnExit();
-		return file;
-	}
-
 	/**
 	 * Creates a temporary file, and fills it with the contents of a stream
 	 */
@@ -307,6 +299,10 @@ public final class Files {
 
 	public static String openFileAsString(File file) throws IOException {
 		return new String(Files.copyStream(new FileInputStream(file), new ByteArrayOutputStream()).toByteArray());
+	}
+
+	public static File makeTemporaryFile() throws IOException {
+		return File.createTempFile(Files.class.getName(), ".tmp");
 	}
 
 	/**
