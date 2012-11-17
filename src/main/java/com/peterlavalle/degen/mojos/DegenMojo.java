@@ -32,7 +32,9 @@ import org.apache.maven.project.MavenProject;
 public class DegenMojo extends AMojo {
 
 	/**
-	 * Where do we look for things? Each of these strings should be "URL of a zip file [@some zip file inside of the URL] a regular expression of what to extract"
+	 * Where do we look for things? Each of these strings should be "URL of a zip file [
+	 *
+	 * @some zip file inside of the URL] a regular expression of what to extract"
 	 *
 	 * @parameter expression="${sources}"
 	 * @required
@@ -51,6 +53,11 @@ public class DegenMojo extends AMojo {
 
 		// collect all "normal" source files
 		for (final String src : (List<String>) getProject().getCompileSourceRoots()) {
+
+			if (src == null) {
+				continue;
+			}
+
 			for (final String sourceFile : scanFolderForSourceFiles(src, "")) {
 				hooks.put(sourceFile, null);
 			}
@@ -153,12 +160,14 @@ public class DegenMojo extends AMojo {
 		final File folderFile = new File(root, folder);
 		final List<String> strings = Lists.newLinkedList();
 
-		for (final File file : folderFile.listFiles()) {
+		if (folderFile.exists()) {
+			for (final File file : folderFile.listFiles()) {
 
-			if (file.isDirectory()) {
-				strings.addAll(scanFolderForSourceFiles(root, folder + file.getName() + '/'));
-			} else {
-				strings.add(folder + file.getName());
+				if (file.isDirectory()) {
+					strings.addAll(scanFolderForSourceFiles(root, folder + file.getName() + '/'));
+				} else {
+					strings.add(folder + file.getName());
+				}
 			}
 		}
 
