@@ -90,27 +90,31 @@ public class Replacor implements Function<String, String> {
 
 		this.includes = !text.trim().startsWith("-");
 
-		text = text.replaceAll("^\\-", "");
-
-		if (!text.trim().matches("^*\\{(.*)\\}$")) {
-			throw new IllegalArgumentException("text=`" + text + "`");
+		if (!includes && text.contains("@")) {
+			throw new IllegalArgumentException("Exclusion replacors cannot perform replacement");
 		}
 
-		final String last = text.trim().replaceAll("^\\{(.*)\\}$", "$1");
+		if (text.replaceAll("[^@]", "").length() > 1) {
+			throw new IllegalArgumentException("Replacors can only use the @ character to separate the pattern and the replacement");
+		}
+		
+		if (!text.trim().matches("^\\-?\\{(.*)\\}$")) {
+			throw new IllegalArgumentException("text=`" + text + "` is not a Replacor");
+		}
 
-		// TODO : error checking
+		// strip off the outer symbols
+		final String last = text.replaceAll("^\\s*\\-?\\{(.*)\\}\\s*$", "$1");
 
 		if (last.contains("@")) {
-			final String[] lastTwo = last.split("@");
 
-			// TODO : error checking
+
+			final String[] lastTwo = last.split("@");
 
 			pattern = lastTwo[0];
 			replacement = lastTwo[1];
 		} else {
 			pattern = last;
-			replacement = "$0";
-
+			replacement = includes ? "$0" : null;
 		}
 	}
 	public final String pattern;

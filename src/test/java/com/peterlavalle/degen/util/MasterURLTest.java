@@ -29,7 +29,7 @@ public class MasterURLTest extends TestCase {
 
 		assertFalse(masterURL.replacors.get(1).includes);
 		assertEquals(".*0.*", masterURL.replacors.get(1).pattern);
-		assertEquals("$0", masterURL.replacors.get(1).replacement);
+		assertNull("$0", masterURL.replacors.get(1).replacement);
 	}
 
 	public void testMultipleReplacorsFiltering() throws MalformedURLException {
