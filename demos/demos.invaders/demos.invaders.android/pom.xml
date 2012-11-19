@@ -59,11 +59,6 @@
 							<goal>zipalign</goal>              
 						</goals>          
 					</execution>
-					<execution>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
 				</executions>
 			</plugin>
 		</plugins>
