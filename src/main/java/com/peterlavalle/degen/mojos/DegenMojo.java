@@ -68,7 +68,7 @@ public class DegenMojo extends AMojo {
 		}
 
 
-		// find all hooks
+		// find all hooks. uses MasterURL to determine which files from jars to include or exclude
 		for (final String source : sources) {
 			final MasterURL masterURL;
 			try {

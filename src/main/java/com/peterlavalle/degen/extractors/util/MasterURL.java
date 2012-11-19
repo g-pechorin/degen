@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -17,13 +18,12 @@ import java.util.zip.ZipFile;
  * @author Peter LaValle
  */
 public class MasterURL {
-	
-	public static final Replacor NIL_REPLACOR = new Replacor("{.*@$0}");
 
 	public MasterURL(final String string) throws MalformedURLException {
 
-		replacor = string.matches(".*\\{[^\\}]+\\}\\s*") ? new Replacor(string.replaceAll(".*(\\{[^\\}]+\\})\\s*", "$1")) : NIL_REPLACOR;
-		final String[] split = string.trim().replaceAll("(.*)\\{[^\\}]+\\}", "$1").trim().replaceAll("\\s*\\@\\s*", " @").split("\\s");
+		replacors = string.contains("{") ? Replacor.buildReplacors(string.trim().replaceAll("^[^\\{]+(\\+?\\{.*\\})$", "$1")) : null;
+
+		final String[] split = string.trim().replaceAll("^([^\\{]+)\\+?\\{.*\\}$", "$1").trim().replaceAll("\\s*\\@\\s*", " @").split("\\s");
 
 		this.url = new URL(split[0]);
 
@@ -42,7 +42,7 @@ public class MasterURL {
 	}
 	public final URL url;
 	public final List<String> zips;
-	public final Replacor replacor;
+	public final Replacor.ReplacorList replacors;
 
 	public Iterable<FileHook> listFiles(final File cacheDir) throws IOException {
 
@@ -74,7 +74,7 @@ public class MasterURL {
 
 							nextElement = entries.nextElement();
 
-							if (nextElement.getName().endsWith("/") || replacor.apply(nextElement.getName()) == null) {
+							if (nextElement.getName().endsWith("/") || applyReplacors(nextElement.getName()) == null) {
 								nextElement = null;
 							}
 						}
@@ -90,7 +90,7 @@ public class MasterURL {
 						return new FileHook() {
 							@Override
 							public String getName() {
-								return replacor.apply(element.getName());
+								return applyReplacors(element.getName());
 							}
 
 							@Override
@@ -112,5 +112,12 @@ public class MasterURL {
 				};
 			}
 		};
+	}
+
+	/**
+	 * applies each replacor in order to the input string. if any return null - the method bails out
+	 */
+	public String applyReplacors(final String input) {
+		return replacors == null ? input : replacors.apply(input);
 	}
 }

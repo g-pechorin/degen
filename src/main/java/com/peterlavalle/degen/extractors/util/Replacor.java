@@ -6,6 +6,7 @@ package com.peterlavalle.degen.extractors.util;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,10 +29,69 @@ public class Replacor implements Function<String, String> {
 
 	@Override
 	public String toString() {
-		return '{' + this.pattern + '@' + this.replacement + '}';
+		return (this.includes ? "{" : "-{") + this.pattern + '@' + this.replacement + '}';
 	}
 
-	public Replacor(final String text) {
+	public static class ReplacorList extends LinkedList<Replacor> implements Function<String, String> {
+
+		@Override
+		public String toString() {
+			final StringBuilder builder = new StringBuilder();
+
+			for (final Replacor replacor : this) {
+				if (builder.toString().equals("")) {
+					builder.append(' ');
+				}
+
+				builder.append(replacor);
+			}
+
+			return builder.toString();
+		}
+
+		@Override
+		public String apply(String input) {
+			String output = input;
+
+			for (final Replacor replacor : this) {
+
+				if (replacor.includes) {
+					output = replacor.apply(output);
+				} else if (output.matches(replacor.pattern)) {
+					return null;
+				}
+
+				if (output == null) {
+					return null;
+				}
+			}
+
+			return output;
+		}
+	}
+
+	public static ReplacorList buildReplacors(String replaceors) {
+
+		final ReplacorList replacors = new ReplacorList();
+		final String extractor = "^\\s*(\\-?\\{[^\\}]+\\})(.*)$";
+
+		while (replaceors.matches(extractor)) {
+			final String head = replaceors.replaceAll(extractor, "$1").trim();
+			replaceors = replaceors.replaceAll(extractor, "$2").trim();
+
+			replacors.add(new Replacor(head));
+		}
+
+		return replacors;
+	}
+	public final boolean includes; // HACK but whatever ..
+
+	public Replacor(String text) {
+
+		this.includes = !text.trim().startsWith("-");
+
+		text = text.replaceAll("^\\-", "");
+
 		if (!text.trim().matches("^*\\{(.*)\\}$")) {
 			throw new IllegalArgumentException("text=`" + text + "`");
 		}
