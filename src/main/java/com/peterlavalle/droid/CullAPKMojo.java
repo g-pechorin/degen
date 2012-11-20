@@ -17,7 +17,6 @@ import org.apache.maven.plugin.MojoFailureException;
  *
  * @author Peter LaValle
  * @goal cull
- * @phase package
  * @version $Id$
  */
 public class CullAPKMojo extends AbstractDroidMojo {
@@ -40,9 +39,7 @@ public class CullAPKMojo extends AbstractDroidMojo {
 
 		for (final ZipEntry entry : Util.toIterable(apkZipFile.entries())) {
 
-
 			final String name = entry.getName();
-
 
 			// determin if it's a duplicate
 			if (name.matches(getAssetsCriteria()) && apkZipFile.getEntry("assets/" + name) != null) {
@@ -57,13 +54,17 @@ public class CullAPKMojo extends AbstractDroidMojo {
 		lineCommand.pipeErrorTo(new Callback.StringCallbackOutputStream(new Callback<String>() {
 			@Override
 			public void callback(final String toString) {
-				getLog().error(toString);
+				if (!toString.equals("")) {
+					getLog().error(toString);
+				}
 			}
 		}));
 		lineCommand.pipeOutputTo(new Callback.StringCallbackOutputStream(new Callback<String>() {
 			@Override
 			public void callback(final String toString) {
-				getLog().info(toString);
+				if (!toString.equals("")) {
+					getLog().info(toString);
+				}
 			}
 		}));
 

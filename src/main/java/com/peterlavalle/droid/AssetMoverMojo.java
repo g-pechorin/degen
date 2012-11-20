@@ -11,7 +11,6 @@ import org.apache.maven.plugin.MojoFailureException;
  * Copies all "things" from classes/ and "compile" dependencies to a target/assets/ folder for Android builds.
  * 
  * @goal assets
- * @phase compile
  * @version $Id$
  */
 public class AssetMoverMojo extends AbstractDroidMojo {
@@ -25,8 +24,13 @@ public class AssetMoverMojo extends AbstractDroidMojo {
 		// add in dependency jars
 		for (final DefaultArtifact dependency : (Iterable<DefaultArtifact>) getProject().getDependencyArtifacts()) {
 
+			if ( dependency == null ) {
+				getLog().error("A null dependency worked its way in");
+			}
+			
 			// we only care about compile jars
-			if (!dependency.getScope().equals("compile")) {
+			final String scope = dependency.getScope();
+			if (scope != null && !scope.equals("compile")) {
 				continue;
 			}
 
@@ -37,6 +41,10 @@ public class AssetMoverMojo extends AbstractDroidMojo {
 		// process all demi files
 		while (!files.isEmpty()) {
 			final DemiFile file = files.removeFirst();
+			
+			if ( file == null ) {
+				getLog().error("A null file worked its way into an array");
+			}
 
 			// scan directories and moveon
 			{
@@ -54,9 +62,11 @@ public class AssetMoverMojo extends AbstractDroidMojo {
 			}
 			
 			// talk about any file that we add
-			getLog().info("Copying asset " + file.getName());;
+			getLog().info("Copying asset " + file.getName());
 			
 			file.copyTo( getAssetsFolder());
 		}
+		
+		getLog().debug("assets copies are done");
 	}
 }

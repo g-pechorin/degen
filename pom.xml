@@ -1,6 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
 <!--
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -8,7 +7,6 @@
 		<version>7</version>
 	</parent>
 -->
-
 	<groupId>com.peterlavalle</groupId>
 	<artifactId>droid-maven-plugin</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
@@ -22,7 +20,8 @@
 		(3) [TODO - manifest] It generates a AndroidAsset file (takes "main" "wakelock" parameters from the pom)
 		(4) [TODO - gdxmain] It generates a libGDX main class to use to launch the program (takes "classes"(to invoke in constructor) "wakelock" "listener" and "orientation" parameters from the pom)
 	</description>
-	<url>https://github.com/g-pechorin/droid-maven-plugin</url>
+
+	<url>https://bitbucket.org/grigoriipechorin/droid-maven-plugin/wiki/Home</url>
     
 	<licenses>
 		<license>
@@ -33,9 +32,9 @@
 	</licenses>
 	
 	<scm>
-		<connection>scm:git:https://github.com/g-pechorin/droid-maven-plugin.git</connection>
-		<developerConnection>scm:git:git@github.com:g-pechorin/droid-maven-plugin.git</developerConnection>
-		<url>https://github.com/g-pechorin/droid-maven-plugin</url>
+		<connection>scm:hg:https://grigoriipechorin@bitbucket.org/grigoriipechorin/droid-maven-plugin</connection>
+		<developerConnection>scm:hg:ssh://hg@bitbucket.org/grigoriipechorin/droid-maven-plugin</developerConnection>
+		<url>https://bitbucket.org/grigoriipechorin/droid-maven-plugin/overview</url>
 	</scm>
 
 	<developers>
