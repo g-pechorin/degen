@@ -13,15 +13,10 @@
 	<packaging>maven-plugin</packaging>
 	
 	<description>
-		This is a Maven plugin to automate some parts of the android:maven build process.
-		
-		(1) [assetize] It copies certain files (.mp3|.ogg) to the android assets folder (typically target/assets) from both the target and the dependecies
-		(2) [cull] It removes assets that are now duplicates from the final apk
-		(3) [TODO - manifest] It generates a AndroidAsset file (takes "main" "wakelock" parameters from the pom)
-		(4) [TODO - gdxmain] It generates a libGDX main class to use to launch the program (takes "classes"(to invoke in constructor) "wakelock" "listener" and "orientation" parameters from the pom)
+		(see readme.md)
 	</description>
 
-	<url>https://bitbucket.org/grigoriipechorin/droid-maven-plugin/wiki/Home</url>
+	<url>https://github.com/g-pechorin/droid-maven-plugin</url>
     
 	<licenses>
 		<license>
@@ -32,9 +27,9 @@
 	</licenses>
 	
 	<scm>
-		<connection>scm:hg:https://grigoriipechorin@bitbucket.org/grigoriipechorin/droid-maven-plugin</connection>
-		<developerConnection>scm:hg:ssh://hg@bitbucket.org/grigoriipechorin/droid-maven-plugin</developerConnection>
-		<url>https://bitbucket.org/grigoriipechorin/droid-maven-plugin/overview</url>
+		<connection>scm:git:https://github.com/g-pechorin/droid-maven-plugin.git</connection>
+		<developerConnection>scm:git:git@github.com:g-pechorin/droid-maven-plugin.git</developerConnection>
+		<url>https://github.com/g-pechorin/droid-maven-plugin</url>
 	</scm>
 
 	<developers>
