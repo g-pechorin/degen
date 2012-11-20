@@ -16,6 +16,7 @@ History
 =======
 DONE
 ----
+ * 1.3.0 : changed to a new format for the URLs
  * 1.2.1 : released into Maven central
  * 1.2.0 : two new features to actually work with libGDX on android
   * allows directories to be extracted from the archive (not just whole zip files anymore)
@@ -30,15 +31,3 @@ DONE
  * 1.0.1 : get it to "work" with libGDX's gdx.jar when integrated into https://github.com/g-pechorin/libgdx-repack-dist
  * 1.0.0 : get it to "work" with libGDX's gdx.jar file from a localhost
 
-
-TODO
-----
- * 2.0.0 : move distribution and archives definition out of the MOJO configuration (like sources.jar@zip://http://example.com/dist.zip)
- * 2.0.1 : add non-scriptable "override" MOJO which locates a .java file within the distribution and archives, then copies it out into the src/main/java folder
- * 2.0.2 : add "remove" MOJO which deletes any .java files in src/main/java which match .java files within the distribution and archives definition
- * ?.0.0 : skip extracting resources that are already present and up to date
- * ?.?.? : remove extracted resources that don't exist
- * ?.0.0 : allow google code and svn repos for import (should already work with github through zipballs)
- * ?.0.0 : allow non-zip archive formats (.tar .tar.gz .tar.bz .tar.bz2 .7z)
- * ?.0.0 : allow the use of dependencies in the plugin
- * ?.0.0 : allow import of tests
