@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	
+	<artifactId>${artifactId}</artifactId>
+	<groupId>${groupId}</groupId>
+	<version>${version}</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<android.platform>7</android.platform>
+		<android.version>2.1_r1</android.version>
+		<libgdx.version>0.9.6</libgdx.version>
+		<droid.version>1.0.0-SNAPSHOT</droid.version>
+	</properties>
+	
+	<licenses>
+		<license>
+			<name>Apache License</name>
+			<distribution>in LICENSE</distribution>
+		</license>
+		<license>
+			<name>CC License</name>
+			<distribution>in CC-LICENSE</distribution>
+		</license>
+	</licenses>
+	<contributors>
+		<contributor>
+			<name>Mario Zechner</name>
+			<email>badlogicgames@gmail.com</email>
+			<roles>
+				<role>Original Author</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Nathan Sweet</name>
+			<email>nathan.sweet@gmail.com</email>
+			<roles>
+				<role>Original Author</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<email>grigorii.pechorin@gmail.com</email>
+			<roles>
+				<role>Port Editor</role>
+			</roles>
+		</contributor>
+	</contributors>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>oss.sonatype.org-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>dropbox.to.uk.orangedog</id>
+			<url>http://dl.dropbox.com/u/15094498/mvn-repo</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<repositories>
+		<repository>
+			<id>oss.sonatype.org-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>dropbox.to.uk.orangedog</id>
+			<url>http://dl.dropbox.com/u/15094498/mvn-repo</url>
+		</repository>
+	</repositories>
+</project>

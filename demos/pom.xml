@@ -15,5 +15,6 @@
 
 	<modules>
 		<module>demos.invaders</module>
+		<module>archetype.invaders</module>
 	</modules>
 </project>
