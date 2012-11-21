@@ -16,31 +16,20 @@
 			<plugin>
 				<groupId>com.peterlavalle</groupId>
 				<artifactId>degen</artifactId>
-				<version>${degen.version}</version>		
+				<version>${degen.version}</version>
 				<executions>
 					<execution>
 						<id>generate</id>
 						<phase>generate-sources</phase>
 						<goals>
-							<goal>remote</goal>
+							<goal>degenerate</goal>
 						</goals>						
 						<configuration>
-							<distribution>${distributionURL}</distribution>
-							<extracted>
-								gdx-backend-lwjgl-sources.jar
-								gdx-openal-sources.jar
-								gdx-natives.jar
-								gdx-backend-lwjgl-natives.jar
-								gdx-backend-lwjgl.jar
-							</extracted>
-							<excludeAny>
-								<exclude>com.badlogic.gdx.math.*</exclude>
-								<exclude>com.badlogic.gdx.utils.NumberUtils.*</exclude>
-								<exclude>com.badlogic.gdx.utils.GdxRuntimeException.*</exclude>
-								<exclude>com.badlogic.gdx.utils.GdxBuild.*</exclude>
-								<exclude>.*.gwt.xml</exclude>
-								<exclude>^META\-INF.*</exclude>
-							</excludeAny>
+							<sources>
+								<source>http://libgdx.googlecode.com/files/libgdx-0.9.2.zip @gdx-backend-lwjgl-natives.jar</source>
+								<source>http://libgdx.googlecode.com/files/libgdx-0.9.2.zip @gdx-backend-lwjgl.jar</source>
+								<source>http://libgdx.googlecode.com/files/libgdx-0.9.2.zip @gdx-natives.jar</source>
+							</sources>
 						</configuration>
 					</execution>
 				</executions>
@@ -53,26 +42,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>libgdx-degen.gdx</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.lwjgl.lwjgl</groupId>
-			<artifactId>lwjgl</artifactId>
-			<version>2.8.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.lwjgl.lwjgl</groupId>
-			<artifactId>lwjgl_util</artifactId>
-			<version>2.8.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.lwjgl.lwjgl</groupId>
-			<artifactId>lwjgl_util_applet</artifactId>
-			<version>2.8.4</version>
-		</dependency>
-		<dependency>
-			<groupId>de.huxhorn.sulky</groupId>
-			<artifactId>de.huxhorn.sulky.3rdparty.jlayer</artifactId>
-			<version>1.0</version>
 		</dependency>
 	</dependencies>
 </project>

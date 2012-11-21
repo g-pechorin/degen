@@ -16,30 +16,19 @@
 			<plugin>
 				<groupId>com.peterlavalle</groupId>
 				<artifactId>degen</artifactId>
-				<version>${degen.version}</version>	
+				<version>${degen.version}</version>
 				<executions>
 					<execution>
 						<id>generate</id>
 						<phase>generate-sources</phase>
 						<goals>
-							<goal>remote</goal>
+							<goal>degenerate</goal>
 						</goals>						
 						<configuration>
-							<distribution>${distributionURL}</distribution>
-							<extracted>
-								gdx-backend-android-sources.jar
-								gdx-backend-android.jar
-								armeabi/(.*) : lib/armeabi/$1
-								armeabi-v7a/(.*) : lib/armeabi-v7a/$1
-							</extracted>
-							<excludeAny>
-								<exclude>com.badlogic.gdx.math.*</exclude>
-								<exclude>com.badlogic.gdx.utils.NumberUtils.*</exclude>
-								<exclude>com.badlogic.gdx.utils.GdxRuntimeException.*</exclude>
-								<exclude>com.badlogic.gdx.utils.GdxBuild.*</exclude>
-								<exclude>.*.gwt.xml</exclude>
-								<exclude>^META\-INF.*</exclude>
-							</excludeAny>
+							<sources>
+								<source>http://libgdx.googlecode.com/files/libgdx-0.9.2.zip @gdx-backend-android.jar</source>
+								<source>http://libgdx.googlecode.com/files/libgdx-0.9.2.zip {armeabi.+@lib/$0}</source>
+							</sources>
 						</configuration>
 					</execution>
 				</executions>

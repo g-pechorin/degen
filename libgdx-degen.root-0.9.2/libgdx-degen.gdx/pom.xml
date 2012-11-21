@@ -22,19 +22,12 @@
 						<id>generate</id>
 						<phase>generate-sources</phase>
 						<goals>
-							<goal>remote</goal>
+							<goal>degenerate</goal>
 						</goals>						
 						<configuration>
-							<distribution>${distributionURL}</distribution>
-							<extracted>
-								gdx-sources.jar
-								gdx.jar
-							</extracted>
-							<excludeAny>
-								<exclude>com.badlogic.gdx.utils.GdxBuild.*</exclude>
-								<exclude>.*.gwt.xml</exclude>
-								<exclude>^META\-INF.*</exclude>
-							</excludeAny>
+							<sources>
+								<source>http://libgdx.googlecode.com/files/libgdx-0.9.2.zip @gdx-sources.jar {.*java} -{.*(GdxBuild|GwtModuleGenerator).*}</source>
+							</sources>
 						</configuration>
 					</execution>
 				</executions>
