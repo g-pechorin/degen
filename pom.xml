@@ -20,9 +20,10 @@
 		It is intended to "mavenize-with-changes" an existing project and allow the user (of the Mojo) to replace classes which they do not have the ability/desire to recompile without setting up a full build.
 		It can also be used to import non-maven projects by not changing anything.
 
-		The itch I wanted to scratch was to replace libGDX's native methods on Matrix4, without setting up an environment to build the library.
+		The itch I wanted to scratch was mostly to port libGDX to Maven, while replacing the native methods on Matrix4, without rebuilding the whole project.
 		In essence - it's an alternative to patching someone else's project.
 	</description>
+	
 	<url>https://github.com/g-pechorin/degen</url>
     
 	<licenses>
@@ -34,16 +35,16 @@
 	</licenses>
 	
 	<scm>
+		<url>https://github.com/g-pechorin/degen</url>
 		<connection>scm:git:https://github.com/g-pechorin/degen.git</connection>
 		<developerConnection>scm:git:git@github.com:g-pechorin/degen.git</developerConnection>
-		<url>https://github.com/g-pechorin/degen</url>
 	</scm>
 
 	<developers>
 		<developer>
 			<id>g-pechorin</id>
 			<roles>
-				<role>Software Development</role>
+				<role>Developer</role>
 			</roles>
 			<url>https://github.com/g-pechorin</url>
 		</developer>

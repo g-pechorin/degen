@@ -99,7 +99,7 @@ public class DegenMojo extends AMojo {
 					if (name.endsWith(".java")) {
 						final String replaceAll = name.replaceAll("\\.java", "");
 
-						for (final String hookName : hooks.keySet()) {
+						for (final String hookName : Sets.newHashSet(hooks.keySet())) {
 							if (!hookName.endsWith(".class")) {
 								continue;
 							}
