@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>com.peterlavalle</groupId>
 			<artifactId>libgdx-degen.lwjgl</artifactId>
-			<version>${libgdx.version}</version>
+			<version>${demos.libgdx.version}</version>
 		</dependency>
 	</dependencies>
 </project>

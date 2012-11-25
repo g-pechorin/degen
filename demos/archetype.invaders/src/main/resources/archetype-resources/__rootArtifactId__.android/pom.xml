@@ -45,7 +45,7 @@
 					<resourceDirectory>${project.basedir}/src/main/res</resourceDirectory>
 					<nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
 					<sdk>
-						<platform>${android.platform}</platform>
+						<platform>${demos.android.platform}</platform>
 					</sdk>
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
 				</configuration>
@@ -73,12 +73,12 @@
 		<dependency>
 			<groupId>com.peterlavalle</groupId>
 			<artifactId>libgdx-degen.android</artifactId>
-			<version>${libgdx.version}</version>
+			<version>${demos.libgdx.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<version>${android.version}</version>
+			<version>${demos.android.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

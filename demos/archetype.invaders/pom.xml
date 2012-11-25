@@ -41,7 +41,6 @@
     </license>
   </licenses>
 
-
   <distributionManagement>
     <repository>
       <id>dropbox.Public.mvn-repo</id>

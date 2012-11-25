@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>com.peterlavalle</groupId>
 			<artifactId>libgdx-degen.gdx</artifactId>
-			<version>${libgdx.version}</version>
+			<version>${demos.libgdx.version}</version>
 		</dependency>
 	</dependencies>
 </project>
