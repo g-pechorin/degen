@@ -2,19 +2,86 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	
-	<parent>
-		<groupId>com.peterlavalle.libgdx</groupId>
-		<artifactId>demos</artifactId>
-		<version>1.3.3-SNAPSHOT</version>
-	</parent>
-
-	<artifactId>${artifactId}</artifactId>
 
 	<groupId>${groupId}</groupId>
+	<artifactId>${artifactId}</artifactId>
+	<version>${version}</version>
 	<packaging>pom</packaging>
 	
-	<version>${version}</version>
+	
+	<properties>
+		<degen.version>1.3.0-SNAPSHOT</degen.version>
+		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<demos.libgdx.version>0.9.6</demos.libgdx.version>
+		<demos.android.version>2.1_r1</demos.android.version>
+		<demos.android.platform>7</demos.android.platform>
+    
+		<droid.version>1.0.0-SNAPSHOT</droid.version>
+	</properties>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>oss.sonatype.org-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>dropbox.to.uk.orangedog</id>
+			<url>http://dl.dropbox.com/u/15094498/mvn-repo</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<repositories>
+		<repository>
+			<id>oss.sonatype.org-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>dropbox.to.uk.orangedog</id>
+			<url>http://dl.dropbox.com/u/15094498/mvn-repo</url>
+		</repository>
+	</repositories>
 	
 	<licenses>
 		<license>
@@ -26,6 +93,7 @@
 			<distribution>in CC-LICENSE</distribution>
 		</license>
 	</licenses>
+	
 	<contributors>
 		<contributor>
 			<name>Mario Zechner</name>
@@ -48,4 +116,19 @@
 			</roles>
 		</contributor>
 	</contributors>
+	
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
