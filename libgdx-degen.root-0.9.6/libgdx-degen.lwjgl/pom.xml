@@ -27,7 +27,9 @@
 						<configuration>
 							<sources>
 								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-backend-lwjgl-natives.jar</source>
-								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-backend-lwjgl.jar</source>
+								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-backend-lwjgl.jar {(com.jcraft|javazoom.jl.decoder).*}</source>
+								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @sources/gdx-openal-sources.jar</source>
+								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @sources/gdx-backend-lwjgl-sources.jar</source>
 								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-natives.jar</source>
 							</sources>
 						</configuration>
@@ -42,6 +44,18 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>libgdx-degen.gdx</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.lwjgl.lwjgl</groupId>
+			<artifactId>lwjgl</artifactId>
+			<version>2.8.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.lwjgl.lwjgl</groupId>
+			<artifactId>lwjgl_util</artifactId>
+			<version>2.8.4</version>
 		</dependency>
 	</dependencies>
 </project>

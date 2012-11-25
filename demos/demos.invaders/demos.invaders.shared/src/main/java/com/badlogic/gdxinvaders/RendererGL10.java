@@ -88,7 +88,7 @@ public class RendererGL10 implements Renderer {
 			shipMesh = ObjLoader.loadObj(in);
 			in.close();
 
-			in = Gdx.files.classpath("data/invader.obj").read();
+			in = Gdx.files.internal("data/invader.obj").read();
 			invaderMesh = ObjLoader.loadObj(in);
 			in.close();
 

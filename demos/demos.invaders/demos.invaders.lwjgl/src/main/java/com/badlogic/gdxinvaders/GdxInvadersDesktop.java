@@ -19,6 +19,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 public class GdxInvadersDesktop {
 
 	public static void main(String[] argv) {
-		new LwjglApplication(new GdxInvaders(), "Gdx Invaders", 640, 480, false).hashCode();
+		
+		final GdxInvaders gdxInvaders = new GdxInvaders();
+		new LwjglApplication(gdxInvaders, "Gdx Invaders", 640, 480, false).hashCode();
 	}
 }
