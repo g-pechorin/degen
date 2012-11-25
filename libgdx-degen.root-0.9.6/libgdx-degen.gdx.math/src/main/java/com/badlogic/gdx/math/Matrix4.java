@@ -954,7 +954,7 @@ public final class Matrix4 implements Serializable {
 	 */
 	public static void mul(float[] mata, float[] matb) {
 		final Matrix4 result = new Matrix4(mata);
-		result.mul(new Matrix4(mata));
+		result.mul(new Matrix4(matb));
 
 		System.arraycopy(result.val, 0, mata, 0, mata.length);
 	}
