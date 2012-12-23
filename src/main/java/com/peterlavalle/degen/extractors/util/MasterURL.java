@@ -19,11 +19,13 @@ import java.util.zip.ZipFile;
  */
 public class MasterURL {
 
-	public MasterURL(final String string) throws MalformedURLException {
+	public static org.apache.maven.plugin.logging.Log LOG = null;
 
-		replacors = string.contains("{") ? Replacor.buildReplacors(string.trim().replaceAll("^[^\\{]+(\\+?\\{.*\\})$", "$1")) : null;
+	public MasterURL(final String source) throws MalformedURLException {
+		this.source = source;
+		replacors = source.contains("{") ? Replacor.buildReplacors(source.trim().replaceAll("^[^\\{]+(\\+?\\{.*\\})$", "$1")) : null;
 
-		final String[] split = string.trim().replaceAll("^([^\\{]+)\\+?\\{.*\\}$", "$1").trim().replaceAll("\\s*\\@\\s*", " @").split("\\s");
+		final String[] split = source.trim().replaceAll("^([^\\{]+)\\+?\\{.*\\}$", "$1").trim().replaceAll("\\s*\\@\\s*", " @").split("\\s");
 
 		this.url = new URL(split[0]);
 
@@ -40,6 +42,7 @@ public class MasterURL {
 			zips = strings;
 		}
 	}
+	public final String source;
 	public final URL url;
 	public final List<String> zips;
 	public final Replacor.ReplacorList replacors;
@@ -64,17 +67,36 @@ public class MasterURL {
 					final Enumeration<? extends ZipEntry> entries = zipFile.entries();
 					ZipEntry nextElement = null;
 
+					{
+						if (LOG != null) {
+							LOG.debug("source=`" + source + "` >>");
+							
+							LOG.debug("source=`" + source + "` URL="+url);
+							LOG.debug("source=`" + source + "` zips="+zips);
+							LOG.debug("source=`" + source + "` replacors="+replacors);
+						}
+					}
+
 					@Override
 					public boolean hasNext() {
 
 						while (nextElement == null) {
 							if (!entries.hasMoreElements()) {
+
+								if (LOG != null) {
+									LOG.debug("source=`" + source + "` <<");
+								}
 								return false;
 							}
 
 							nextElement = entries.nextElement();
 
+							if (LOG != null) {
+								LOG.debug("source=`" + source + "` nextElement.getName()=" + nextElement.getName());
+							}
+
 							if (nextElement.getName().endsWith("/") || applyReplacors(nextElement.getName()) == null) {
+								LOG.debug("source=`" + source + "` nextElement.getName()=" + nextElement.getName() + ": skipped");
 								nextElement = null;
 							}
 						}

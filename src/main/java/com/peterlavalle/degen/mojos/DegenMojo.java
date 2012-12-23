@@ -48,6 +48,8 @@ public class DegenMojo extends AMojo {
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
+		assert MasterURL.LOG == null;
+		MasterURL.LOG = getLog();
 
 		final Map<String, FileHook> hooks = new TreeMap<String, FileHook>();
 
@@ -64,12 +66,13 @@ public class DegenMojo extends AMojo {
 		}
 
 		for (final String src : hooks.keySet()) {
-			getLog().info("src=\t" + src);
+			getLog().debug("src=\t" + src);
 		}
 
 
 		// find all hooks. uses MasterURL to determine which files from jars to include or exclude
 		for (final String source : sources) {
+
 			final MasterURL masterURL;
 			try {
 				masterURL = new MasterURL(source);
@@ -80,15 +83,17 @@ public class DegenMojo extends AMojo {
 				for (final FileHook hook : masterURL.listFiles(getCacheDir(getProject()))) {
 					final String name = hook.getName();
 
+					getLog().debug("masterURL=" + source + "\n\thook.getName()=" + hook.getName());
+
 					// if we've already got this one, skip it
 					if (hooks.containsKey(name)) {
-						getLog().info("skip: source (" + source + ") contians an extra copy of `" + hook.getName() + "`");
+						getLog().info("skip: masterURL (" + source + ") contians an extra copy of `" + hook.getName() + "`");
 						continue;
 					}
 
 					// if this is a .class file and we've already got the .java file - skip this one
 					if (name.endsWith(".class") && hooks.containsKey(name.replaceAll("\\.class$", "\\.java"))) {
-						getLog().info("skip: class `" + hook.getName() + "` already has a source file");
+						getLog().debug("skip: class `" + hook.getName() + "` already has a source file");
 						continue;
 					}
 
@@ -96,6 +101,7 @@ public class DegenMojo extends AMojo {
 					hooks.put(name, hook);
 
 					// if this was a .java file, we may need to remove keys (sorry)
+					// ... so if we've already grabbed a .class file, this removes it when we find a .java file
 					if (name.endsWith(".java")) {
 						final String replaceAll = name.replaceAll("\\.java", "");
 
@@ -107,7 +113,7 @@ public class DegenMojo extends AMojo {
 								continue;
 							}
 							if (hookName.substring(replaceAll.length()).matches("^(\\$|\\.).*class$")) {
-								getLog().info("skip: removing class  `" + hook.getName() + "` becasuse of `" + name + "`");
+								getLog().debug("skip: removing class  `" + hook.getName() + "` becasuse of `" + name + "`");
 								hooks.remove(hookName);
 							}
 						}
@@ -139,6 +145,9 @@ public class DegenMojo extends AMojo {
 
 		getProject().addCompileSourceRoot(getGeneratedSources());
 		getProjectHelper().addResource(getProject(), getGeneratedResources(), new ArrayList(), Collections.singletonList("**/**.java"));
+
+		assert MasterURL.LOG == getLog();
+		MasterURL.LOG = null;
 	}
 
 	private void pullHook(FileHook hook, final boolean isSource) throws IOException {
