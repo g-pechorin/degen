@@ -1,9 +1,1 @@
-/target/*
-/target/**
-*/target/*
-*/target/**
-/libgdx-degen.root/libgdx-degen.android/target/
-/demos/archetype.invaders/target/
-/libgdx-degen.root/libgdx-degen.lwjgl/target/
-/libgdx-degen.root/libgdx-degen.gdx.math/target/
-/libgdx-degen.root/libgdx-degen.gdx/target/
+target/
