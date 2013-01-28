@@ -11,7 +11,7 @@
 
 	<groupId>com.peterlavalle</groupId>
 	<artifactId>droid-maven-plugin</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 	
 	<name>Droid Maven Plugin</name>
@@ -21,12 +21,6 @@
 		(see readme.md)
 	</description>
 
-	
-	
-	
-	
-	
-	
 	<url>https://github.com/g-pechorin/droid-maven-plugin</url>
     
 	<licenses>
@@ -123,13 +117,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<distributionManagement>
-		<repository>
-			<id>dropbox.Public.mvn-repo</id>
-			<url>${dropbox.root}/Public/mvn-repo</url>
-		</repository>
-	</distributionManagement>
 	
 	<profiles>
 		<profile>
