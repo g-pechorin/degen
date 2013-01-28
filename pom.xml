@@ -73,7 +73,7 @@
 		<demos.android.version>2.1_r1</demos.android.version>
 		<demos.android.platform>7</demos.android.platform>
     
-		<droid.version>1.0.0-SNAPSHOT</droid.version>
+		<droid.version>1.0.0.0</droid.version>
 	</properties>
 
 	<build>
@@ -115,35 +115,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<distributionManagement>
-		<repository>
-			<id>dropbox.Public.mvn-repo</id>
-			<url>${dropbox.root}/Public/mvn-repo</url>
-		</repository>
-	</distributionManagement>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>oss.sonatype.org-releases</id>
-			<url>https://oss.sonatype.org/content/repositories/releases</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>dropbox.to.uk.orangedog</id>
-			<url>http://dl.dropbox.com/u/15094498/mvn-repo</url>
-		</pluginRepository>
-	</pluginRepositories>
-
-	<repositories>
-		<repository>
-			<id>oss.sonatype.org-releases</id>
-			<url>https://oss.sonatype.org/content/repositories/releases</url>
-		</repository>
-		<repository>
-			<id>dropbox.to.uk.orangedog</id>
-			<url>http://dl.dropbox.com/u/15094498/mvn-repo</url>
-		</repository>
-	</repositories>
 	
 	<dependencies>
 		<dependency>
