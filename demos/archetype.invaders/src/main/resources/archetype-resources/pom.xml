@@ -93,29 +93,27 @@
 			<distribution>in CC-LICENSE</distribution>
 		</license>
 	</licenses>
-	
-	<contributors>
-		<contributor>
+
+	<developers>
+		<developer>
 			<name>Mario Zechner</name>
-			<email>badlogicgames@gmail.com</email>
 			<roles>
 				<role>Original Author</role>
 			</roles>
-		</contributor>
-		<contributor>
+		</developer>
+		<developer>
 			<name>Nathan Sweet</name>
-			<email>nathan.sweet@gmail.com</email>
 			<roles>
 				<role>Original Author</role>
 			</roles>
-		</contributor>
-		<contributor>
-			<email>grigorii.pechorin@gmail.com</email>
+		</developer>
+		<developer>
+			<name>Peter LaValle</name>
 			<roles>
 				<role>Port Editor</role>
 			</roles>
-		</contributor>
-	</contributors>
+		</developer>
+	</developers>
 	
 	<dependencies>
 		<dependency>

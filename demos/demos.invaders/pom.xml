@@ -31,20 +31,18 @@
 	<contributors>
 		<contributor>
 			<name>Mario Zechner</name>
-			<email>badlogicgames@gmail.com</email>
 			<roles>
 				<role>Original Author</role>
 			</roles>
 		</contributor>
 		<contributor>
 			<name>Nathan Sweet</name>
-			<email>nathan.sweet@gmail.com</email>
 			<roles>
 				<role>Original Author</role>
 			</roles>
 		</contributor>
 		<contributor>
-			<email>grigorii.pechorin@gmail.com</email>
+			<name>Peter LaValle</name>
 			<roles>
 				<role>Port Editor</role>
 			</roles>
