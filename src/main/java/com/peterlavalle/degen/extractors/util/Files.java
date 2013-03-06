@@ -273,7 +273,7 @@ public final class Files {
 
 		if (!file.exists()) {
 
-			System.out.println("Caching " + url + " ...");
+			System.out.println("Caching " + url + " into `"+cacheDir+"` ...");
 
 			copyStream(url.openStream(), file);
 

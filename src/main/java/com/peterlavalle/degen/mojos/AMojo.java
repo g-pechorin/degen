@@ -5,6 +5,7 @@
 package com.peterlavalle.degen.mojos;
 
 import java.io.File;
+import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
@@ -15,6 +16,19 @@ import org.apache.maven.project.MavenProjectHelper;
  */
 public abstract class AMojo extends AbstractMojo {
 
+	static boolean projectHasPluginKey(final MavenProject project, final String name) {
+
+		final Map pluginArtifactMap = project.getPluginArtifactMap();
+
+		for (Object key : pluginArtifactMap.keySet()) {
+
+			if (key.toString().equals(name)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	/**
 	 * Which files are sources?
 	 *
@@ -41,7 +55,7 @@ public abstract class AMojo extends AbstractMojo {
 	/**
 	 * Where to put the generated source
 	 *
-	 * @parameter expression="${gensource_folder}" default-value="${project.build.directory}/generated-sources/degen"
+	 * @parameter expression="${gensource_folder}" default-value="${project.build.directory}/generated-sources/degen-sources"
 	 * @required
 	 */
 	private String gensource_folder;
@@ -56,7 +70,7 @@ public abstract class AMojo extends AbstractMojo {
 	/**
 	 * Where to put the generated resource
 	 *
-	 * @parameter expression="${genresource_folder}" default-value="${project.build.directory}/generated-sources/degen"
+	 * @parameter expression="${genresource_folder}" default-value="${project.build.directory}/generated-sources/degen-resources"
 	 * @required
 	 */
 	private String genresource_folder;

@@ -41,8 +41,17 @@ public class DegenMojo extends AMojo {
 	 */
 	private String[] sources;
 
-	public File getCacheDir(final MavenProject project) {
-		return project.getParent() != null ? getCacheDir(project.getParent()) : new File(project.getBuild().getDirectory());
+	public File getCacheDir() {
+
+		MavenProject project = getProject();
+
+		while (project.getParent().getBasedir() != null) {
+			project = project.getParent();
+		}
+
+		final String name = project.getBuild().getDirectory() + "/degen-cache";
+
+		return new File(name);
 	}
 
 	@Override
@@ -80,7 +89,8 @@ public class DegenMojo extends AMojo {
 				throw new MojoExecutionException("MasterURL(`" + source + "`)", ex);
 			}
 			try {
-				for (final FileHook hook : masterURL.listFiles(getCacheDir(getProject()))) {
+				final File cacheDir = getCacheDir();
+				for (final FileHook hook : masterURL.listFiles(cacheDir)) {
 					final String name = hook.getName();
 
 					getLog().debug("masterURL=" + source + "\n\thook.getName()=" + hook.getName());
