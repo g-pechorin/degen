@@ -1,4 +1,4 @@
-(Last updated 2012-10-03)
+(Last updated 2012-10-03 ...so rahter out of date - it's in central now!)
 
 libGDX degen
 ============
