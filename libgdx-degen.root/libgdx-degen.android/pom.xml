@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.peterlavalle</groupId>
 		<artifactId>libgdx-degen.root</artifactId>
-		<version>0.9.6</version>
+		<version>1.3.4-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>libgdx-degen.android</artifactId>

@@ -11,7 +11,7 @@
 
 	<groupId>com.peterlavalle</groupId>
 	<artifactId>libgdx-degen</artifactId>
-	<version>1.3.3</version>
+	<version>1.3.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>libGDX Degen(erated)</name>
@@ -60,15 +60,54 @@
  
 	<modules>
 		<module>libgdx-degen.root</module>
-		<module>demos</module>
 	</modules>
+
+	<profiles>
+		<profile>
+			<id>demos</id>
+			<activation>
+				<file>
+					<exists>${env.ANDROID_HOME}/platform-tools</exists>
+				</file>
+			</activation>
+			<modules>
+				<module>demos</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>release-into-the-wild</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	
 	<properties>
-		<degen.version>1.3.0</degen.version>
+		<degen.version>1.3.1-SNAPSHOT</degen.version>
 		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
-		<demos.libgdx.version>0.9.6</demos.libgdx.version>
 		<demos.android.version>2.1_r1</demos.android.version>
 		<demos.android.platform>7</demos.android.platform>
     
@@ -108,20 +147,6 @@
 						<id>attach-sources</id>
 						<goals>
 							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.1</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.peterlavalle.libgdx</groupId>
 		<artifactId>demos.invaders</artifactId>
-		<version>1.3.3</version>
+		<version>1.3.4-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>demos.invaders.android</artifactId>
@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>com.peterlavalle</groupId>
 			<artifactId>libgdx-degen.android</artifactId>
-			<version>0.9.6</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.android</groupId>
