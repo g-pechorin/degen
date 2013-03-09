@@ -32,8 +32,8 @@
 	</licenses>
 	
 	<scm>
-		<connection>scm:git:git://github.com/g-pechorin/libgdx-degen.git</connection>
-		<developerConnection>scm:git:git@github.com:g-pechorin/libgdx-degen.git</developerConnection>
+		<connection>scm:hg:git+ssh://git@github.com:g-pechorin/libgdx-degen.git</connection>
+		<developerConnection>scm:hg:git+ssh://git@github.com:g-pechorin/libgdx-degen.git</developerConnection>
 		<url>https://github.com/g-pechorin/libgdx-degen</url>
 	</scm>
 
@@ -151,6 +151,8 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!--
+			-->
 		</plugins>
 	</build>
 	
