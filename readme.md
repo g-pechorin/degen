@@ -1,4 +1,4 @@
-(Last updated 2012-10-03 ... so this is rather out-of-date)
+(Last updated 2012-10-03 ... so this is rather out of date)
 
 libGDX degen
 ============
