@@ -32,10 +32,25 @@
 	</licenses>
 	
 	<scm>
-		<connection>scm:hg:git+ssh://git@github.com:g-pechorin/libgdx-degen.git</connection>
-		<developerConnection>scm:hg:git+ssh://git@github.com:g-pechorin/libgdx-degen.git</developerConnection>
 		<url>https://github.com/g-pechorin/libgdx-degen</url>
+		<connection>scm:git:git@github.com:g-pechorin/libgdx-degen.git</connection>
+		<developerConnection>scm:hg:${dropbox.root}/Public/hg-repos/libgdx-degen</developerConnection>
 	</scm>
+	
+	<repositories>
+		<repository>
+			<id>oss.sonatype.org</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	
+	
 
 	<developers>
 		<developer>
@@ -71,7 +86,7 @@
 				</file>
 			</activation>
 			<modules>
-				<module>demos</module>
+				<module>demos.invaders</module>
 			</modules>
 		</profile>
 		<profile>
