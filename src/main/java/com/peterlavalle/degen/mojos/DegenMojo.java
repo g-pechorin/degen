@@ -45,7 +45,9 @@ public class DegenMojo extends AMojo {
 
 		MavenProject project = getProject();
 
-		while (project.getParent().getBasedir() != null) {
+		assert project != null;
+		
+		while (project.getParent() != null && project.getParent().getBasedir() != null) {
 			project = project.getParent();
 		}
 
