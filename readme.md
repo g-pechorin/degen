@@ -6,29 +6,27 @@ As of 2013-04-01 I'm still using this, and updating it in connection with course
 I'm using Hg-Git as my client, which can be flaky (and developed by GitHub, so it's understandable)
 
  * removal of libGDX version numbers
- * includsion of a Mojo to build / package final binaries from projects
-  * _desktop_	collect all dependencies, apply ProGuard, apply Launch4j
-  * _applet_	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that displays it
-  * _jnlp_	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that launches it
-  * _apk_		collect all dependencies, apply ProGuard if debugging
+ * a Mojo to build / package final binaries from projects
+  * __desktop__	collect all dependencies, apply ProGuard, apply Launch4j
+  * __applet__	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that displays it
+  * __jnlp__	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that launches it
+  * __apk__		collect all dependencies, apply ProGuard if debugging
  * switch to Scala - because!
  * update to the libGDX version with the new modelling stuff
+ * __unicorns!__ everyone likes unicorns
 
 libGDX degen
 ============
 
 This [libGDX](http://libgdx.badlogicgames.com/) re-packaged with my [degen](https://github.com/g-pechorin/degen)erate Mojo.
 I wanted to use [libGDX](http://libgdx.badlogicgames.com/) in Maven, with sources, and I was tired of rolling Ant scripts.
-
-
-The project downloads [libGDX](http://libgdx.badlogicgames.com/) distributions from Google Code via HTTP, and stores these in `target/`
-This will only be downloaded on the first build, or if you `clean` (which will delete the archives)
+The project downloads [libGDX](http://libgdx.badlogicgames.com/) distributions from GitHub via HTTP, and stores it in `target/`
 
 
 Modules
 =======
  * libgdx-degen.__root__ a root project for the 0.9.6 version of [libGDX](http://libgdx.badlogicgames.com/)
-  * libgdx-repack-dist.__gdx.math__ the basic math classes that [libGDX](http://libgdx.badlogicgames.com/) encompasses. It is made up entierly of POJO (I've replaced a few methods)
+  * libgdx-repack-dist.__gdx.math__ the basic math classes that [libGDX](http://libgdx.badlogicgames.com/) encompasses. It is made up entierly of POJO (which means I've replaced a few methods)
   * libgdx-repack-dist.__gdx__ the general [libGDX](http://libgdx.badlogicgames.com/) shared library. It depends on the math library to get its math classes. There's some native code
   * libgdx-repack-dist.__lwjgl__ the desktop library based on lwjgl
   * libgdx-repack-dist.__android__ the android library
@@ -36,26 +34,19 @@ Modules
   * demos.__invaders.shared__ the shared code for the invaders demo game
   * demos.__invaders.lwjgl__ the code for the desktop invaders demo game
   * demos.__invaders.android__ the code for the android invaders demo game
-
-
-Since I'm tweaking stuff, and I don't want my [DropBox](http://db.tt/4thLOYa) filling up with snapshots, I am not trying to build the new version at this time.
-... someday, that'll change; for the moment there are other things I'd like to work on.
+ * __libgdx.scala.demo__ a root POM for the scala demos
+  * __libgdx.scala.demo.game__ a very empty Scala libGDX game
+  * __libgdx.scala.demo.desktop__ a (possible) Platform Runtime for the Scala game
+   * it compiles fine in Maven
+   * it runs fine in Maven
+   * NetBeans doesn't like it
+   * NetBeans doesn't like any Scala project with multiple modules?
+   * I have not tried Eclipse
 
 Android Projects
 ================
-You don't need the ADK installed to build this project itself.
-You'll probably want to use the [Android Maven Plugin](http://code.google.com/p/maven-android-plugin/) to build your Android projects - which does mean [installing the ADK](http://code.google.com/p/maven-android-plugin/wiki/GettingStarted).
+You don't need the ADK installed to build this project, but some modules will be skipped.
+This uses the [Android Maven Plugin](http://code.google.com/p/maven-android-plugin/) to build your Android projects - which does mean [installing the ADK](http://code.google.com/p/maven-android-plugin/wiki/GettingStarted).
 
 An examination of `demos.invaders.android` will reveal that I'm using my own special blend](https://github.com/g-pechorin/droid-maven-plugin) to get audio assets off of the classpath.
-I would like to "fix" this  omeday ... and the "[PNG](http://stackoverflow.com/questions/14171255/libgdx-cant-load-a-specific-image) issue" since smaller PNG is a good thing.
-
-
-Native Code
-===========
-I wanted to reduce the reliance on native code ... because that sounded good and was faster in my tests.
-
-(I'm aware that native code is faster on some old devices that I don't have access to)
-
-If you want to use standard [libGDX](http://libgdx.badlogicgames.com/)'s native code, delete the `src/` folder from `libgdx-repack-dist.gdx.math` and rebuild.
-
-(deleting the `src/` folder will cause the [degen](https://github.com/g-pechorin/degen) mojo to use the original .java files which dialed-out to native code)
+I would like to "fix" this someday ...
