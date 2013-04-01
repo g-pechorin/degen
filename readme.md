@@ -1,4 +1,18 @@
-(Last updated 2012-10-03 ... so this is rather out of date)
+
+Next Goals
+==========
+
+As of 2013-04-01 I'm still using this, and semi-actively updating it in connection with a coursework project.
+I'm using Hg-Git as my client, which can be flaky (and developed by GitHub, so it's understandable)
+
+	* removal of libGDX version numbers
+	* includsion of a Mojo to build / package final binaries from projects
+		* _desktop_	collect all dependencies, apply ProGuard, apply Launch4j
+		* _applet_	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that displays it
+		* _jnlp_	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that launches it
+		* _apk_		collect all dependencies, apply ProGuard if debugging
+	* switch to Scala - because!
+	* update to the libGDX version with the new modelling stuff
 
 libGDX degen
 ============
@@ -40,7 +54,7 @@ Native Code
 ===========
 I wanted to reduce the reliance on native code ... because that sounded good and was faster in my tests.
 
-(I'm aware that native code is faster on some old devices that I don't have access)
+(I'm aware that native code is faster on some old devices that I don't have access to)
 
 If you want to use standard [libGDX](http://libgdx.badlogicgames.com/)'s native code, delete the `src/` folder from `libgdx-repack-dist.gdx.math` and rebuild.
 
