@@ -2,17 +2,17 @@
 Next Goals
 ==========
 
-As of 2013-04-01 I'm still using this, and semi-actively updating it in connection with a coursework project.
+As of 2013-04-01 I'm still using this, and updating it in connection with coursework.
 I'm using Hg-Git as my client, which can be flaky (and developed by GitHub, so it's understandable)
 
-	* removal of libGDX version numbers
-	* includsion of a Mojo to build / package final binaries from projects
-		* _desktop_	collect all dependencies, apply ProGuard, apply Launch4j
-		* _applet_	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that displays it
-		* _jnlp_	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that launches it
-		* _apk_		collect all dependencies, apply ProGuard if debugging
-	* switch to Scala - because!
-	* update to the libGDX version with the new modelling stuff
+ * removal of libGDX version numbers
+ * includsion of a Mojo to build / package final binaries from projects
+  * _desktop_	collect all dependencies, apply ProGuard, apply Launch4j
+  * _applet_	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that displays it
+  * _jnlp_	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that launches it
+  * _apk_		collect all dependencies, apply ProGuard if debugging
+ * switch to Scala - because!
+ * update to the libGDX version with the new modelling stuff
 
 libGDX degen
 ============
@@ -27,15 +27,15 @@ This will only be downloaded on the first build, or if you `clean` (which will d
 
 Modules
 =======
-	* libgdx-degen.__root__ a root project for the 0.9.6 version of [libGDX](http://libgdx.badlogicgames.com/)
-		* libgdx-repack-dist.__gdx.math__ the basic math classes that [libGDX](http://libgdx.badlogicgames.com/) encompasses. It is made up entierly of POJO (I've replaced a few methods)
-		* libgdx-repack-dist.__gdx__ the general [libGDX](http://libgdx.badlogicgames.com/) shared library. It depends on the math library to get its math classes. There's some native code
-		* libgdx-repack-dist.__lwjgl__ the desktop library based on lwjgl
-		* libgdx-repack-dist.__android__ the android library
-	* demos.__invaders__ a root project for the invaders demo game
-		* demos.__invaders.shared__ the shared code for the invaders demo game
-		* demos.__invaders.lwjgl__ the code for the desktop invaders demo game
-		* demos.__invaders.android__ the code for the android invaders demo game
+ * libgdx-degen.__root__ a root project for the 0.9.6 version of [libGDX](http://libgdx.badlogicgames.com/)
+  * libgdx-repack-dist.__gdx.math__ the basic math classes that [libGDX](http://libgdx.badlogicgames.com/) encompasses. It is made up entierly of POJO (I've replaced a few methods)
+  * libgdx-repack-dist.__gdx__ the general [libGDX](http://libgdx.badlogicgames.com/) shared library. It depends on the math library to get its math classes. There's some native code
+  * libgdx-repack-dist.__lwjgl__ the desktop library based on lwjgl
+  * libgdx-repack-dist.__android__ the android library
+ * demos.__invaders__ a root project for the invaders demo game
+  * demos.__invaders.shared__ the shared code for the invaders demo game
+  * demos.__invaders.lwjgl__ the code for the desktop invaders demo game
+  * demos.__invaders.android__ the code for the android invaders demo game
 
 
 Since I'm tweaking stuff, and I don't want my [DropBox](http://db.tt/4thLOYa) filling up with snapshots, I am not trying to build the new version at this time.
