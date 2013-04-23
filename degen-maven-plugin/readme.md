@@ -16,6 +16,7 @@ History
 =======
 DONE
 ----
+ * 1.3.4 : merged into libgdx-degen
  * 1.3.1 : fixes a problem where zips were being cached in the wrong folder
 	* (no changes should be needed to projects using the plugin)
  * 1.3.0 : changed to a new format for the URLs

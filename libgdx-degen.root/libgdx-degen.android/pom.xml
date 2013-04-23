@@ -14,8 +14,8 @@
 		<plugins>
 			<plugin>
 				<groupId>com.peterlavalle</groupId>
-				<artifactId>degen</artifactId>
-				<version>${degen.version}</version>
+				<artifactId>degen-maven-plugin</artifactId>
+				<version>${project.version}</version>
 				<executions>
 					<execution>
 						<id>generate</id>
@@ -44,7 +44,7 @@
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<version>2.1.2</version>
+			<version>${demos.android.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

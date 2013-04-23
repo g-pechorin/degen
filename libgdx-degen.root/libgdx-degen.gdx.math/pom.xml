@@ -14,8 +14,8 @@
 		<plugins>
 			<plugin>
 				<groupId>com.peterlavalle</groupId>
-				<artifactId>degen</artifactId>
-				<version>${degen.version}</version>
+				<artifactId>degen-maven-plugin</artifactId>
+				<version>${project.version}</version>
 				<executions>
 					<execution>
 						<id>generate</id>

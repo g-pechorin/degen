@@ -14,15 +14,15 @@
 		<plugins>
 			<plugin>
 				<groupId>com.peterlavalle</groupId>
-				<artifactId>degen</artifactId>
-				<version>${degen.version}</version>
+				<artifactId>degen-maven-plugin</artifactId>
+				<version>${project.version}</version>
 				<executions>
 					<execution>
 						<id>generate</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>degenerate</goal>
-						</goals>						
+						</goals>
 						<configuration>
 							<sources>
 								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-backend-lwjgl-natives.jar</source>

@@ -72,9 +72,10 @@
 	</developers>
  
 	<modules>
+		<module>degen-maven-plugin</module>
+		<module>droid-maven-plugin</module>
 		<module>libgdx-degen.root</module>
 		<module>libgdx.scala.demo</module>
-		<module>droid-maven-plugin</module>
 	</modules>
 
 	<profiles>
@@ -119,8 +120,6 @@
 	</profiles>
 
 	<properties>
-		<degen.version>1.3.1-SNAPSHOT</degen.version>
-
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<demos.android.version>2.1_r1</demos.android.version>
@@ -170,4 +169,12 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>14.0.1</version>
+		</dependency>
+	</dependencies>
 </project>
