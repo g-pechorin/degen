@@ -18,6 +18,7 @@ I'm using Hg-Git as my client, which can be flaky (and developed by GitHub, so i
  * Groovy, jnlp and applet demos
  * flatten the demo project space
  * move com.peterlavalle::degen into this project
+ * move com.peterlavalle::droid into this project
  * removal of libGDX version numbers
  * update to the libGDX version 0.9.8 with the new modelling stuff
 
