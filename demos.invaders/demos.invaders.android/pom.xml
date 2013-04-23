@@ -17,7 +17,7 @@
 			<plugin>
 				<groupId>com.peterlavalle</groupId>
 				<artifactId>droid-maven-plugin</artifactId>
-				<version>${droid.version}</version>
+				<version>${project.version}</version>
 				<executions>
 					<execution>
 						<id>copy-assets</id>

@@ -9,7 +9,6 @@ The project downloads [libGDX](http://libgdx.badlogicgames.com/) distributions f
 
 
 
-
 Next Goals
 ----------
 As of 2013-04-01 I'm still using this, and updating it in connection with coursework.
@@ -20,7 +19,12 @@ I'm using Hg-Git as my client, which can be flaky (and developed by GitHub, so i
  * move com.peterlavalle::degen into this project
  * removal of libGDX version numbers
  * update to the libGDX version 0.9.8 with the new modelling stuff
+ * droid::cull needs to not-fail when there are no files to repack
 
+Done Goals (1.3.4)
+------------------
+ * DONE : move com.peterlavalle::droid into this project
+ 
 Butter Scotch Goals
 -------------------
  * __unicorns!__ everyone likes unicorns
