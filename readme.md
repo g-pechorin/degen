@@ -1,19 +1,4 @@
 
-Next Goals
-==========
-
-As of 2013-04-01 I'm still using this, and updating it in connection with coursework.
-I'm using Hg-Git as my client, which can be flaky (and developed by GitHub, so it's understandable)
-
- * removal of libGDX version numbers
- * a Mojo to build / package final binaries from projects
-  * __desktop__	collect all dependencies, apply ProGuard, apply Launch4j
-  * __applet__	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that displays it
-  * __jnlp__	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that launches it
-  * __apk__		collect all dependencies, apply ProGuard if debugging
- * switch to Scala - because!
- * update to the libGDX version with the new modelling stuff
- * __unicorns!__ everyone likes unicorns
 
 libGDX degen
 ============
@@ -21,6 +6,31 @@ libGDX degen
 This [libGDX](http://libgdx.badlogicgames.com/) re-packaged with my [degen](https://github.com/g-pechorin/degen)erate Mojo.
 I wanted to use [libGDX](http://libgdx.badlogicgames.com/) in Maven, with sources, and I was tired of rolling Ant scripts.
 The project downloads [libGDX](http://libgdx.badlogicgames.com/) distributions from GitHub via HTTP, and stores it in `target/`
+
+
+
+
+Next Goals
+----------
+As of 2013-04-01 I'm still using this, and updating it in connection with coursework.
+I'm using Hg-Git as my client, which can be flaky (and developed by GitHub, so it's kind of weird they don't maintain it)
+ * find out why the desktop demos don't play music
+ * Groovy, jnlp and applet demos
+ * flatten the demo project space
+ * move com.peterlavalle::degen into this project
+ * removal of libGDX version numbers
+ * update to the libGDX version 0.9.8 with the new modelling stuff
+
+Butter Scotch Goals
+-------------------
+ * __unicorns!__ everyone likes unicorns
+ * a Mojo to build / package final binaries from projects
+  * __desktop__	collect all dependencies, apply ProGuard, apply Launch4j
+  * __applet__	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that displays it
+  * __jnlp__	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that launches it
+  * __apk__		collect all dependencies, apply ProGuard if debugging
+ * switch to Scala - because!
+
 
 
 Modules
@@ -45,6 +55,7 @@ Modules
 
 Android Projects
 ================
+This thing will / should skip the demo/apk files if you don't have ADK
 You don't need the ADK installed to build this project, but some modules will be skipped.
 This uses the [Android Maven Plugin](http://code.google.com/p/maven-android-plugin/) to build your Android projects - which does mean [installing the ADK](http://code.google.com/p/maven-android-plugin/wiki/GettingStarted).
 

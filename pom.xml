@@ -123,9 +123,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<demos.android.version>2.1_r1</demos.android.version>
-		<demos.android.platform>7</demos.android.platform>
+		<demos.android.platform>17</demos.android.platform>
 
 		<droid.version>1.0.0.0</droid.version>
+		
+		<amp.version>3.1.1</amp.version>
 
 		<scala.version>2.8.0</scala.version>
 	</properties>
