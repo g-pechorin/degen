@@ -75,7 +75,6 @@
 		<module>degen-maven-plugin</module>
 		<module>droid-maven-plugin</module>
 		<module>libgdx-degen.root</module>
-		<module>libgdx.scala.demo</module>
 	</modules>
 
 	<profiles>
