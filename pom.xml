@@ -55,19 +55,19 @@
         <developer>
             <name>Mario Zechner</name>
             <roles>
-                <role>Original Author</role>
+                <role>Original Author of libGDX</role>
             </roles>
         </developer>
         <developer>
             <name>Nathan Sweet</name>
             <roles>
-                <role>Original Author</role>
+                <role>Original Author of libGDX</role>
             </roles>
         </developer>
         <developer>
             <name>Peter LaValle</name>
             <roles>
-                <role>Port Editor</role>
+                <role>Port/Plugin Editor</role>
             </roles>
         </developer>
     </developers>

@@ -10,7 +10,7 @@
 	<artifactId>degen-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
 
-	<name>Degen(eration) Maven Plugin</name>
+	<name>Maven Plugin to Degenerate External Projects</name>
 	<description>
 		A Maven Mojo to download and "degenerate" non-maven projects into sources and binaries
 

@@ -11,7 +11,7 @@
     <artifactId>droid-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
 
-    <name>Droid Maven Plugin</name>
+    <name>Maven Plugin to help with libGDX Android Builds</name>
 
     <description>
         A Maven Mojo for Android-izing libGDX 0.9.6 projects

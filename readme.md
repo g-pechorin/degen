@@ -14,11 +14,13 @@ Next Goals
 As of 2013-04-01 I'm still using this, and updating it in connection with coursework.
 I'm using Hg-Git as my client, which can be flaky (and developed by GitHub, so it's kind of weird they don't maintain it)
  * find out why the desktop demos don't play music
- * Groovy (+groovy android), jnlp and applet demos
+ * Scala+Java (desktop/Android) demo
+ * jnlp and applet demos
  * flatten the module tree
  * removal of libGDX version numbers
  * update to the libGDX version 0.9.8 with the new modelling stuff
  * droid::cull needs to not-fail when there are no files to repack
+ * Mojo to generate AndroidManifest.xml
 
 Done Goals (1.3.4)
 ------------------
@@ -28,12 +30,12 @@ Done Goals (1.3.4)
 Butter Scotch Goals
 -------------------
  * __unicorns!__ everyone likes unicorns
- * a Mojo to build / package final binaries from projects
-  * __desktop__	collect all dependencies, apply ProGuard, apply Launch4j
-  * __applet__	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that displays it
-  * __jnlp__	collect all dependencies, apply ProGuard, sign it, include (but don't insert) a HelloApplet.html that launches it
-  * __apk__		collect all dependencies, apply ProGuard if debugging
- * switch to Scala - because!
+ * Scala - because!
+ * Kotlin demos?
+ * a Mojo to do ProGuard on libGDX (build mega-jar, save listener and native, optimize everything else)
+ * a Mojo to do GDX-JNIGEN (or like) stuff and compile it
+ * an AvianVM / SDL / (Desktop|NaCL|iOS) backend
+
 
 
 
