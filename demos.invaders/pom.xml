@@ -18,6 +18,7 @@
 		<module>demos.invaders.lwjgl</module>
 		<module>demos.invaders.android</module>
 		<module>demos.invaders.gl2</module>
+		<module>demos.invaders.gles2</module>
 	</modules>
 	
 	<licenses>
