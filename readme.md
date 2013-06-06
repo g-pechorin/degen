@@ -11,41 +11,42 @@ The project downloads [libGDX](http://libgdx.badlogicgames.com/) distributions f
 
 Next Goals
 ----------
-As of 2013-04-01 I'm still using this, and updating it in connection with coursework.
+As of 2013-06-06 I'm still using this, and updating it in connection with coursework.
 I'm using Hg-Git as my client, which can be flaky (and developed by GitHub, so it's kind of weird they don't maintain it)
- * find out why the desktop demos don't play music
- * Scala+Java (desktop/Android) demo
- * jnlp and applet demos
- * flatten the module tree
- * removal of libGDX version numbers
- * update to the libGDX version 0.9.8 with the new modelling stuff
- * droid::cull needs to not-fail when there are no files to repack
- * Mojo to generate AndroidManifest.xml
 
-Done Goals (1.3.4)
+Goals (1.3.4)
 ------------------
- * move com.peterlavalle::droid into this project
- * move com.peterlavalle::degen into this project
+	* [x] move com.peterlavalle::droid into this project
+	* [x] move com.peterlavalle::degen into this project
+	* [x] flatten the module tree
+	* [x] (wicket style) change Mesh's "set" functions to return Mesh
+	* [ ] (scala friendly) give "Mesh" java.util
+	* [ ] find out why the desktop demos don't play music
+	* [ ] Scala+Java (desktop/Android) demo
+	* [ ] jnlp and applet demos
+	* [ ] removal of libGDX version numbers
+	* [ ] update to the libGDX version 0.9.??? with the new modelling stuff
+	* [ ] droid::cull needs to not-fail when there are no files to repack
+	* [ ] Mojo to generate AndroidManifest.xml
  
 Butter Scotch Goals
 -------------------
- * __unicorns!__ everyone likes unicorns
- * Scala - because!
- * Kotlin demos?
- * a Mojo to do ProGuard on libGDX (build mega-jar, save listener and native, optimize everything else)
- * a Mojo to do GDX-JNIGEN (or like) stuff and compile it
- * an AvianVM / SDL / (Desktop|NaCL|iOS) backend
-
+	* __unicorns!__ everyone likes unicorns
+	* a Mojo to do ProGuard on libGDX (build mega-jar, save listener and native, optimize everything else)
+	* a Mojo to do GDX-JNIGEN (or like) stuff and compile it
+	* A C++ / GLES / CG "backend" for that one system that uses those things
+	* A C++ / GLES2.0 / "backend" for NaCL
+	* non-asset audio system
+	* lodepng PNG loading (stb_lib has a few shortcomings)
 
 
 
 Modules
 =======
- * libgdx-degen.__root__ a root project for the 0.9.6 version of [libGDX](http://libgdx.badlogicgames.com/)
-  * libgdx-repack-dist.__gdx.math__ the basic math classes that [libGDX](http://libgdx.badlogicgames.com/) encompasses. It is made up entierly of POJO (which means I've replaced a few methods)
-  * libgdx-repack-dist.__gdx__ the general [libGDX](http://libgdx.badlogicgames.com/) shared library. It depends on the math library to get its math classes. There's some native code
-  * libgdx-repack-dist.__lwjgl__ the desktop library based on lwjgl
-  * libgdx-repack-dist.__android__ the android library
+ * libgdx-repack-dist.__gdx.math__ the basic math classes that [libGDX](http://libgdx.badlogicgames.com/) encompasses. It is made up entierly of POJO (which means I've replaced a few methods)
+ * libgdx-repack-dist.__gdx__ the general [libGDX](http://libgdx.badlogicgames.com/) shared library. It depends on the math library to get its math classes. There's some native code
+ * libgdx-repack-dist.__lwjgl__ the desktop library based on lwjgl
+ * libgdx-repack-dist.__android__ the android library
  * demos.__invaders__ a root project for the invaders demo game
   * demos.__invaders.shared__ the shared code for the invaders demo game
   * demos.__invaders.lwjgl__ the code for the desktop invaders demo game
@@ -66,4 +67,4 @@ You don't need the ADK installed to build this project, but some modules will be
 This uses the [Android Maven Plugin](http://code.google.com/p/maven-android-plugin/) to build your Android projects - which does mean [installing the ADK](http://code.google.com/p/maven-android-plugin/wiki/GettingStarted).
 
 An examination of `demos.invaders.android` will reveal that I'm using my own special blend](https://github.com/g-pechorin/droid-maven-plugin) to get audio assets off of the classpath.
-I would like to "fix" this someday ...
+I would like to "fix" this someday ... with non-asset audio so I can do mixing in GPGPU GLSL

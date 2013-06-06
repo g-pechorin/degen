@@ -75,8 +75,10 @@
     <modules>
         <module>degen-maven-plugin</module>
         <module>droid-maven-plugin</module>
-        <module>libgdx-degen.root</module>
-        <module>libgdx.demo</module>
+		<module>libgdx-degen.gdx.math</module>
+		<module>libgdx-degen.gdx</module>
+		<module>libgdx-degen.lwjgl</module>
+		<module>libgdx-degen.android</module>
     </modules>
 
     <profiles>
