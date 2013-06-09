@@ -20,12 +20,18 @@ Goals (1.3.4)
 	* [x] move com.peterlavalle::degen into this project
 	* [x] flatten the module tree
 	* [x] (wicket style) change Mesh's "set" functions to return Mesh
-	* [ ] (scala friendly) give "Mesh" java.util
+		** [ ] upstream this
+	* [ ] (scala friendly) give "Mesh" setters for java.util.List
+		** [ ] upstream this
 	* [ ] find out why the desktop demos don't play music
-	* [ ] Scala+Java (desktop/Android) demo
-	* [ ] jnlp and applet demos
+	* [ ] get local files to read from the user's home directory on Windoze
+		** [ ] upstream this
+	* [ ] upstream the "internal files fallback to classpath on Android"
+	* Scala+Java 
+		** [ ] (desktop/Android) demo
+		** [ ] jnlp and applet demos
 	* [ ] removal of libGDX version numbers
-	* [ ] update to the libGDX version 0.9.??? with the new modelling stuff
+	* [ ] update to the libGDX version 0.9.??? (with the new modelling stuff)
 	* [ ] droid::cull needs to not-fail when there are no files to repack
 	* [ ] Mojo to generate AndroidManifest.xml
  
