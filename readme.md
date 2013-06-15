@@ -21,7 +21,8 @@ Goals (1.3.4)
 	* [x] flatten the module tree
 	* [x] (wicket style) change Mesh's "set" functions to return Mesh
 		** [x] upstream this
-	* 
+	* added ariel-15 fnt/png files
+	* More Maths For Shaders
 		** [x] Vector4 add class
 		** [ ] Vector4 add remaining methods
 		** [ ] add ivec classes
@@ -31,18 +32,29 @@ Goals (1.3.4)
 	* [ ] (scala friendly) give "Mesh" setters for Array[Int]
 		** [ ] upstream this
 	* [ ] find out why the desktop demos don't play music
-	* [ ] get local files to read from the user's home directory on Windoze
-		** [ ] upstream this
 	* [ ] upstream the "internal files fallback to classpath on Android"
 	* Demos
 		** [ ] (desktop/Android) demo
 		** [ ] jnlp and applet demos
-	* [ ] removal of libGDX version numbers
+	* [x] removal of libGDX version numbers
 	* [ ] update to the libGDX version 0.9.??? (with the new modelling stuff)
 		** remove any "my classes" that have been upstreamed
 	* [ ] droid::cull needs to not-fail when there are no files to repack
-	* [ ] Mojo to generate AndroidManifest.xml
+	* [ ] degen - when the zip file is not found, print an error. don't throw a nullpointer exception
  
+Goals (1.3.5)
+------------------
+	* [ ] rewrite it to have one-and-only-one maven plugin (but still multiple mojos from multiple modules)
+	* [ ] build an "applet stuffs"
+		** [ ] scrape lwjgl_applet_util
+		** [ ] make mojo for emitting things?
+		** [ ] tweak LWJGL stuff for applets to "just" appear in the applet backend
+	* [ ] get local files to read from the user's home directory on Windoze
+		** [ ] upstream this
+	* [ ] Mojo to generate AndroidManifest.xml
+	* [ ] degen - allow ?{} so that if the left side of the pattern exists, the right side file is copied i.e. ?{(.*)\.fnt@$1.png} copies all .png files who match a .fnt file
+	* [ ] degen - print number of files copied per pattern
+
 Butter Scotch Goals
 -------------------
 	* __unicorns!__ everyone likes unicorns
