@@ -12,7 +12,8 @@ The project downloads [libGDX](http://libgdx.badlogicgames.com/) distributions f
 Next Goals
 ----------
 As of 2013-06-06 I'm still using this, and updating it in connection with coursework.
-I'm using Hg-Git as my client, which can be flaky (and developed by GitHub, so it's kind of weird they don't maintain it)
+I'm using TortoiseHg + Hg-Git as my client, which can be flaky.
+Considering GitHub wrote Hg-Git, I feel the flakiness is from GitHub.
 
 Goals (1.3.4)
 ------------------
@@ -29,68 +30,66 @@ Goals (1.3.4)
 		** [ ] add bvec classes
 		** [ ] modify shader class to accept these parameters
 		** [ ] upstream it
-	* [ ] (scala friendly) give "Mesh" setters for Array[Int]
+	* [x] (scala friendly) give "Mesh" setters for Int* and Float*
 		** [ ] upstream this
 	* [ ] find out why the desktop demos don't play music
 	* [ ] upstream the "internal files fallback to classpath on Android"
 	* Demos
-		** [ ] (desktop/Android) demo
-		** [ ] jnlp and applet demos
+		** [ ] desktop Scala demo
+		** [ ] applet Scala demo
+		** [ ] Android Scala demo
+		** [ ] jnlp Scala demo
 	* [x] removal of libGDX version numbers
-	* [ ] update to the libGDX version 0.9.??? (with the new modelling stuff)
-		** remove any "my classes" that have been upstreamed
 	* [ ] droid::cull needs to not-fail when there are no files to repack
 	* [ ] degen - when the zip file is not found, print an error. don't throw a nullpointer exception
  
 Goals (1.3.5)
 ------------------
+	* ProGuard
+		** [ ] add a mojo to execute it
+		** [ ] add a dexguard module
+	* [ ] move all natives to backends
+	* [ ] per-architecture backend moduless
+		** [ ] desktop
+			*** [ ] .osx.x86_64
+			*** [ ] .linux.x86
+			*** [ ] .linux.x86_64
+			*** [ ] .win32.x86
+			*** [ ] .win64.x86_64
+		** [ ] android
+			*** [ ]apk.arm
+			*** [ ]apk.armv7a
+	* [ ] update to the libGDX version 0.9.??? (with the new modelling stuff)
+		** remove any "my classes" that have been upstreamed
+	* [ ] RoboVM Scala demo
+	* [ ] applet Scala demo
 	* [ ] rewrite it to have one-and-only-one maven plugin (but still multiple mojos from multiple modules)
 	* [ ] build an "applet stuffs"
 		** [ ] scrape lwjgl_applet_util
 		** [ ] make mojo for emitting things?
 		** [ ] tweak LWJGL stuff for applets to "just" appear in the applet backend
 	* [ ] get local files to read from the user's home directory on Windoze
-		** [ ] upstream this
 	* [ ] Mojo to generate AndroidManifest.xml
 	* [ ] degen - allow ?{} so that if the left side of the pattern exists, the right side file is copied i.e. ?{(.*)\.fnt@$1.png} copies all .png files who match a .fnt file
 	* [ ] degen - print number of files copied per pattern
 
 Butter Scotch Goals
 -------------------
+	* Mojo to generate pop out an avianvm installer/uninstllaer
+		** would need to compile windows32 / windows64 version
+		** also need icon too
 	* __unicorns!__ everyone likes unicorns
-	* a Mojo to do ProGuard on libGDX (build mega-jar, save listener and native, optimize everything else)
 	* a Mojo to do GDX-JNIGEN (or like) stuff and compile it
-	* A C++ / GLES / CG "backend" for that one system that uses those things
 	* A C++ / GLES2.0 / "backend" for NaCL
+	* A C++ / CgFX / "backend" for ... other thing
 	* non-asset audio system
 	* lodepng PNG loading (stb_lib has a few shortcomings)
 
-
-
-Modules
-=======
- * libgdx-repack-dist.__gdx.math__ the basic math classes that [libGDX](http://libgdx.badlogicgames.com/) encompasses. It is made up entierly of POJO (which means I've replaced a few methods)
- * libgdx-repack-dist.__gdx__ the general [libGDX](http://libgdx.badlogicgames.com/) shared library. It depends on the math library to get its math classes. There's some native code
- * libgdx-repack-dist.__lwjgl__ the desktop library based on lwjgl
- * libgdx-repack-dist.__android__ the android library
- * demos.__invaders__ a root project for the invaders demo game
-  * demos.__invaders.shared__ the shared code for the invaders demo game
-  * demos.__invaders.lwjgl__ the code for the desktop invaders demo game
-  * demos.__invaders.android__ the code for the android invaders demo game
- * __libgdx.scala.demo__ a root POM for the scala demos
-  * __libgdx.scala.demo.game__ a very empty Scala libGDX game
-  * __libgdx.scala.demo.desktop__ a (possible) Platform Runtime for the Scala game
-   * it compiles fine in Maven
-   * it runs fine in Maven
-   * NetBeans doesn't like it
-   * NetBeans doesn't like any Scala project with multiple modules?
-   * I have not tried Eclipse
-
 Android Projects
 ================
-This thing will / should skip the demo/apk files if you don't have ADK
+This thing will / should skip the demo/apk files if you don't have ADK installed.
 You don't need the ADK installed to build this project, but some modules will be skipped.
 This uses the [Android Maven Plugin](http://code.google.com/p/maven-android-plugin/) to build your Android projects - which does mean [installing the ADK](http://code.google.com/p/maven-android-plugin/wiki/GettingStarted).
 
-An examination of `demos.invaders.android` will reveal that I'm using my own special blend](https://github.com/g-pechorin/droid-maven-plugin) to get audio assets off of the classpath.
-I would like to "fix" this someday ... with non-asset audio so I can do mixing in GPGPU GLSL
+An examination of `demos.invaders.android` will reveal that I'm using [my own special blend](https://github.com/g-pechorin/droid-maven-plugin) to get audio assets off of the classpath.
+I would like to "fix" this someday ... with non-asset audio (so I can do audio mixing in GPGPU GLSL) but I have toher priorities.

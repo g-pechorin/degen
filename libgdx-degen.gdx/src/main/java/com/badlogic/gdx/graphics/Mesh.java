@@ -158,6 +158,21 @@ public class Mesh implements Disposable {
 		
 		return this;
 	}
+	
+	/** Sets the vertices of this Mesh
+	 *
+	 * This converts the passed vertex elements to floats
+	 * It's meant for cases where it's convient to initialise the whole mesh in like-one line - not for loading from files
+	 **/
+	public Mesh setVertices (double... doubles) {
+		float[] floats = new float[doubles.length];
+		
+		for ( int i = 0; i < doubles.length; i++ ) {
+			floats[i] = (float)doubles[i];
+		}
+		
+		return setVertices(floats);
+	}
 
 	/** Sets the vertices of this Mesh. The attributes are assumed to be given in float format. If this mesh is configured to use
 	 * fixed point an IllegalArgumentException will be thrown.
@@ -190,6 +205,26 @@ public class Mesh implements Disposable {
 		this.indices.setIndices(indices, 0, indices.length);
 		
 		return this;
+	}
+	
+	/** Sets the indices of this Mesh
+	 *
+	 * This converts the passed int indicies to shorts.
+	 * It's meant for cases where it's convient to initialise the whole mesh in like-one line
+	 **/
+	public Mesh setIndices (int ... intdicies) {
+		short [] shortdicies = new short[intdicies.length];
+		
+		for ( int i = 0; i < intdicies.length; i++ ) {
+		
+			if ( intdicies[i] < 0 || intdicies[i] > ((int)Short.MAX_VALUE) ) {
+				throw new IllegalArgumentException();
+			}
+			
+			shortdicies[i] = (short)intdicies[i];
+		}
+		
+		return setIndices(shortdicies);
 	}
 
 	/** Sets the indices of this Mesh.
