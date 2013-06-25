@@ -3,20 +3,36 @@
 libGDX degen
 ============
 
-This [libGDX](http://libgdx.badlogicgames.com/) re-packaged with my [degen](https://github.com/g-pechorin/degen)erate Mojo.
-I wanted to use [libGDX](http://libgdx.badlogicgames.com/) in Maven, with sources, and I was tired of rolling Ant scripts.
-The project downloads [libGDX](http://libgdx.badlogicgames.com/) distributions from GitHub via HTTP, and stores it in `target/`
+This is [libGDX](http://libgdx.badlogicgames.com/) re-packaged with my degen plugin (which is also in the project) and with some tweaks I have not pushed upstream.
+I built this because there was no Maven version available - that has since changed.
+I keep using / developing it since I like being able to adjust libGDX on my own.
 
+Building
+-------
+When the project builds, it
+    * scrapes googlecode.com for the libGDX distribution
+    * cracks that open for the .java, .class, .png, .fnt and whatever that it needs
+    * packs them up (smartly) as if they were compiled by the project
+The project "only" scrapes once (unless you run clean) and caches the zip in the root target folder.
 
+Other Mojos
+-----------
+There are two other Mojos in here
+    * one for extracting files (.mp3 and .ogg) from dependencies
+    * once for editing the artifact at the end to remove things that'r on the classpath and in the assets/ folder
+These allow me to package all-the-things in classpath then sneak them into assets for APK builds.
 
-Next Goals
-----------
-As of 2013-06-06 I'm still using this, and updating it in connection with coursework.
-I'm using TortoiseHg + Hg-Git as my client, which can be flaky.
-Considering GitHub wrote Hg-Git, I feel the flakiness is from GitHub.
+Differences from vanilla-libGDX
+-------------------------------
+    * `Gdx.files.internal` falls back to classpath on Android (which is what it does on Desktop)
+    * `com.badlogic.gdx.math.Frustum` does not use any native methods (so it can be used as a POJO)
+    * `com.badlogic.gdx.math.Matrix4` does not use any native methods (so it can be used as a POJO)
+    * `com.badlogic.gdx.math.Matrix4` does not use any shared objects (so it can be used in multiple threads)
+    * the lwjgl backend depends on the version of lwjgl in Maven (because!)
 
 Goals (1.3.4)
 ------------------
+    * [ ] fix build on Ubuntu 13.04
 	* [x] move com.peterlavalle::droid into this project
 	* [x] move com.peterlavalle::degen into this project
 	* [x] flatten the module tree
@@ -34,22 +50,13 @@ Goals (1.3.4)
 		** [ ] upstream this
 	* [ ] find out why the desktop demos don't play music
 	* [ ] upstream the "internal files fallback to classpath on Android"
-	* Demos
-		** [ ] desktop Scala demo
-		** [ ] applet Scala demo
-		** [ ] Android Scala demo
-		** [ ] jnlp Scala demo
 	* [x] removal of libGDX version numbers
 	* [ ] droid::cull needs to not-fail when there are no files to repack
 	* [ ] degen - when the zip file is not found, print an error. don't throw a nullpointer exception
  
 Goals (1.3.5)
 ------------------
-	* ProGuard
-		** [ ] add a mojo to execute it
-		** [ ] add a dexguard module
-	* [ ] move all natives to backends
-	* [ ] per-architecture backend moduless
+	* [ ] per-architecture backend modules
 		** [ ] desktop
 			*** [ ] .osx.x86_64
 			*** [ ] .linux.x86
@@ -61,28 +68,33 @@ Goals (1.3.5)
 			*** [ ]apk.armv7a
 	* [ ] update to the libGDX version 0.9.??? (with the new modelling stuff)
 		** remove any "my classes" that have been upstreamed
-	* [ ] RoboVM Scala demo
-	* [ ] applet Scala demo
-	* [ ] rewrite it to have one-and-only-one maven plugin (but still multiple mojos from multiple modules)
-	* [ ] build an "applet stuffs"
-		** [ ] scrape lwjgl_applet_util
-		** [ ] make mojo for emitting things?
-		** [ ] tweak LWJGL stuff for applets to "just" appear in the applet backend
-	* [ ] get local files to read from the user's home directory on Windoze
-	* [ ] Mojo to generate AndroidManifest.xml
+    * "full" Scala demos / archetypes
+        ** [ ] Desktop
+        ** [ ] RoboVM
+        ** [ ] Applet
+        ** [ ] Android
+        ** [ ] JNLP
+	* [ ] rewrite it to have one-and-only-one maven plugin (but still multiple mojos)
+	* [ ] get `Gdx.files.local` files to read from the user's home directory on Windoze
 	* [ ] degen - allow ?{} so that if the left side of the pattern exists, the right side file is copied i.e. ?{(.*)\.fnt@$1.png} copies all .png files who match a .fnt file
 	* [ ] degen - print number of files copied per pattern
+	* [ ] degen - allow "extract from downloaded archive" as well as current "download archive and extract from archive contained within"
 
 Butter Scotch Goals
 -------------------
-	* Mojo to generate pop out an avianvm installer/uninstllaer
-		** would need to compile windows32 / windows64 version
-		** also need icon too
+	* [ ] Mojo to generate the whole Android project and build it (right from the "shared" library!)
+	    ** AndroidManifest.xml
+	    ** a main class
+	    ** icon and resources
+	* [ ] Mojo to generate an applet
 	* __unicorns!__ everyone likes unicorns
-	* a Mojo to do GDX-JNIGEN (or like) stuff and compile it
+	* a Mojo to do GDX-JNIGEN (or like) stuff and compile it, from the scraped sources
+	* a Mojo to rewrite PNG (et al) images to be more-better and friendly to whatever format I'm using
 	* A C++ / GLES2.0 / "backend" for NaCL
 	* A C++ / CgFX / "backend" for ... other thing
-	* non-asset audio system
+	* "more better" audio library
+	    ** load / play audio from classpath / byte streams / whatever
+	    ** "more better" positional audio support
 	* lodepng PNG loading (stb_lib has a few shortcomings)
 
 Android Projects
