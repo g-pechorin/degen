@@ -38,7 +38,8 @@ Differences from vanilla-libGDX
 
 Goals (1.3.4)
 ------------------
-    * [ ] fix build on Ubuntu 13.04
+	* [x] fix build on Ubuntu 13.04
+		** it was a problem of natives; I've stopped taking antives from libGDX
 	* [x] move com.peterlavalle::droid into this project
 	* [x] move com.peterlavalle::degen into this project
 	* [x] flatten the module tree
