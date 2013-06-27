@@ -57,8 +57,7 @@ Goals (1.3.4)
 	* [ ] find out why the desktop demos don't play music
 	* [ ] upstream the "internal files fallback to classpath on Android"
 	* [x] removal of libGDX version numbers
-	* [ ] droid::cull - needs to not-fail when there are no files to repack
-		** this has been "done" but it has not been tested
+	* [x] droid::cull - needs to not-fail when there are no files to repack
 	* [ ] droid::cull - needs reliable method of locating aapt
 	* [ ] degen - when the zip file is not found, print an error. don't throw a nullpointer exception
  
