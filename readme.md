@@ -95,6 +95,7 @@ Butter Scotch Goals
 	    ** a main class
 	    ** icon and resources
 	* [ ] Mojo to generate an applet
+	* a https://code.google.com/p/getdown/ launcher mojo doohickey that unspools stuff (for $reasons)
 	* __unicorns!__ everyone likes unicorns
 	* a Mojo to do GDX-JNIGEN (or like) stuff and compile it, from the scraped sources
 	* a Mojo to rewrite PNG (et al) images to be more-better and friendly to whatever format I'm using
