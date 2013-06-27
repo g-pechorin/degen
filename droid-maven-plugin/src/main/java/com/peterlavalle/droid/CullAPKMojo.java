@@ -7,71 +7,80 @@ package com.peterlavalle.droid;
 import com.peterlavalle.util.ByYourCommand;
 import com.peterlavalle.util.Callback;
 import com.peterlavalle.util.Util;
-import java.io.File;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
+import java.io.File;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 /**
- *
  * @author Peter LaValle
- * @goal cull
  * @version $Id$
+ * @goal cull
  */
 public class CullAPKMojo extends AbstractDroidMojo {
 
-	/**
-	 * @parameter expression="${env.ANDROID_HOME}"
-	 * @required
-	 */
-	private File androidHome;
+    /**
+     * @parameter expression="${env.ANDROID_HOME}/platform-tools/aapt"
+     * @required
+     */
+    private File aapt;
 
-	@Override
-	public void execute() throws MojoExecutionException, MojoFailureException {
+    @Override
+    public void execute() throws MojoExecutionException, MojoFailureException {
 
-		final ZipFile apkZipFile = getApkZipFile();
+        final ZipFile apkZipFile = getApkZipFile();
 
-		final ByYourCommand lineCommand = new ByYourCommand(new File(androidHome, "platform-tools/"), "aapt");
+        final ByYourCommand lineCommand = new ByYourCommand(aapt.getParentFile(), aapt.getName());
 
-		lineCommand.addArgument("r");
-		lineCommand.addArgument(getBuiltFile().getAbsolutePath());
+        lineCommand.addArgument("r");
+        lineCommand.addArgument(getBuiltFile().getAbsolutePath());
 
-		for (final ZipEntry entry : Util.toIterable(apkZipFile.entries())) {
+        int count = 0;
 
-			final String name = entry.getName();
+        for (final ZipEntry entry : Util.toIterable(apkZipFile.entries())) {
 
-			// determin if it's a duplicate
-			if (name.matches(getAssetsCriteria()) && apkZipFile.getEntry("assets/" + name) != null) {
+            final String name = entry.getName();
 
-				getLog().info("I will remove the duplicate `" + entry.getName() + "` from the apk");
+            // determin if it's a duplicate
+            if (name.matches(getAssetsCriteria()) && apkZipFile.getEntry("assets/" + name) != null) {
 
-				lineCommand.addArgument(name);
-			}
-		}
+                getLog().info("I will remove the duplicate `" + entry.getName() + "` from the apk");
 
-		// setup the streams
-		lineCommand.pipeErrorTo(new Callback.StringCallbackOutputStream(new Callback<String>() {
-			@Override
-			public void callback(final String toString) {
-				if (!toString.equals("")) {
-					getLog().error(toString);
-				}
-			}
-		}));
-		lineCommand.pipeOutputTo(new Callback.StringCallbackOutputStream(new Callback<String>() {
-			@Override
-			public void callback(final String toString) {
-				if (!toString.equals("")) {
-					getLog().info(toString);
-				}
-			}
-		}));
+                lineCommand.addArgument(name);
+                count++;
+            }
+        }
 
-		final int result = lineCommand.run();
+        if (count == 0) {
+            getLog().info("There are no duplicates for me to remove");
+        } else {
+            getLog().info("That's " + count + " files I'm going to remove as duplicates");
 
-		if (result != 0) {
-			throw new MojoExecutionException("Command result=" + result);
-		}
-	}
+            // setup the streams
+            lineCommand.pipeErrorTo(new Callback.StringCallbackOutputStream(new Callback<String>() {
+                @Override
+                public void callback(final String toString) {
+                    if (!toString.equals("")) {
+                        getLog().error(toString);
+                    }
+                }
+            }));
+            lineCommand.pipeOutputTo(new Callback.StringCallbackOutputStream(new Callback<String>() {
+                @Override
+                public void callback(final String toString) {
+                    if (!toString.equals("")) {
+                        getLog().info(toString);
+                    }
+                }
+            }));
+
+            final int result = lineCommand.run();
+
+            if (result != 0) {
+                throw new MojoExecutionException("Command result=" + result);
+            }
+        }
+    }
 }
