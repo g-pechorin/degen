@@ -1,19 +1,25 @@
+Degenerated
+===========
 
+This is a growing pile of other people's work that I've repakcaged into Maven.
+My cool-ness here is that this project downloads the artifacts ... so anyone can (potentially) tweak parameters, hit build, and get their own distribution.
 
-libGDX degen
-============
+I have;
 
-This is [libGDX](http://libgdx.badlogicgames.com/) re-packaged with my degen plugin (which is also in the project) and with some tweaks I have not pushed upstream.
-I built this because there was no Maven version available - that has since changed.
-I keep using / developing it since I like being able to adjust libGDX on my own.
+    * [libGDX](http://libgdx.badlogicgames.com/)
+        ** with some tweaks I have not pushed upstream
+        ** I'm aware that they've got a pom of their own - I don't think that it's in central; Aut inveniam viam aut faciam
+    * [JBullet](http://jbullet.advel.cz/)
+
 
 Building
 -------
 When the project builds, it
-    * scrapes googlecode.com for the libGDX distribution
+    * scrapes for the distributions
+        ** it also "caches" the files in the root project's target folder
     * cracks that open for the .java, .class, .png, .fnt and whatever that it needs
     * packs them up (smartly) as if they were compiled by the project
-The project "only" scrapes once (unless you run clean) and caches the zip in the root target folder.
+        ** there's some beard twirling where it tries to pack .java files, but otherwise packs .class files
 
 Other Mojos
 -----------
@@ -41,7 +47,6 @@ Goals (1.3.4)
 	* added ariel-15 fnt/png files
 	* More Maths For Shaders
 		** [x] Vector4 add class
-		** [ ] Vector4 add remaining methods
 		** [ ] add ivec classes
 		** [ ] add bvec classes
 		** [ ] modify shader class to accept these parameters
@@ -79,6 +84,7 @@ Goals (1.3.5)
 	* [ ] degen - allow ?{} so that if the left side of the pattern exists, the right side file is copied i.e. ?{(.*)\.fnt@$1.png} copies all .png files who match a .fnt file
 	* [ ] degen - print number of files copied per pattern
 	* [ ] degen - allow "extract from downloaded archive" as well as current "download archive and extract from archive contained within"
+	* [ ] degen - allow ".class over .java" when choosing what to include (so I can keep JBullet's sexy JStackAlloc optimizations)
 
 Butter Scotch Goals
 -------------------
