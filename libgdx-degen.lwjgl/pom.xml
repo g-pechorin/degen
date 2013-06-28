@@ -26,24 +26,21 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <!--<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-backend-lwjgl-natives.jar</source>-->
-
-                                <!--
-                                <source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-openal.jar</source>
-                                -->
-
-
                                 <!-- import "just" the stuff that's not coming from other places -->
                                 <source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-backend-lwjgl.jar
                                     {(com.jcraft|javazoom.jl.decoder).*}
                                 </source>
+
+                                <!-- import the natives from gdx (which don't belong on android!) -->
+                                <source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-natives.jar</source>
+
+                                <!-- import the .java sources -->
                                 <source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip
                                     @sources/gdx-openal-sources.jar
                                 </source>
                                 <source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip
                                     @sources/gdx-backend-lwjgl-sources.jar
                                 </source>
-                                <source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-natives.jar</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -69,11 +66,6 @@
             <artifactId>lwjgl-platform</artifactId>
             <version>2.9.0</version>
             <classifier>natives-linux</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl.lwjgl</groupId>
-            <artifactId>lwjgl_util</artifactId>
-            <version>2.9.0</version>
         </dependency>
     </dependencies>
 </project>
