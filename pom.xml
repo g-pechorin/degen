@@ -34,8 +34,8 @@
 
 	<scm>
 		<url>https://github.com/g-pechorin/libgdx-degen</url>
-		<connection>scm:git:git@github.com:g-pechorin/libgdx-degen.git</connection>
-		<developerConnection>scm:hg:${dropbox.root}/Public/hg-repos/libgdx-degen</developerConnection>
+		<connection>scm:git:https://github.com/g-pechorin/libgdx-degen.git</connection>
+		<developerConnection>scm:git:git@github.com:g-pechorin/libgdx-degen.git</developerConnection>
 	</scm>
 
 	<repositories>
