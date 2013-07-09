@@ -57,6 +57,7 @@ Goals (1.3.4)
   * [ ] upstream this
  * [ ] find out why the desktop demos don't play music
  * [x] upstream the "internal files fallback to classpath on Android"
+  * __BAD__ there are actual reasons to use assets not classpath
  * [x] removal of libGDX version numbers
  * [x] droid::cull - needs to not-fail when there are no files to repack
  * [ ] droid::cull - needs reliable method of locating aapt
