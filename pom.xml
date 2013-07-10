@@ -68,6 +68,7 @@
 		<module>libgdx-degen.lwjgl</module>
 		<module>libgdx-degen.android</module>
 		<module>jbullet</module>
+		<module>mbel</module>
 	</modules>
 
 	<profiles>
