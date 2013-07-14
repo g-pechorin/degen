@@ -19,11 +19,13 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Exception used to indicate that an instruction constructor has been passed invalid arguments.
-  * @author Michael Stepp
-  */
-public class InstructionInitException extends RuntimeException{
-   public InstructionInitException(String message){
-      super(message);
-   }
+/**
+ * Exception used to indicate that an instruction constructor has been passed invalid arguments.
+ *
+ * @author Michael Stepp
+ */
+public class InstructionInitException extends RuntimeException {
+	public InstructionInitException(String message) {
+		super(message);
+	}
 }

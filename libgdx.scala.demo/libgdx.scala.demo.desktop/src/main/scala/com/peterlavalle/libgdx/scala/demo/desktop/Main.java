@@ -19,7 +19,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.peterlavalle.libgdx.scala.demo.game.GameApplication;
 
 /**
- *
  * @author peter
  */
 public class Main {

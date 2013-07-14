@@ -20,30 +20,33 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Exclusive OR instruction.<br>
-  * Stack transition: <br>
-  *   ..., value1, value2 --> result
-  * @author Michael Stepp
-  */
-public class XOR extends Instruction{
-   public static final int XOR = 0x61;
-   protected static final int OPCODE_LIST[] = {XOR};
+/**
+ * Exclusive OR instruction.<br>
+ * Stack transition: <br>
+ * ..., value1, value2 --> result
+ *
+ * @author Michael Stepp
+ */
+public class XOR extends Instruction {
+	public static final int XOR = 0x61;
+	protected static final int OPCODE_LIST[] = {XOR};
 
-   /** Creates a new XOR object
-     */
-   public XOR() throws InstructionInitException{
-      super(XOR, OPCODE_LIST);
-   }
+	/**
+	 * Creates a new XOR object
+	 */
+	public XOR() throws InstructionInitException {
+		super(XOR, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "xor";
-   }
+	public String getName() {
+		return "xor";
+	}
 
-   public XOR(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof XOR));
-   }
+	public XOR(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof XOR));
+	}
 }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>com.peterlavalle</groupId>
 		<artifactId>libgdx-degen</artifactId>
@@ -15,14 +16,17 @@
 	<description>
 		A Maven Mojo to download and "degenerate" non-maven projects into sources and binaries
 
-		This MOJO is supposed to scrape and "de-generate" a zip file containing jars into a project's generated-sources folder, skipping items provided in the `src/` folder.
-		It is intended to "mavenize-with-changes" an existing project and allow the user (of the Mojo) to replace classes which they do not have the ability/desire to recompile without setting up a full build.
+		This MOJO is supposed to scrape and "de-generate" a zip file containing jars into a project's generated-sources
+		folder, skipping items provided in the `src/` folder.
+		It is intended to "mavenize-with-changes" an existing project and allow the user (of the Mojo) to replace classes
+		which they do not have the ability/desire to recompile without setting up a full build.
 		It can also be used to import non-maven projects by not changing anything.
 
-		The itch I wanted to scratch was mostly to port libGDX to Maven, while replacing the native methods on Matrix4, without rebuilding the whole project.
+		The itch I wanted to scratch was mostly to port libGDX to Maven, while replacing the native methods on Matrix4,
+		without rebuilding the whole project.
 		In essence - it's an alternative to patching someone else's project.
 	</description>
-    
+
 	<licenses>
 		<license>
 			<name>GNU AFFERO GENERAL PUBLIC LICENSE</name>
@@ -44,6 +48,33 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.scala-tools</groupId>
+				<artifactId>maven-scala-plugin</artifactId>
+				<version>${scala.plugin}</version>
+
+
+				<executions>
+					<execution>
+						<id>scala-compile-first</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>add-source</goal>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+							<args>
+								<arg>-make:transitive</arg>
+								<arg>-dependencyfile</arg>
+								<arg>${project.build.directory}/.scala_dependencies</arg>
+							</args>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
 				<version>2.5.1</version>
@@ -56,24 +87,59 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.jamon</groupId>
+				<artifactId>jamon-maven-plugin</artifactId>
+				<version>2.4.1</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>translate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-plugin-api</artifactId>
-			<version>2.2.0</version>
+			<groupId>org.jamon</groupId>
+			<artifactId>jamon-runtime</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>${scala.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-compiler-api</artifactId>
+			<version>2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-project</artifactId>
-			<version>2.2.0</version>
+			<version>2.2.1</version>
 		</dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>14.0.1</version>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>3.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+			<version>1.0.3</version>
+		</dependency>
 	</dependencies>
 </project>

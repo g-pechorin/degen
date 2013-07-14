@@ -20,28 +20,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Bitwise OR of 2 integers.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> ..., result
-  * @author Michael Stepp
-  */
-public class OR extends Instruction{
-   public static final int OR = 0x60;
-   protected static final int OPCODE_LIST[] = {OR};
+/**
+ * Bitwise OR of 2 integers.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class OR extends Instruction {
+	public static final int OR = 0x60;
+	protected static final int OPCODE_LIST[] = {OR};
 
-   public OR() throws InstructionInitException{
-      super(OR, OPCODE_LIST);
-   }
+	public OR() throws InstructionInitException {
+		super(OR, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "or";
-   }
+	public String getName() {
+		return "or";
+	}
 
-   public OR(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof OR));
-   }
+	public OR(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof OR));
+	}
 }

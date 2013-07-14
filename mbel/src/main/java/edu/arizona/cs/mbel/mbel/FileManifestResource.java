@@ -19,40 +19,46 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This represents a manifest resource that resides in another file that 
-  * is referenced by this module. 
-  * @author Michael Stepp
-  */
-public class FileManifestResource extends ManifestResource{
-   private FileReference file;
-   
-   /** Makes a FileManifestResource with the given File reference and flags
-     * @param ref the file in which the resource lies
-     * @param flags a bit vector of flags (defined in ManifestResourceAttributes)
-     */
-   public FileManifestResource(FileReference ref, long flags){
-      super(ref.getFileName(), flags);
-      file = ref;
-   }
-   
-   /** Returns the file reference for this resource
-     */
-   public FileReference getFileReference(){
-      return file;
-   }
-   
-   /** Compares 2 FileManifestResources.
-     * Returns true iff super.equals and the file references are equal
-     */
-   public boolean equals(Object o){
-      if (!super.equals(o))
-         return false;
-      if (!(o instanceof FileManifestResource))
-         return false;
-         
-      FileManifestResource res = (FileManifestResource)o;
-      return file.equals(res.file);
-   }
+/**
+ * This represents a manifest resource that resides in another file that
+ * is referenced by this module.
+ *
+ * @author Michael Stepp
+ */
+public class FileManifestResource extends ManifestResource {
+	private FileReference file;
+
+	/**
+	 * Makes a FileManifestResource with the given File reference and flags
+	 *
+	 * @param ref   the file in which the resource lies
+	 * @param flags a bit vector of flags (defined in ManifestResourceAttributes)
+	 */
+	public FileManifestResource(FileReference ref, long flags) {
+		super(ref.getFileName(), flags);
+		file = ref;
+	}
+
+	/**
+	 * Returns the file reference for this resource
+	 */
+	public FileReference getFileReference() {
+		return file;
+	}
+
+	/**
+	 * Compares 2 FileManifestResources.
+	 * Returns true iff super.equals and the file references are equal
+	 */
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		if (!(o instanceof FileManifestResource))
+			return false;
+
+		FileManifestResource res = (FileManifestResource) o;
+		return file.equals(res.file);
+	}
    
 /*
    public void output(){

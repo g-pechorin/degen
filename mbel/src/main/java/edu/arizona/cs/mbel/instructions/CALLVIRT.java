@@ -19,64 +19,71 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Calls a virtual method.<br>
-  * Stack transition:<br>
-  *   ..., obj, arg1, ... argN --> ..., returnVal (maybe)
-  * @author Michael Stepp
-  */
-public class CALLVIRT extends TailPrefixInstruction{
-   public static final int CALLVIRT = 0x6F;
-   protected static final int OPCODE_LIST[] = {CALLVIRT};
-   private edu.arizona.cs.mbel.mbel.MethodDefOrRef method;
+/**
+ * Calls a virtual method.<br>
+ * Stack transition:<br>
+ * ..., obj, arg1, ... argN --> ..., returnVal (maybe)
+ *
+ * @author Michael Stepp
+ */
+public class CALLVIRT extends TailPrefixInstruction {
+	public static final int CALLVIRT = 0x6F;
+	protected static final int OPCODE_LIST[] = {CALLVIRT};
+	private edu.arizona.cs.mbel.mbel.MethodDefOrRef method;
 
-   /** Makes a CALLVIRT object for the given method reference (with no tail prefix)
-     * @param ref the method reference
-     */
-   public CALLVIRT(edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException{
-      this(false, ref);
-   }
-   
-   /** Makes a CALLVIRT object for the given method reference, possibly with a tail prefix.
-     * @param has true iff this CALLVIRT has a tail prefix
-     * @param ref the method reference
-     */
-   public CALLVIRT(boolean has, edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException{
-      super(has, CALLVIRT, OPCODE_LIST);
-      method = ref;
-   }
+	/**
+	 * Makes a CALLVIRT object for the given method reference (with no tail prefix)
+	 *
+	 * @param ref the method reference
+	 */
+	public CALLVIRT(edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException {
+		this(false, ref);
+	}
 
-   /** Returns the method reference for this instruction
-     */
-   public edu.arizona.cs.mbel.mbel.MethodDefOrRef getMethod(){
-      return method;
-   }
+	/**
+	 * Makes a CALLVIRT object for the given method reference, possibly with a tail prefix.
+	 *
+	 * @param has true iff this CALLVIRT has a tail prefix
+	 * @param ref the method reference
+	 */
+	public CALLVIRT(boolean has, edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException {
+		super(has, CALLVIRT, OPCODE_LIST);
+		method = ref;
+	}
 
-   public String getName(){
-      return "callvirt";
-   }
+	/**
+	 * Returns the method reference for this instruction
+	 */
+	public edu.arizona.cs.mbel.mbel.MethodDefOrRef getMethod() {
+		return method;
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public String getName() {
+		return "callvirt";
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getMethodRefToken(method);
-      buffer.putTOKEN(token);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   public CALLVIRT(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long methodToken = parse.getMSILInputStream().readTOKEN();
-      method = parse.getMethodDefOrRef(methodToken);
-   }
-   
-   public boolean equals(Object o){
-      if  (!(super.equals(o) && (o instanceof CALLVIRT)))
-         return false;
-      CALLVIRT callvirt = (CALLVIRT)o;
-      return (method==callvirt.method);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getMethodRefToken(method);
+		buffer.putTOKEN(token);
+	}
+
+	public CALLVIRT(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long methodToken = parse.getMSILInputStream().readTOKEN();
+		method = parse.getMethodDefOrRef(methodToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof CALLVIRT)))
+			return false;
+		CALLVIRT callvirt = (CALLVIRT) o;
+		return (method == callvirt.method);
+	}
 
 /*
    public void output(){

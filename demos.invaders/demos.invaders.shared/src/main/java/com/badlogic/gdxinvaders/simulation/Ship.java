@@ -23,7 +23,7 @@ public class Ship {
 	public boolean isExploding = false;
 	public float explodeTime = 0;
 
-	public void update (float delta) {
+	public void update(float delta) {
 		if (isExploding) {
 			explodeTime += delta;
 			if (explodeTime > Explosion.EXPLOSION_LIVE_TIME) {

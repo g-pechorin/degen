@@ -19,49 +19,55 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class represents a Manifest Resource that is embedded in the current module.
-  * The resource is given as a raw byte array, and is only accessed by the program through the API.
-  * @author Michael Stepp
-  */
-public class LocalManifestResource extends ManifestResource{
-   private byte[] resource;
-   // in file, resource is emitted as (4-btye LE length, resource) 
-   // with 4-byte padding between resources
+/**
+ * This class represents a Manifest Resource that is embedded in the current module.
+ * The resource is given as a raw byte array, and is only accessed by the program through the API.
+ *
+ * @author Michael Stepp
+ */
+public class LocalManifestResource extends ManifestResource {
+	private byte[] resource;
+	// in file, resource is emitted as (4-btye LE length, resource)
+	// with 4-byte padding between resources
 
-   /** Makes a LocalManifestResource with the given name, flags, and data value
-     * @param name the logical name of the resource
-     * @param flags a bit vector of flags (defined in ManifestResourceAttributes)
-     * @param data the raw bytes of the resource itself
-     */
-   public LocalManifestResource(String name, long flags, byte[] data){
-      super(name, flags);
-      resource = data;
-   }
-   
-   /** Returns the resource data as a raw byte array
-     */
-   public byte[] getResourceData(){
-      return resource;
-   }
-   
-   /** Comparse 2 LocalManifestResources
-     * Returns true iff super.equals and the raw data is equal
-     */
-   public boolean equals(Object o){
-      if (!super.equals(o))
-         return false;
-      if (o==null || !(o instanceof LocalManifestResource))
-         return false;
-         
-      LocalManifestResource res = (LocalManifestResource)o;
-      if (resource.length!=res.resource.length)
-         return false;
-         
-      for (int i=0;i<resource.length;i++)
-         if (res.resource[i]!= resource[i])
-            return false;
-      return true;
-   }
+	/**
+	 * Makes a LocalManifestResource with the given name, flags, and data value
+	 *
+	 * @param name  the logical name of the resource
+	 * @param flags a bit vector of flags (defined in ManifestResourceAttributes)
+	 * @param data  the raw bytes of the resource itself
+	 */
+	public LocalManifestResource(String name, long flags, byte[] data) {
+		super(name, flags);
+		resource = data;
+	}
+
+	/**
+	 * Returns the resource data as a raw byte array
+	 */
+	public byte[] getResourceData() {
+		return resource;
+	}
+
+	/**
+	 * Comparse 2 LocalManifestResources
+	 * Returns true iff super.equals and the raw data is equal
+	 */
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+		if (o == null || !(o instanceof LocalManifestResource))
+			return false;
+
+		LocalManifestResource res = (LocalManifestResource) o;
+		if (resource.length != res.resource.length)
+			return false;
+
+		for (int i = 0; i < resource.length; i++)
+			if (res.resource[i] != resource[i])
+				return false;
+		return true;
+	}
    
 /*
    public void output(){

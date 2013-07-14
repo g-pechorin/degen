@@ -20,23 +20,27 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Thrown when an Instructionhandle is removed from an InstructionList, 
-  * but the list still has other handles that target it.
-  * @author Michael Stepp
-  */
-public final class TargetLostException extends java.lang.Exception{
-   private InstructionHandle[] handles;
-  
-   /** Makes a TargetLostException, taking the list of handles that were removed
-     * that had targeters elsewhere in the list.
-     */
-   public TargetLostException(InstructionHandle[] lost){
-      handles = lost;
-   }
-   
-   /** Returns the list of handles that still had targeters.
-     */
-   public InstructionHandle[] getTargets(){
-      return handles;
-   }
+/**
+ * Thrown when an Instructionhandle is removed from an InstructionList,
+ * but the list still has other handles that target it.
+ *
+ * @author Michael Stepp
+ */
+public final class TargetLostException extends java.lang.Exception {
+	private InstructionHandle[] handles;
+
+	/**
+	 * Makes a TargetLostException, taking the list of handles that were removed
+	 * that had targeters elsewhere in the list.
+	 */
+	public TargetLostException(InstructionHandle[] lost) {
+		handles = lost;
+	}
+
+	/**
+	 * Returns the list of handles that still had targeters.
+	 */
+	public InstructionHandle[] getTargets() {
+		return handles;
+	}
 }

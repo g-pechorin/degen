@@ -19,36 +19,40 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Compare greater than.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> ..., result
-  * @author Michael Stepp
-  */
-public class CGT extends Instruction{
-   public static final int CGT      = 0x02FE;
-   public static final int CGT_UN   = 0x03FE;
-   protected static final int OPCODE_LIST[] = {CGT, CGT_UN};
+/**
+ * Compare greater than.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class CGT extends Instruction {
+	public static final int CGT = 0x02FE;
+	public static final int CGT_UN = 0x03FE;
+	protected static final int OPCODE_LIST[] = {CGT, CGT_UN};
 
-   /** Makes a CGT object, possibly unsigned
-     * @param un true iff this is an unsigned comparison
-     */
-   public CGT(boolean un) throws InstructionInitException{
-      super((un ? CGT_UN : CGT), OPCODE_LIST);
-   }
+	/**
+	 * Makes a CGT object, possibly unsigned
+	 *
+	 * @param un true iff this is an unsigned comparison
+	 */
+	public CGT(boolean un) throws InstructionInitException {
+		super((un ? CGT_UN : CGT), OPCODE_LIST);
+	}
 
-   public boolean isUnsignedOrUnordered(){
-      return (getOpcode()==CGT_UN);
-   }
+	public boolean isUnsignedOrUnordered() {
+		return (getOpcode() == CGT_UN);
+	}
 
-   public String getName(){
-      return (isUnsignedOrUnordered() ? "cgt.un" : "cgt");
-   }
+	public String getName() {
+		return (isUnsignedOrUnordered() ? "cgt.un" : "cgt");
+	}
 
-   public CGT(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof CGT));
-   }
+	public CGT(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof CGT));
+	}
 }

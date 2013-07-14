@@ -19,56 +19,61 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Load user string.<br>
-  * Stack transition:<br>
-  *   ... --> ..., string
-  * @author Michael Stepp
-  */
-public class LDSTR extends Instruction{
-   public static final int LDSTR = 0x72;
-   protected static final int OPCODE_LIST[] = {LDSTR};
-   private String string;
+/**
+ * Load user string.<br>
+ * Stack transition:<br>
+ * ... --> ..., string
+ *
+ * @author Michael Stepp
+ */
+public class LDSTR extends Instruction {
+	public static final int LDSTR = 0x72;
+	protected static final int OPCODE_LIST[] = {LDSTR};
+	private String string;
 
-   /** Makes a LDSTR object for the given string
-     * @param str the string to load
-     */
-   public LDSTR(String str) throws InstructionInitException{
-      super(LDSTR, OPCODE_LIST);
-      string = str;
-   }
+	/**
+	 * Makes a LDSTR object for the given string
+	 *
+	 * @param str the string to load
+	 */
+	public LDSTR(String str) throws InstructionInitException {
+		super(LDSTR, OPCODE_LIST);
+		string = str;
+	}
 
-   /** Returns the string to laod in this instruction
-     */
-   public String getString(){
-      return string;
-   }
+	/**
+	 * Returns the string to laod in this instruction
+	 */
+	public String getString() {
+		return string;
+	}
 
-   public String getName(){
-      return "ldstr";
-   }
+	public String getName() {
+		return "ldstr";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getUserStringToken(string);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getUserStringToken(string);
+		buffer.putTOKEN(token);
+	}
 
-   public LDSTR(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long userStringToken = parse.getMSILInputStream().readTOKEN();
-      string = parse.getUserString(userStringToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof LDSTR)))
-         return false;
-      LDSTR ldstr = (LDSTR)o;
-      return (string.equals(ldstr.string));
-   }
+	public LDSTR(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long userStringToken = parse.getMSILInputStream().readTOKEN();
+		string = parse.getUserString(userStringToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof LDSTR)))
+			return false;
+		LDSTR ldstr = (LDSTR) o;
+		return (string.equals(ldstr.string));
+	}
 
 /*
    public void output(){

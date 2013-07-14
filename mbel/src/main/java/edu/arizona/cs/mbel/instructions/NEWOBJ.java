@@ -20,54 +20,58 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Create new object.<br>
-  * Stack transition:<br>
-  *   ..., arg1, ... argN --> ..., obj
-  * @author Michael Stepp
-  */
-public class NEWOBJ extends Instruction{
-   public static final int NEWOBJ = 0x73;
-   protected static final int OPCODE_LIST[] = {NEWOBJ};
-   private edu.arizona.cs.mbel.mbel.MethodDefOrRef method; // for constructor
+/**
+ * Create new object.<br>
+ * Stack transition:<br>
+ * ..., arg1, ... argN --> ..., obj
+ *
+ * @author Michael Stepp
+ */
+public class NEWOBJ extends Instruction {
+	public static final int NEWOBJ = 0x73;
+	protected static final int OPCODE_LIST[] = {NEWOBJ};
+	private edu.arizona.cs.mbel.mbel.MethodDefOrRef method; // for constructor
 
-   /** Makes a NEWOBJ object with the given constructor method.
-     * @param ref the method reference of the constructor for this type.
-     */
-   public NEWOBJ(edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException{
-      super(NEWOBJ, OPCODE_LIST);
-      method = ref;
-   }
+	/**
+	 * Makes a NEWOBJ object with the given constructor method.
+	 *
+	 * @param ref the method reference of the constructor for this type.
+	 */
+	public NEWOBJ(edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException {
+		super(NEWOBJ, OPCODE_LIST);
+		method = ref;
+	}
 
-   public edu.arizona.cs.mbel.mbel.MethodDefOrRef getMethod(){
-      return method;
-   }
+	public edu.arizona.cs.mbel.mbel.MethodDefOrRef getMethod() {
+		return method;
+	}
 
-   public String getName(){
-      return "newobj";
-   }
+	public String getName() {
+		return "newobj";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getMethodRefToken(method);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getMethodRefToken(method);
+		buffer.putTOKEN(token);
+	}
 
-   public NEWOBJ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long methodToken = parse.getMSILInputStream().readTOKEN();
-      method = parse.getMethodDefOrRef(methodToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof NEWOBJ)))
-         return false;
-      NEWOBJ newobj = (NEWOBJ)o;
-      return (method==newobj.method);
-   }
+	public NEWOBJ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long methodToken = parse.getMSILInputStream().readTOKEN();
+		method = parse.getMethodDefOrRef(methodToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof NEWOBJ)))
+			return false;
+		NEWOBJ newobj = (NEWOBJ) o;
+		return (method == newobj.method);
+	}
 
 /*
    public void output(){

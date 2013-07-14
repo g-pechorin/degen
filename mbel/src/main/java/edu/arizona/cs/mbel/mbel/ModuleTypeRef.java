@@ -19,28 +19,33 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class represents a TypeRef that refers to a type defined in another module of the same 
-  * assembly as the module in which it appears.
-  * @author Michael Stepp
-  */
-public class ModuleTypeRef extends TypeRef{
-   private ModuleRefInfo moduleRef;
-   
-   /** Makes a ModuleTypeRef with the given module, namespace, and name.
-     * @param module a ModuleInfo object with information about the type parent module
-     * @param ns the namespace of the type
-     * @param name the name of the type
-     */
-   public ModuleTypeRef(ModuleRefInfo module, String ns, String name){
-      super(ns, name);
-      moduleRef = module;
-   }
-   
-   /** Returns the ModuleRefInfo for the parent module of this typeref.
-     */
-   public ModuleRefInfo getModuleRefInfo(){
-      return moduleRef;
-   }
+/**
+ * This class represents a TypeRef that refers to a type defined in another module of the same
+ * assembly as the module in which it appears.
+ *
+ * @author Michael Stepp
+ */
+public class ModuleTypeRef extends TypeRef {
+	private ModuleRefInfo moduleRef;
+
+	/**
+	 * Makes a ModuleTypeRef with the given module, namespace, and name.
+	 *
+	 * @param module a ModuleInfo object with information about the type parent module
+	 * @param ns     the namespace of the type
+	 * @param name   the name of the type
+	 */
+	public ModuleTypeRef(ModuleRefInfo module, String ns, String name) {
+		super(ns, name);
+		moduleRef = module;
+	}
+
+	/**
+	 * Returns the ModuleRefInfo for the parent module of this typeref.
+	 */
+	public ModuleRefInfo getModuleRefInfo() {
+		return moduleRef;
+	}
    
 /*
    public void output(){

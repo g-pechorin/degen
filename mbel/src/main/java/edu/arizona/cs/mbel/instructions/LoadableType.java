@@ -19,9 +19,11 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Tag interface for MBEL objects corresponding to tokens for the LDTOKEN instruction.
-  * @author Michael Stepp
-  */
-public interface LoadableType{
-   //public void output();
+/**
+ * Tag interface for MBEL objects corresponding to tokens for the LDTOKEN instruction.
+ *
+ * @author Michael Stepp
+ */
+public interface LoadableType {
+	//public void output();
 }

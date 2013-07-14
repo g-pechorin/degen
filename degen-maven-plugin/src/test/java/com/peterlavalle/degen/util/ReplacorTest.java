@@ -5,12 +5,12 @@
 package com.peterlavalle.degen.util;
 
 import com.peterlavalle.degen.extractors.util.Replacor;
-import java.util.Arrays;
-import java.util.List;
 import junit.framework.TestCase;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
- *
  * @author Peter LaValle
  */
 public class ReplacorTest extends TestCase {
@@ -47,7 +47,7 @@ public class ReplacorTest extends TestCase {
 		assertNull(replacorList.apply("com/badlogic/gdx/utils/GdxRuntimeException.java"));
 		assertNull(replacorList.apply("com/badlogic/gdx/utils/GwtModuleGenerator.java"));
 		assertNull(replacorList.apply("com/badlogic/gdx/utils/NumberUtils.java"));
-		
+
 		// should match
 		assertEquals("com/badlogic/gdx/Files.java", replacorList.apply("com/badlogic/gdx/Files.java"));
 		assertEquals("com/badlogic/gdx/Game.java", replacorList.apply("com/badlogic/gdx/Game.java"));

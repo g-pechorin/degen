@@ -4,14 +4,14 @@
  */
 package com.peterlavalle.degen.mojos;
 
-import java.io.File;
-import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
+import java.io.File;
+import java.util.Map;
+
 /**
- *
  * @author Peter LaValle
  */
 public abstract class AMojo extends AbstractMojo {
@@ -26,9 +26,10 @@ public abstract class AMojo extends AbstractMojo {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
+
 	/**
 	 * Which files are sources?
 	 *
@@ -67,6 +68,7 @@ public abstract class AMojo extends AbstractMojo {
 	public File getGeneratedSourcesFile() {
 		return new File(gensource_folder);
 	}
+
 	/**
 	 * Where to put the generated resource
 	 *

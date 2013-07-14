@@ -19,56 +19,61 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Load metadata token.<br>
-  * Stack transition:<br>
-  *   ... --> ..., RuntimeHandle
-  * @author Michael Stepp
-  */
-public class LDTOKEN extends Instruction{
-   public static final int LDTOKEN = 0xD0;
-   protected static final int OPCODE_LIST[] = {LDTOKEN};
-   private LoadableType loadableType;// methoddef, methodref, typedef, typeref, fieldref, fielddef
+/**
+ * Load metadata token.<br>
+ * Stack transition:<br>
+ * ... --> ..., RuntimeHandle
+ *
+ * @author Michael Stepp
+ */
+public class LDTOKEN extends Instruction {
+	public static final int LDTOKEN = 0xD0;
+	protected static final int OPCODE_LIST[] = {LDTOKEN};
+	private LoadableType loadableType;// methoddef, methodref, typedef, typeref, fieldref, fielddef
 
-   /** Makes a LDTOKEN object with the given loadable type.
-     * @param type an MBEL object that has one of the metadata tokens that may be loaded with this instruction
-     */
-   public LDTOKEN(LoadableType type) throws InstructionInitException{
-      super(OPCODE_LIST[0], OPCODE_LIST);
-      loadableType = type;
-   }
+	/**
+	 * Makes a LDTOKEN object with the given loadable type.
+	 *
+	 * @param type an MBEL object that has one of the metadata tokens that may be loaded with this instruction
+	 */
+	public LDTOKEN(LoadableType type) throws InstructionInitException {
+		super(OPCODE_LIST[0], OPCODE_LIST);
+		loadableType = type;
+	}
 
-   /** Returns the loadable type for this instruction
-     */
-   public LoadableType getLoadableType(){
-      return loadableType;
-   }
+	/**
+	 * Returns the loadable type for this instruction
+	 */
+	public LoadableType getLoadableType() {
+		return loadableType;
+	}
 
-   public String getName(){
-      return "ldtoken";
-   }
+	public String getName() {
+		return "ldtoken";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getLoadableTypeToken(loadableType);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getLoadableTypeToken(loadableType);
+		buffer.putTOKEN(token);
+	}
 
-   public LDTOKEN(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long metadataToken = parse.getMSILInputStream().readTOKEN();
-      loadableType = parse.getLoadableType(metadataToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof LDTOKEN)))
-         return false;
-      LDTOKEN ldtoken = (LDTOKEN)o;
-      return (loadableType==ldtoken.loadableType);
-   }
+	public LDTOKEN(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long metadataToken = parse.getMSILInputStream().readTOKEN();
+		loadableType = parse.getLoadableType(metadataToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof LDTOKEN)))
+			return false;
+		LDTOKEN ldtoken = (LDTOKEN) o;
+		return (loadableType == ldtoken.loadableType);
+	}
 
 /*
    public void output(){

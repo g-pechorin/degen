@@ -19,46 +19,54 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class contains information about the layout of data within a TypeDef. 
-  * It is analogous to a ClassLayout metadata table. Each TypeDef will have 0 or 1 of these.
-  * @author Michael Stepp
-  */
-public class ClassLayout{
-   private int PackingSize;   // 2 bytes
-   private long ClassSize;    // 4 bytes
-   
-   /** Makes a ClassLayout object with the given packing size and class size
-     * @param pSize the packing size of this type
-     * @param cSize the class size of this type
-     */
-   public ClassLayout(int pSize, long cSize){
-      PackingSize = pSize;
-      ClassSize   = cSize;
-   }
-   
-   /** Returns the packing size of this type
-     */
-   public int getPackingSize(){
-      return PackingSize;
-   }
-   
-   /** Sets the packing size of this type
-     */
-   public void setPackingSize(int size){
-      PackingSize = size;
-   }
-   
-   /** Returns the class size of this type
-     */
-   public long getClassSize(){
-      return ClassSize;
-   }
-   
-   /** Sets the class size of this type
-     */
-   public void setClassSize(long size){
-      ClassSize = size;
-   }
+/**
+ * This class contains information about the layout of data within a TypeDef.
+ * It is analogous to a ClassLayout metadata table. Each TypeDef will have 0 or 1 of these.
+ *
+ * @author Michael Stepp
+ */
+public class ClassLayout {
+	private int PackingSize;   // 2 bytes
+	private long ClassSize;    // 4 bytes
+
+	/**
+	 * Makes a ClassLayout object with the given packing size and class size
+	 *
+	 * @param pSize the packing size of this type
+	 * @param cSize the class size of this type
+	 */
+	public ClassLayout(int pSize, long cSize) {
+		PackingSize = pSize;
+		ClassSize = cSize;
+	}
+
+	/**
+	 * Returns the packing size of this type
+	 */
+	public int getPackingSize() {
+		return PackingSize;
+	}
+
+	/**
+	 * Sets the packing size of this type
+	 */
+	public void setPackingSize(int size) {
+		PackingSize = size;
+	}
+
+	/**
+	 * Returns the class size of this type
+	 */
+	public long getClassSize() {
+		return ClassSize;
+	}
+
+	/**
+	 * Sets the class size of this type
+	 */
+	public void setClassSize(long size) {
+		ClassSize = size;
+	}
    
 /*
    public void output(){

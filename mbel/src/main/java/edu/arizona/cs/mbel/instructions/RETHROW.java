@@ -20,28 +20,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Re-throws an exception.<br>
-  * Stack transition:<br>
-  *   ... --> ...
-  * @author Michael Stepp
-  */
-public class RETHROW extends Instruction{
-   public static final int RETHROW = 0x1AFE;
-   protected static final int OPCODE_LIST[] = {RETHROW};
+/**
+ * Re-throws an exception.<br>
+ * Stack transition:<br>
+ * ... --> ...
+ *
+ * @author Michael Stepp
+ */
+public class RETHROW extends Instruction {
+	public static final int RETHROW = 0x1AFE;
+	protected static final int OPCODE_LIST[] = {RETHROW};
 
-   public RETHROW() throws InstructionInitException{
-      super(RETHROW, OPCODE_LIST);
-   }
+	public RETHROW() throws InstructionInitException {
+		super(RETHROW, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "rethrow";
-   }
+	public String getName() {
+		return "rethrow";
+	}
 
-   public RETHROW(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof RETHROW));
-   }
+	public RETHROW(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof RETHROW));
+	}
 }

@@ -19,41 +19,48 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class represents the Entry Point for a .NET module. Not all modules 
-  * will know their entrypoint, as in DLLs. The entry point in metadata will either be a 
-  * method token (meaning that the Main method is defined in this module) or a File token
-  * (pointing to the module where it is defined).
-  * @author Michael Stepp
-  */
-public class EntryPoint{
-   private Method method;
-   private FileReference file;
-   // either one or the other
-   
-   /** Makes an EntryPoint object saying the given method is the entry point
-     * @param meth the Main method (entry point)
-     */
-   public EntryPoint(Method meth){
-      method = meth;
-   }
-   
-   /** Makes an EntryPoint object saying that the given File contains the real entrypoint
-     */
-   public EntryPoint(FileReference ref){
-      file = ref;
-   }
-   
-   /** Returns the method of the entrypoint (if defined, may be null)
-     */
-   public Method getEntryPointMethod(){
-      return method;
-   }
-   
-   /** Returns the File in which the Entry Point is defined (may be null)
-     */
-   public FileReference getEntryPointFile(){
-      return file;
-   }
+/**
+ * This class represents the Entry Point for a .NET module. Not all modules
+ * will know their entrypoint, as in DLLs. The entry point in metadata will either be a
+ * method token (meaning that the Main method is defined in this module) or a File token
+ * (pointing to the module where it is defined).
+ *
+ * @author Michael Stepp
+ */
+public class EntryPoint {
+	private Method method;
+	private FileReference file;
+	// either one or the other
+
+	/**
+	 * Makes an EntryPoint object saying the given method is the entry point
+	 *
+	 * @param meth the Main method (entry point)
+	 */
+	public EntryPoint(Method meth) {
+		method = meth;
+	}
+
+	/**
+	 * Makes an EntryPoint object saying that the given File contains the real entrypoint
+	 */
+	public EntryPoint(FileReference ref) {
+		file = ref;
+	}
+
+	/**
+	 * Returns the method of the entrypoint (if defined, may be null)
+	 */
+	public Method getEntryPointMethod() {
+		return method;
+	}
+
+	/**
+	 * Returns the File in which the Entry Point is defined (may be null)
+	 */
+	public FileReference getEntryPointFile() {
+		return file;
+	}
    
 /*
    public void output(){

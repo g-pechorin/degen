@@ -19,56 +19,61 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Initialize a ValueType.<br>
-  * Stack transition:<br>
-  *   ..., addressOfValueType --> ...
-  * @author Michael Stepp
-  */
-public class INITOBJ extends Instruction{
-   public static final int INITOBJ = 0x15FE;
-   protected static final int OPCODE_LIST[] = {INITOBJ};
-   private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
+/**
+ * Initialize a ValueType.<br>
+ * Stack transition:<br>
+ * ..., addressOfValueType --> ...
+ *
+ * @author Michael Stepp
+ */
+public class INITOBJ extends Instruction {
+	public static final int INITOBJ = 0x15FE;
+	protected static final int OPCODE_LIST[] = {INITOBJ};
+	private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
 
-   /** Makes a INITOBJ object for the given ValueType
-     * @param ref the type reference of the ValueType to initialize
-     */
-   public INITOBJ(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException{
-      super(INITOBJ, OPCODE_LIST);
-      classRef = ref;
-   }
+	/**
+	 * Makes a INITOBJ object for the given ValueType
+	 *
+	 * @param ref the type reference of the ValueType to initialize
+	 */
+	public INITOBJ(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException {
+		super(INITOBJ, OPCODE_LIST);
+		classRef = ref;
+	}
 
-   /** Returns the type reference to the ValueType in this instruction
-     */
-   public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType(){
-      return classRef;
-   }
+	/**
+	 * Returns the type reference to the ValueType in this instruction
+	 */
+	public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType() {
+		return classRef;
+	}
 
-   public String getName(){
-      return "initobj";
-   }
+	public String getName() {
+		return "initobj";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getTypeToken(classRef);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getTypeToken(classRef);
+		buffer.putTOKEN(token);
+	}
 
-   public INITOBJ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long classToken = parse.getMSILInputStream().readTOKEN();
-      classRef = parse.getClassRef(classToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof INITOBJ)))
-         return false;
-      INITOBJ initobj = (INITOBJ)o;
-      return (initobj.classRef==classRef);
-   }
+	public INITOBJ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long classToken = parse.getMSILInputStream().readTOKEN();
+		classRef = parse.getClassRef(classToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof INITOBJ)))
+			return false;
+		INITOBJ initobj = (INITOBJ) o;
+		return (initobj.classRef == classRef);
+	}
 
 /*
    public void output(){

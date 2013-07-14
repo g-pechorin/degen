@@ -19,63 +19,74 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class contains the security permission information for certain .NET objects.
-  * These canonly be applied to classes that implenent HasSecurity (AssemblyInfo, TypeDef, and Method).
-  * The actual data of the security permission is an XML description of the persmission set, given
-  * as a byte array of unicode. DeclSecuritys may also have CustomAttributes.
-  * @author Michael Stepp
-  */
-public class DeclSecurity implements edu.arizona.cs.mbel.signature.SecurityActions{
-   private int Action;           // 2 byte constant
-   private byte[] permissionSet;
-   // blob that is an XML serialization of the permission set
-   
-   private java.util.Vector declSecurityAttributes;
+/**
+ * This class contains the security permission information for certain .NET objects.
+ * These canonly be applied to classes that implenent HasSecurity (AssemblyInfo, TypeDef, and Method).
+ * The actual data of the security permission is an XML description of the persmission set, given
+ * as a byte array of unicode. DeclSecuritys may also have CustomAttributes.
+ *
+ * @author Michael Stepp
+ */
+public class DeclSecurity implements edu.arizona.cs.mbel.signature.SecurityActions {
+	private int Action;           // 2 byte constant
+	private byte[] permissionSet;
+	// blob that is an XML serialization of the permission set
 
-   /** Makes a new DeclSecurity object with the given action code and permission set
-     * @param action the security action code (defined in SecurityActions)
-     * @param permission a raw byte array representing an XML permission set (in unicode)
-     */
-   public DeclSecurity(int action, byte[] permission){
-      Action = action;
-      permissionSet = permission;
-      
-      declSecurityAttributes = new java.util.Vector(10);
-   }
-   
-   /** Adds a CustomAttribute to this DeclSecurity
-     */
-   public void addDeclSecurityAttribute(CustomAttribute ca){
-      if (ca!=null)
-         declSecurityAttributes.add(ca);
-   }
-   /** Returns a non-null array of CustomAttributes on this DeclSecurity (DeclSecurity)
-     */
-   public CustomAttribute[] getDeclSecurityAttributes(){
-      CustomAttribute[] cas = new CustomAttribute[declSecurityAttributes.size()];
-      for (int i=0;i<cas.length;i++)
-         cas[i] = (CustomAttribute)declSecurityAttributes.get(i);
-      return cas;   
-   }
-   /** Removes a CustomAttribute fromt his DeclSecurity
-     */
-   public void removeDeclSecurityAttribute(CustomAttribute ca){
-      if (ca!=null)
-         declSecurityAttributes.remove(ca);
-   }
+	private java.util.Vector declSecurityAttributes;
+
+	/**
+	 * Makes a new DeclSecurity object with the given action code and permission set
+	 *
+	 * @param action     the security action code (defined in SecurityActions)
+	 * @param permission a raw byte array representing an XML permission set (in unicode)
+	 */
+	public DeclSecurity(int action, byte[] permission) {
+		Action = action;
+		permissionSet = permission;
+
+		declSecurityAttributes = new java.util.Vector(10);
+	}
+
+	/**
+	 * Adds a CustomAttribute to this DeclSecurity
+	 */
+	public void addDeclSecurityAttribute(CustomAttribute ca) {
+		if (ca != null)
+			declSecurityAttributes.add(ca);
+	}
+
+	/**
+	 * Returns a non-null array of CustomAttributes on this DeclSecurity (DeclSecurity)
+	 */
+	public CustomAttribute[] getDeclSecurityAttributes() {
+		CustomAttribute[] cas = new CustomAttribute[declSecurityAttributes.size()];
+		for (int i = 0; i < cas.length; i++)
+			cas[i] = (CustomAttribute) declSecurityAttributes.get(i);
+		return cas;
+	}
+
+	/**
+	 * Removes a CustomAttribute fromt his DeclSecurity
+	 */
+	public void removeDeclSecurityAttribute(CustomAttribute ca) {
+		if (ca != null)
+			declSecurityAttributes.remove(ca);
+	}
 
 
-   /** Returns the action code for this DeclSecurity (defined in SecurityActions)
-     */
-   public int getAction(){
-      return Action;
-   }
+	/**
+	 * Returns the action code for this DeclSecurity (defined in SecurityActions)
+	 */
+	public int getAction() {
+		return Action;
+	}
 
-   /** Returns the byte array of the XML permission ste for this DeclSecurity
-     */
-   public byte[] getPermissionSet(){
-      return permissionSet;
-   }
+	/**
+	 * Returns the byte array of the XML permission ste for this DeclSecurity
+	 */
+	public byte[] getPermissionSet() {
+		return permissionSet;
+	}
 
 /*   
    public void output(){

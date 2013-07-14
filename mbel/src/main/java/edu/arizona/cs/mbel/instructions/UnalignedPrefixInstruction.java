@@ -20,51 +20,55 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** To be extended by instructions that may have an .unaligned prefix attached to them.
-  * Note that unaligned implies volatile, so UnalignedPrefixInstruction extends
-  * VolatilePrefixInstruction.
-  * @author Michael Stepp
-  */
-public abstract class UnalignedPrefixInstruction extends VolatilePrefixInstruction{
-   public static final int UNALIGNED = 0x12FE;
-   
-   private boolean hasUnalignedPrefix;
-   private int alignment;
+/**
+ * To be extended by instructions that may have an .unaligned prefix attached to them.
+ * Note that unaligned implies volatile, so UnalignedPrefixInstruction extends
+ * VolatilePrefixInstruction.
+ *
+ * @author Michael Stepp
+ */
+public abstract class UnalignedPrefixInstruction extends VolatilePrefixInstruction {
+	public static final int UNALIGNED = 0x12FE;
 
-   protected UnalignedPrefixInstruction(int align, boolean hasV, int op, int[] opcodes) throws InstructionInitException{
-      super(hasV, op, opcodes);
-      hasUnalignedPrefix = true;
-      alignment = align;
-   }
+	private boolean hasUnalignedPrefix;
+	private int alignment;
 
-   protected UnalignedPrefixInstruction(boolean hasV, int op, int[] opcodes) throws InstructionInitException{
-      super(hasV, op, opcodes);
-      hasUnalignedPrefix = false;
-   }
+	protected UnalignedPrefixInstruction(int align, boolean hasV, int op, int[] opcodes) throws InstructionInitException {
+		super(hasV, op, opcodes);
+		hasUnalignedPrefix = true;
+		alignment = align;
+	}
 
-   public boolean hasUnalignedPrefix(){
-      return hasUnalignedPrefix;
-   }
-   protected void setUnalignedPrefix(boolean has){
-      hasUnalignedPrefix = has;
-   }
-   
-   public int getAlignment(){
-      return alignment;
-   }
-   protected void setAlignment(int align){
-      alignment = (align&0xFF);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof UnalignedPrefixInstruction)))
-         return false;
-      UnalignedPrefixInstruction upi = (UnalignedPrefixInstruction)o;
-      if (hasUnalignedPrefix!=upi.hasUnalignedPrefix)
-         return false;
-      if (hasUnalignedPrefix)
-         if (alignment!=upi.alignment)
-            return false;
-      return true;
-   }
+	protected UnalignedPrefixInstruction(boolean hasV, int op, int[] opcodes) throws InstructionInitException {
+		super(hasV, op, opcodes);
+		hasUnalignedPrefix = false;
+	}
+
+	public boolean hasUnalignedPrefix() {
+		return hasUnalignedPrefix;
+	}
+
+	protected void setUnalignedPrefix(boolean has) {
+		hasUnalignedPrefix = has;
+	}
+
+	public int getAlignment() {
+		return alignment;
+	}
+
+	protected void setAlignment(int align) {
+		alignment = (align & 0xFF);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof UnalignedPrefixInstruction)))
+			return false;
+		UnalignedPrefixInstruction upi = (UnalignedPrefixInstruction) o;
+		if (hasUnalignedPrefix != upi.hasUnalignedPrefix)
+			return false;
+		if (hasUnalignedPrefix)
+			if (alignment != upi.alignment)
+				return false;
+		return true;
+	}
 }

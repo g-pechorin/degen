@@ -20,11 +20,11 @@ public class Explosion {
 	public float aliveTime = 0;
 	public final Vector3 position = new Vector3();
 
-	public Explosion (Vector3 position) {
+	public Explosion(Vector3 position) {
 		this.position.set(position);
 	}
 
-	public void update (float delta) {
+	public void update(float delta) {
 		aliveTime += delta;
 	}
 }

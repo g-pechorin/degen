@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Check for finite real number.<br>
-  * Stack transition:<br>
-  *   ..., value --> ..., value
-  * @author Michael Stepp
-  */
-public class CKFINITE extends Instruction{
-   public static final int CKFINITE = 0xC3;
-   protected static final int OPCODE_LIST[] = {CKFINITE};
+/**
+ * Check for finite real number.<br>
+ * Stack transition:<br>
+ * ..., value --> ..., value
+ *
+ * @author Michael Stepp
+ */
+public class CKFINITE extends Instruction {
+	public static final int CKFINITE = 0xC3;
+	protected static final int OPCODE_LIST[] = {CKFINITE};
 
-   public CKFINITE() throws InstructionInitException{
-      super(CKFINITE, OPCODE_LIST);
-   }
+	public CKFINITE() throws InstructionInitException {
+		super(CKFINITE, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "ckfinite";
-   }
+	public String getName() {
+		return "ckfinite";
+	}
 
-   public CKFINITE(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof CKFINITE));
-   }
+	public CKFINITE(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof CKFINITE));
+	}
 }

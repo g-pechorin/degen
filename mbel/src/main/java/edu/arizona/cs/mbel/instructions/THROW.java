@@ -20,28 +20,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Throws an exception.<br>
-  * Stack transition:<br>
-  *   ..., object --> ...
-  * @author Michael Stepp
-  */
-public class THROW extends Instruction{
-   public static final int THROW = 0x7A;
-   protected static final int OPCODE_LIST[] = {THROW};
+/**
+ * Throws an exception.<br>
+ * Stack transition:<br>
+ * ..., object --> ...
+ *
+ * @author Michael Stepp
+ */
+public class THROW extends Instruction {
+	public static final int THROW = 0x7A;
+	protected static final int OPCODE_LIST[] = {THROW};
 
-   public THROW() throws InstructionInitException{
-      super(THROW, OPCODE_LIST);
-   }
+	public THROW() throws InstructionInitException {
+		super(THROW, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "throw";
-   }
+	public String getName() {
+		return "throw";
+	}
 
-   public THROW(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof THROW));
-   }
+	public THROW(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof THROW));
+	}
 }

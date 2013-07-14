@@ -19,65 +19,72 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Method call.<br>
-  * Stack transition:<br>
-  *   ..., arg1, ... argN --> ..., retVal (maybe)
-  * @author Michael Stepp
-  */
-public class CALL extends TailPrefixInstruction{
-   // CALL method
-   public static final int CALL = 0x28;
-   protected static final int OPCODE_LIST[] = {CALL};
-   private edu.arizona.cs.mbel.mbel.MethodDefOrRef method;
+/**
+ * Method call.<br>
+ * Stack transition:<br>
+ * ..., arg1, ... argN --> ..., retVal (maybe)
+ *
+ * @author Michael Stepp
+ */
+public class CALL extends TailPrefixInstruction {
+	// CALL method
+	public static final int CALL = 0x28;
+	protected static final int OPCODE_LIST[] = {CALL};
+	private edu.arizona.cs.mbel.mbel.MethodDefOrRef method;
 
-   /** Makes a CALL object with the given method reference (with no tail prefix)
-     * @param ref the method reference to call
-     */
-   public CALL(edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException{
-      this(false, ref);
-   }
+	/**
+	 * Makes a CALL object with the given method reference (with no tail prefix)
+	 *
+	 * @param ref the method reference to call
+	 */
+	public CALL(edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException {
+		this(false, ref);
+	}
 
-   /** Makes a CALL object with the given method reference, possibly with a tail prefix.
-     * @param has true iff this CALL has a tail prefix
-     * @param ref the method reference to call
-     */
-   public CALL(boolean has, edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException{
-      super(has, CALL, OPCODE_LIST);
-      method = ref;
-   }
+	/**
+	 * Makes a CALL object with the given method reference, possibly with a tail prefix.
+	 *
+	 * @param has true iff this CALL has a tail prefix
+	 * @param ref the method reference to call
+	 */
+	public CALL(boolean has, edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException {
+		super(has, CALL, OPCODE_LIST);
+		method = ref;
+	}
 
-   /** Returns the method reference for this CALL
-     */
-   public edu.arizona.cs.mbel.mbel.MethodDefOrRef getMethod(){
-      return method;
-   }
+	/**
+	 * Returns the method reference for this CALL
+	 */
+	public edu.arizona.cs.mbel.mbel.MethodDefOrRef getMethod() {
+		return method;
+	}
 
-   public String getName(){
-      return "call";
-   }
+	public String getName() {
+		return "call";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getMethodRefToken(method);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getMethodRefToken(method);
+		buffer.putTOKEN(token);
+	}
 
-   public CALL(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long methodToken = parse.getMSILInputStream().readTOKEN();
-      method = parse.getMethodDefOrRef(methodToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof CALL)))
-         return false;
-      CALL call = (CALL)o;
-      return (method==call.method);
-   }
+	public CALL(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long methodToken = parse.getMSILInputStream().readTOKEN();
+		method = parse.getMethodDefOrRef(methodToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof CALL)))
+			return false;
+		CALL call = (CALL) o;
+		return (method == call.method);
+	}
 
 /*
    public void output(){

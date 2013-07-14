@@ -19,43 +19,53 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This TypeRef is for types defined in other assemblies. Each AssemblyTypeRef has an 
-  * AssemblyRefInfo object and a name and namespace.
-  * @author Michael Stepp
-  */
-public class AssemblyTypeRef extends TypeRef implements edu.arizona.cs.mbel.signature.AssemblyFlags{
-   /** A TypeRef corresponding to [mscorlib]System.Object. (note this is only usable outside of mscorlib)
-     */
-   public static final AssemblyTypeRef OBJECT = new AssemblyTypeRef(AssemblyRefInfo.MSCORLIB, "System", "Object");
-   /** A TypeRef corresponding to [mscorlib]System.String
-     */
-   public static final AssemblyTypeRef STRING = new AssemblyTypeRef(AssemblyRefInfo.MSCORLIB, "System", "String");
-   /** A TypeRef corresponding to [mscorlib]System.ValueType
-     */
-   public static final AssemblyTypeRef VALUETYPE = new AssemblyTypeRef(AssemblyRefInfo.MSCORLIB, "System", "ValueType");
-   //////////////////////////////////////////////////////////////////   
-   private AssemblyRefInfo assemblyRef;
+/**
+ * This TypeRef is for types defined in other assemblies. Each AssemblyTypeRef has an
+ * AssemblyRefInfo object and a name and namespace.
+ *
+ * @author Michael Stepp
+ */
+public class AssemblyTypeRef extends TypeRef implements edu.arizona.cs.mbel.signature.AssemblyFlags {
+	/**
+	 * A TypeRef corresponding to [mscorlib]System.Object. (note this is only usable outside of mscorlib)
+	 */
+	public static final AssemblyTypeRef OBJECT = new AssemblyTypeRef(AssemblyRefInfo.MSCORLIB, "System", "Object");
+	/**
+	 * A TypeRef corresponding to [mscorlib]System.String
+	 */
+	public static final AssemblyTypeRef STRING = new AssemblyTypeRef(AssemblyRefInfo.MSCORLIB, "System", "String");
+	/**
+	 * A TypeRef corresponding to [mscorlib]System.ValueType
+	 */
+	public static final AssemblyTypeRef VALUETYPE = new AssemblyTypeRef(AssemblyRefInfo.MSCORLIB, "System", "ValueType");
+	//////////////////////////////////////////////////////////////////
+	private AssemblyRefInfo assemblyRef;
 
-   /** Makes an AssemblyTypeRef object with the given assembly, name, and namespace
-     * @param ref information about the defining assembly
-     * @param ns the namespace of the type
-     * @param name the name of the type
-     */
-   public AssemblyTypeRef(AssemblyRefInfo ref, String ns, String name){
-      super(ns, name);
-      assemblyRef = ref;
-   }
+	/**
+	 * Makes an AssemblyTypeRef object with the given assembly, name, and namespace
+	 *
+	 * @param ref  information about the defining assembly
+	 * @param ns   the namespace of the type
+	 * @param name the name of the type
+	 */
+	public AssemblyTypeRef(AssemblyRefInfo ref, String ns, String name) {
+		super(ns, name);
+		assemblyRef = ref;
+	}
 
-   /** Returns the AssemblyRefInfo for this type
-     */
-   public AssemblyRefInfo getAssemblyRefInfo(){
-      return assemblyRef;
-   }
-   /** Sets the AssemblyRefInfo for this type
-     */
-   public void setAssemblyRefInfo(AssemblyRefInfo ref){
-      assemblyRef = ref;
-   }
+	/**
+	 * Returns the AssemblyRefInfo for this type
+	 */
+	public AssemblyRefInfo getAssemblyRefInfo() {
+		return assemblyRef;
+	}
+
+	/**
+	 * Sets the AssemblyRefInfo for this type
+	 */
+	public void setAssemblyRefInfo(AssemblyRefInfo ref) {
+		assemblyRef = ref;
+	}
    
 /*
    public void output(){

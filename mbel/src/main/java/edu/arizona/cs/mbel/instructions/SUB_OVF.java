@@ -20,36 +20,40 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Subtract with overflow detection.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> ..., result
-  * @author Michael Stepp
-  */
-public class SUB_OVF extends Instruction{
-   public static final int SUB_OVF     = 0xDA;
-   public static final int SUB_OVF_UN  = 0xDB;
-   protected static final int OPCODE_LIST[] = {SUB_OVF, SUB_OVF_UN};
+/**
+ * Subtract with overflow detection.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class SUB_OVF extends Instruction {
+	public static final int SUB_OVF = 0xDA;
+	public static final int SUB_OVF_UN = 0xDB;
+	protected static final int OPCODE_LIST[] = {SUB_OVF, SUB_OVF_UN};
 
-   /** Makes a SUB_OVF object that is possibly unsigned.
-     * @param un true iff this is unsigned subtraction
-     */
-   public SUB_OVF(boolean un) throws InstructionInitException{
-      super((un ? SUB_OVF_UN : SUB_OVF), OPCODE_LIST);
-   }
+	/**
+	 * Makes a SUB_OVF object that is possibly unsigned.
+	 *
+	 * @param un true iff this is unsigned subtraction
+	 */
+	public SUB_OVF(boolean un) throws InstructionInitException {
+		super((un ? SUB_OVF_UN : SUB_OVF), OPCODE_LIST);
+	}
 
-   public boolean isUnsigned(){
-      return (getOpcode()==SUB_OVF_UN);
-   }
+	public boolean isUnsigned() {
+		return (getOpcode() == SUB_OVF_UN);
+	}
 
-   public String getName(){
-      return (isUnsigned() ? "sub.ovf.un" : "sub.ovf");
-   }
+	public String getName() {
+		return (isUnsigned() ? "sub.ovf.un" : "sub.ovf");
+	}
 
-   public SUB_OVF(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof SUB_OVF));
-   }
+	public SUB_OVF(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof SUB_OVF));
+	}
 }

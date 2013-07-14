@@ -19,56 +19,61 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Load field address.<br>
-  * Stack transition:<br>
-  *   ..., obj --> ..., address
-  * @author Michael Stepp
-  */
-public class LDFLDA extends Instruction{
-   public static final int LDFLDA = 0x7C;
-   protected static final int OPCODE_LIST[] = {LDFLDA};
-   private edu.arizona.cs.mbel.mbel.FieldRef field;
+/**
+ * Load field address.<br>
+ * Stack transition:<br>
+ * ..., obj --> ..., address
+ *
+ * @author Michael Stepp
+ */
+public class LDFLDA extends Instruction {
+	public static final int LDFLDA = 0x7C;
+	protected static final int OPCODE_LIST[] = {LDFLDA};
+	private edu.arizona.cs.mbel.mbel.FieldRef field;
 
-   /** Makes a LDFLDA object for the given field reference.
-     * @param ref the field to load
-     */
-   public LDFLDA(edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException{
-      super(LDFLDA, OPCODE_LIST);
-      field = ref;
-   }
+	/**
+	 * Makes a LDFLDA object for the given field reference.
+	 *
+	 * @param ref the field to load
+	 */
+	public LDFLDA(edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException {
+		super(LDFLDA, OPCODE_LIST);
+		field = ref;
+	}
 
-   /** Returns a reference to the field in this instruction.
-     */
-   public edu.arizona.cs.mbel.mbel.FieldRef getField(){
-      return field;
-   }
+	/**
+	 * Returns a reference to the field in this instruction.
+	 */
+	public edu.arizona.cs.mbel.mbel.FieldRef getField() {
+		return field;
+	}
 
-   public String getName(){
-      return "ldflda";
-   }
+	public String getName() {
+		return "ldflda";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getFieldRefToken(field);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getFieldRefToken(field);
+		buffer.putTOKEN(token);
+	}
 
-   public LDFLDA(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long fieldToken = parse.getMSILInputStream().readTOKEN();
-      field = parse.getFieldRef(fieldToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof LDFLDA)))
-         return false;
-      LDFLDA ldflda = (LDFLDA)o;
-      return (field==ldflda.field);
-   }
+	public LDFLDA(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long fieldToken = parse.getMSILInputStream().readTOKEN();
+		field = parse.getFieldRef(fieldToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof LDFLDA)))
+			return false;
+		LDFLDA ldflda = (LDFLDA) o;
+		return (field == ldflda.field);
+	}
 
 /*
    public void output(){

@@ -13,10 +13,9 @@
 package com.badlogic.gdxinvaders;
 
 import com.badlogic.gdx.Application.ApplicationType;
-import com.badlogic.gdx.Files.FileType;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
@@ -95,7 +94,9 @@ public class GdxInvaders extends Game {
 
 	/**
 	 * For this game each of our screens is an instance of InvadersScreen.
-	 * @return the currently active {@link InvadersScreen}. */
+	 *
+	 * @return the currently active {@link InvadersScreen}.
+	 */
 	@Override
 	public InvadersScreen getScreen() {
 		return (InvadersScreen) super.getScreen();

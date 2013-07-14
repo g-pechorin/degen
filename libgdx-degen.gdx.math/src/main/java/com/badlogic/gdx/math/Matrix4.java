@@ -158,7 +158,7 @@ public final class Matrix4 implements Serializable {
 	 * @param xAxis The x-axis
 	 * @param yAxis The y-axis
 	 * @param zAxis The z-axis
-	 * @param pos The translation vector
+	 * @param pos   The translation vector
 	 */
 	public void set(Vector3 xAxis, Vector3 yAxis, Vector3 zAxis, Vector3 pos) {
 		val[M00] = xAxis.x;
@@ -404,9 +404,9 @@ public final class Matrix4 implements Serializable {
 	/**
 	 * Sets the matrix to a projection matrix with a near- and far plane, a field of view in degrees and an aspect ratio.
 	 *
-	 * @param near The near plane
-	 * @param far The far plane
-	 * @param fov The field of view in degrees
+	 * @param near        The near plane
+	 * @param far         The far plane
+	 * @param fov         The field of view in degrees
 	 * @param aspectRatio The aspect ratio
 	 * @return This matrix for chaining
 	 */
@@ -438,9 +438,9 @@ public final class Matrix4 implements Serializable {
 	/**
 	 * Sets this matrix to an orthographic projection matrix with the origin at (x,y) extending by width and height. The near plane is set to 0, the far plane is set to 1.
 	 *
-	 * @param x The x-coordinate of the origin
-	 * @param y The y-coordinate of the origin
-	 * @param width The width
+	 * @param x      The x-coordinate of the origin
+	 * @param y      The y-coordinate of the origin
+	 * @param width  The width
 	 * @param height The height
 	 * @return This matrix for chaining
 	 */
@@ -452,12 +452,12 @@ public final class Matrix4 implements Serializable {
 	/**
 	 * Sets this matrix to an orthographic projection matrix with the origin at (x,y) extending by width and height, having a near and far plane.
 	 *
-	 * @param x The x-coordinate of the origin
-	 * @param y The y-coordinate of the origin
-	 * @param width The width
+	 * @param x      The x-coordinate of the origin
+	 * @param y      The y-coordinate of the origin
+	 * @param width  The width
 	 * @param height The height
-	 * @param near The near plane
-	 * @param far The far plane
+	 * @param near   The near plane
+	 * @param far    The far plane
 	 * @return This matrix for chaining
 	 */
 	public Matrix4 setToOrtho2D(float x, float y, float width, float height, float near, float far) {
@@ -468,12 +468,12 @@ public final class Matrix4 implements Serializable {
 	/**
 	 * Sets the matrix to an orthographic projection like glOrtho (http://www.opengl.org/sdk/docs/man/xhtml/glOrtho.xml) following the OpenGL equivalent
 	 *
-	 * @param left The left clipping plane
-	 * @param right The right clipping plane
+	 * @param left   The left clipping plane
+	 * @param right  The right clipping plane
 	 * @param bottom The bottom clipping plane
-	 * @param top The top clipping plane
-	 * @param near The near clipping plane
-	 * @param far The far clipping plane
+	 * @param top    The top clipping plane
+	 * @param near   The near clipping plane
+	 * @param far    The far clipping plane
 	 * @return This matrix for chaining
 	 */
 	public Matrix4 setToOrtho(float left, float right, float bottom, float top, float near, float far) {
@@ -542,7 +542,7 @@ public final class Matrix4 implements Serializable {
 	 * vector in the diagonal.
 	 *
 	 * @param translation The translation vector
-	 * @param scaling The scaling vector
+	 * @param scaling     The scaling vector
 	 * @return This matrix for chaining
 	 */
 	public Matrix4 setToTranslationAndScaling(Vector3 translation, Vector3 scaling) {
@@ -563,13 +563,13 @@ public final class Matrix4 implements Serializable {
 	 * @param translationX The x-component of the translation vector
 	 * @param translationY The y-component of the translation vector
 	 * @param translationZ The z-component of the translation vector
-	 * @param scalingX The x-component of the scaling vector
-	 * @param scalingY The x-component of the scaling vector
-	 * @param scalingZ The x-component of the scaling vector
+	 * @param scalingX     The x-component of the scaling vector
+	 * @param scalingY     The x-component of the scaling vector
+	 * @param scalingZ     The x-component of the scaling vector
 	 * @return This matrix for chaining
 	 */
 	public Matrix4 setToTranslationAndScaling(float translationX, float translationY, float translationZ, float scalingX,
-			float scalingY, float scalingZ) {
+	                                          float scalingY, float scalingZ) {
 		this.idt();
 		val[M03] = translationX;
 		val[M13] = translationY;
@@ -583,7 +583,7 @@ public final class Matrix4 implements Serializable {
 	/**
 	 * Sets the matrix to a rotation matrix around the given axis.
 	 *
-	 * @param axis The axis
+	 * @param axis  The axis
 	 * @param angle The angle in degrees
 	 * @return This matrix for chaining
 	 */
@@ -616,9 +616,9 @@ public final class Matrix4 implements Serializable {
 	/**
 	 * Sets this matrix to a rotation matrix from the given euler angles.
 	 *
-	 * @param yaw the yaw in degrees
+	 * @param yaw   the yaw in degrees
 	 * @param pitch the pitch in degress
-	 * @param roll the roll in degrees
+	 * @param roll  the roll in degrees
 	 * @return this matrix
 	 */
 	public Matrix4 setFromEulerAngles(float yaw, float pitch, float roll) {
@@ -662,7 +662,7 @@ public final class Matrix4 implements Serializable {
 	 * Sets the matrix to a look at matrix with a direction and an up vector. Multiply with a translation matrix to get a camera model view matrix.
 	 *
 	 * @param direction The direction vector
-	 * @param up The up vector
+	 * @param up        The up vector
 	 * @return This matrix for chaining
 	 */
 	public Matrix4 setToLookAt(Vector3 direction, Vector3 up) {
@@ -694,8 +694,8 @@ public final class Matrix4 implements Serializable {
 	 * Sets this matrix to a look at matrix with the given position, target and up vector.
 	 *
 	 * @param position the position
-	 * @param target the target
-	 * @param up the up vector
+	 * @param target   the target
+	 * @param up       the up vector
 	 * @return this matrix
 	 */
 	public Matrix4 setToLookAt(Vector3 position, Vector3 target, Vector3 up) {
@@ -737,7 +737,7 @@ public final class Matrix4 implements Serializable {
 	 * Linearly interpolates between this matrix and the given matrix mixing by alpha
 	 *
 	 * @param matrix the matrix
-	 * @param alpha the alpha value in the range [0,1]
+	 * @param alpha  the alpha value in the range [0,1]
 	 */
 	public void lerp(Matrix4 matrix, float alpha) {
 		for (int i = 0; i < 16; i++) {
@@ -945,6 +945,7 @@ public final class Matrix4 implements Serializable {
 	 vec[2] = z;
 	 }
 	 */
+
 	/**
 	 * Multiplies the matrix mata with matrix matb, storing the result in mata. The arrays are assumed to hold 4x4 column major matrices as you can get from {@link Matrix4#val}.
 	 * This is the same as {@link Matrix4#mul(Matrix4)}.
@@ -977,11 +978,11 @@ public final class Matrix4 implements Serializable {
 	 * number of vectors stored in the vectors array. The stride parameter specifies the number of floats between subsequent vectors and must be >= 3. This is the same as
 	 * {@link Vector3#mul(Matrix4)} applied to multiple vectors.
 	 *
-	 * @param mat the matrix
-	 * @param vecs the vectors
-	 * @param offset the offset into the vectors array
+	 * @param mat     the matrix
+	 * @param vecs    the vectors
+	 * @param offset  the offset into the vectors array
 	 * @param numVecs the number of vectors
-	 * @param stride the stride between vectors in floats
+	 * @param stride  the stride between vectors in floats
 	 */
 	public static native void mulVec(float[] mat, float[] vecs, int offset, int numVecs, int stride) /*-{ }-*/; /*
 	 float* vecPtr = vecs + offset;
@@ -1010,11 +1011,11 @@ public final class Matrix4 implements Serializable {
 	 * located. The numVecs parameter specifies the number of vectors stored in the vectors array. The stride parameter specifies the number of floats between subsequent vectors
 	 * and must be >= 3. This is the same as {@link Vector3#prj(Matrix4)} applied to multiple vectors.
 	 *
-	 * @param mat the matrix
-	 * @param vecs the vectors
-	 * @param offset the offset into the vectors array
+	 * @param mat     the matrix
+	 * @param vecs    the vectors
+	 * @param offset  the offset into the vectors array
 	 * @param numVecs the number of vectors
-	 * @param stride the stride between vectors in floats
+	 * @param stride  the stride between vectors in floats
 	 */
 	public static native void prj(float[] mat, float[] vecs, int offset, int numVecs, int stride) /*-{ }-*/; /*
 	 float* vecPtr = vecs + offset;
@@ -1043,11 +1044,11 @@ public final class Matrix4 implements Serializable {
 	 * located. The numVecs parameter specifies the number of vectors stored in the vectors array. The stride parameter specifies the number of floats between subsequent vectors
 	 * and must be >= 3. This is the same as {@link Vector3#rot(Matrix4)} applied to multiple vectors.
 	 *
-	 * @param mat the matrix
-	 * @param vecs the vectors
-	 * @param offset the offset into the vectors array
+	 * @param mat     the matrix
+	 * @param vecs    the vectors
+	 * @param offset  the offset into the vectors array
 	 * @param numVecs the number of vectors
-	 * @param stride the stride between vectors in floats
+	 * @param stride  the stride between vectors in floats
 	 */
 	public static native void rot(float[] mat, float[] vecs, int offset, int numVecs, int stride) /*-{ }-*/; /*
 	 float* vecPtr = vecs + offset;

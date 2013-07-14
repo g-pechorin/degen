@@ -19,46 +19,50 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Convert values with overflow detection (unsigned).<br>
-  * Stack transition:<br>
-  *   ..., value --> ..., result
-  * @author Michael Stepp
-  */
-public class CONV_OVF_UN extends Instruction{
-   public static final int CONV_OVF_I1_UN = 0x82;
-   public static final int CONV_OVF_I2_UN = 0x83;
-   public static final int CONV_OVF_I4_UN = 0x84;
-   public static final int CONV_OVF_I8_UN = 0x85;
-   public static final int CONV_OVF_U1_UN = 0x86;
-   public static final int CONV_OVF_U2_UN = 0x87;
-   public static final int CONV_OVF_U4_UN = 0x88;
-   public static final int CONV_OVF_U8_UN = 0x89;
-   public static final int CONV_OVF_I_UN  = 0x8A;
-   public static final int CONV_OVF_U_UN  = 0x8B;
-   protected static final int OPCODE_LIST[] = { CONV_OVF_I1_UN, CONV_OVF_I2_UN, CONV_OVF_I4_UN, CONV_OVF_I8_UN, CONV_OVF_U1_UN, 
-                                             CONV_OVF_U2_UN, CONV_OVF_U4_UN, CONV_OVF_U8_UN, CONV_OVF_I_UN,  CONV_OVF_U_UN };
+/**
+ * Convert values with overflow detection (unsigned).<br>
+ * Stack transition:<br>
+ * ..., value --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class CONV_OVF_UN extends Instruction {
+	public static final int CONV_OVF_I1_UN = 0x82;
+	public static final int CONV_OVF_I2_UN = 0x83;
+	public static final int CONV_OVF_I4_UN = 0x84;
+	public static final int CONV_OVF_I8_UN = 0x85;
+	public static final int CONV_OVF_U1_UN = 0x86;
+	public static final int CONV_OVF_U2_UN = 0x87;
+	public static final int CONV_OVF_U4_UN = 0x88;
+	public static final int CONV_OVF_U8_UN = 0x89;
+	public static final int CONV_OVF_I_UN = 0x8A;
+	public static final int CONV_OVF_U_UN = 0x8B;
+	protected static final int OPCODE_LIST[] = {CONV_OVF_I1_UN, CONV_OVF_I2_UN, CONV_OVF_I4_UN, CONV_OVF_I8_UN, CONV_OVF_U1_UN,
+			CONV_OVF_U2_UN, CONV_OVF_U4_UN, CONV_OVF_U8_UN, CONV_OVF_I_UN, CONV_OVF_U_UN};
 
-   /** Makes a CONV_OVF_UN object corresponding to the given opcode
-     * @param op the opcode (must be one of CONV_OVF_I1_UN, CONV_OVF_I2_UN, etc)
-     */
-   public CONV_OVF_UN(int op) throws InstructionInitException{
-      super(op, OPCODE_LIST);
-   }
+	/**
+	 * Makes a CONV_OVF_UN object corresponding to the given opcode
+	 *
+	 * @param op the opcode (must be one of CONV_OVF_I1_UN, CONV_OVF_I2_UN, etc)
+	 */
+	public CONV_OVF_UN(int op) throws InstructionInitException {
+		super(op, OPCODE_LIST);
+	}
 
-   public String getName(){
-      String str[] = {  "conv.ovf.i1.un", "conv.ovf.i2.un", "conv.ovf.i4.un", "conv.ovf.i8.un", "conv.ovf.u1.un",
-                        "conv.ovf.u2.un", "conv.ovf.u4.un", "conv.ovf.u8.un", "conv.ovf.i.un", "conv.ovf.u.un"};
-      for (int i=0;i<str.length;i++)
-         if (getOpcode()==OPCODE_LIST[i])
-            return str[i];
-      return "";
-   }
+	public String getName() {
+		String str[] = {"conv.ovf.i1.un", "conv.ovf.i2.un", "conv.ovf.i4.un", "conv.ovf.i8.un", "conv.ovf.u1.un",
+				"conv.ovf.u2.un", "conv.ovf.u4.un", "conv.ovf.u8.un", "conv.ovf.i.un", "conv.ovf.u.un"};
+		for (int i = 0; i < str.length; i++)
+			if (getOpcode() == OPCODE_LIST[i])
+				return str[i];
+		return "";
+	}
 
-   public CONV_OVF_UN(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof CONV_OVF_UN));
-   }
+	public CONV_OVF_UN(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof CONV_OVF_UN));
+	}
 }

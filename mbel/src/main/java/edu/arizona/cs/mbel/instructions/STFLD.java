@@ -20,66 +20,73 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Store to field.<br>
-  * Stack transition:<br>
-  *   ..., obj, value --> ...
-  * @author Michael Stepp
-  */
-public class STFLD extends UnalignedPrefixInstruction{
-   public static final int STFLD = 0x7D;
-   protected static final int OPCODE_LIST[] = {STFLD};
-   private edu.arizona.cs.mbel.mbel.FieldRef field;
+/**
+ * Store to field.<br>
+ * Stack transition:<br>
+ * ..., obj, value --> ...
+ *
+ * @author Michael Stepp
+ */
+public class STFLD extends UnalignedPrefixInstruction {
+	public static final int STFLD = 0x7D;
+	protected static final int OPCODE_LIST[] = {STFLD};
+	private edu.arizona.cs.mbel.mbel.FieldRef field;
 
-   /** Makes a STFLD object for the given field with no unaligned prefix nore volatile prefix
-     * @param ref a reference to the desired field
-     */
-   public STFLD(edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException{
-      super(false, STFLD, OPCODE_LIST);
-      field = ref;
-   }
+	/**
+	 * Makes a STFLD object for the given field with no unaligned prefix nore volatile prefix
+	 *
+	 * @param ref a reference to the desired field
+	 */
+	public STFLD(edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException {
+		super(false, STFLD, OPCODE_LIST);
+		field = ref;
+	}
 
-   /** Makes a STFLD object for the given field with the given unaligned prefix alignment, possibly with a volatile prefix.
-     * @param alignment the unaligned prefix alignment
-     * @param hasV true iff this STFLD has a volatile prefix
-     * @param ref a reference to the desired field
-     */
-   public STFLD(int alignment, boolean hasV, edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException{
-      super(alignment, hasV, STFLD, OPCODE_LIST);
-      field = ref;
-   }
+	/**
+	 * Makes a STFLD object for the given field with the given unaligned prefix alignment, possibly with a volatile prefix.
+	 *
+	 * @param alignment the unaligned prefix alignment
+	 * @param hasV      true iff this STFLD has a volatile prefix
+	 * @param ref       a reference to the desired field
+	 */
+	public STFLD(int alignment, boolean hasV, edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException {
+		super(alignment, hasV, STFLD, OPCODE_LIST);
+		field = ref;
+	}
 
-   /** Returns a reference to the field for this instruction
-     */
-   public edu.arizona.cs.mbel.mbel.FieldRef getField(){
-      return field;
-   }
+	/**
+	 * Returns a reference to the field for this instruction
+	 */
+	public edu.arizona.cs.mbel.mbel.FieldRef getField() {
+		return field;
+	}
 
-   public String getName(){
-      return "stfld";
-   }
+	public String getName() {
+		return "stfld";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getFieldRefToken(field);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getFieldRefToken(field);
+		buffer.putTOKEN(token);
+	}
 
-   public STFLD(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(false, opcode, OPCODE_LIST);
-      long fieldToken = parse.getMSILInputStream().readTOKEN();
-      field = parse.getFieldRef(fieldToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof STFLD)))
-         return false;
-      STFLD stfld = (STFLD)o;
-      return (field==stfld.field);
-   }
+	public STFLD(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(false, opcode, OPCODE_LIST);
+		long fieldToken = parse.getMSILInputStream().readTOKEN();
+		field = parse.getFieldRef(fieldToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof STFLD)))
+			return false;
+		STFLD stfld = (STFLD) o;
+		return (field == stfld.field);
+	}
 
 /*
    public void output(){

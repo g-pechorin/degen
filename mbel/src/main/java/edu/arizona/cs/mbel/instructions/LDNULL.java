@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Load null pointer.<br>
-  * Stack transition:<br>
-  *   ... --> ..., null pointer
-  * @author Michael Stepp
-  */  
-public class LDNULL extends Instruction{
-   public static final int LDNULL = 0x14;
-   protected static final int OPCODE_LIST[] = {LDNULL};
+/**
+ * Load null pointer.<br>
+ * Stack transition:<br>
+ * ... --> ..., null pointer
+ *
+ * @author Michael Stepp
+ */
+public class LDNULL extends Instruction {
+	public static final int LDNULL = 0x14;
+	protected static final int OPCODE_LIST[] = {LDNULL};
 
-   public LDNULL() throws InstructionInitException{
-      super(LDNULL, OPCODE_LIST);
-   }
+	public LDNULL() throws InstructionInitException {
+		super(LDNULL, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "ldnull";
-   }
+	public String getName() {
+		return "ldnull";
+	}
 
-   public LDNULL(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof LDNULL));
-   }
+	public LDNULL(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof LDNULL));
+	}
 }

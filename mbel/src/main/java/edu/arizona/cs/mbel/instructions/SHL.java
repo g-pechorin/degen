@@ -20,28 +20,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Shift left (zeroes bottom bit).<br>
-  * Stack transition:<br>
-  *   ..., value, shiftAmount --> ..., result
-  * @author Michael Stepp
-  */
-public class SHL extends Instruction{
-   public static final int SHL = 0x62;
-   protected static final int OPCODE_LIST[] = {SHL};
+/**
+ * Shift left (zeroes bottom bit).<br>
+ * Stack transition:<br>
+ * ..., value, shiftAmount --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class SHL extends Instruction {
+	public static final int SHL = 0x62;
+	protected static final int OPCODE_LIST[] = {SHL};
 
-   public SHL() throws InstructionInitException{
-      super(SHL, OPCODE_LIST);
-   }
+	public SHL() throws InstructionInitException {
+		super(SHL, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "shl";
-   }
+	public String getName() {
+		return "shl";
+	}
 
-   public SHL(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof SHL));
-   }
+	public SHL(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof SHL));
+	}
 }

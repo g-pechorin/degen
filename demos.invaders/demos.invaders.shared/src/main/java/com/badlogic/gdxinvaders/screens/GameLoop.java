@@ -23,13 +23,21 @@ import com.badlogic.gdxinvaders.simulation.SimulationListener;
 
 public class GameLoop extends InvadersScreen implements SimulationListener {
 
-	/** the simulation **/
+	/**
+	 * the simulation *
+	 */
 	private final Simulation simulation;
-	/** the renderer **/
+	/**
+	 * the renderer *
+	 */
 	private final Renderer renderer;
-	/** explosion sound **/
+	/**
+	 * explosion sound *
+	 */
 	private final Sound explosion;
-	/** shot sound **/
+	/**
+	 * shot sound *
+	 */
 	private final Sound shot;
 
 	public GameLoop() {

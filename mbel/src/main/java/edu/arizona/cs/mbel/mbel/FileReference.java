@@ -19,117 +19,139 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class represents a File reference, and is analogous to a File metadata table.
-  * Modules use these to refer to other modules in the same assembly, as well as 
-  * data for ManifestResources.
-  * @author Michael Stepp
-  */
-public class FileReference implements edu.arizona.cs.mbel.signature.FileAttributes{
-   private long FileRID=-1L;
-   
-   private long Flags;
-   private String Name;          // filename, no path
-   private byte[] HashValue;     // blob (cannot be null)
-   
-   private java.util.Vector fileAttributes;
-   
-   /** Makes a FileReference with the given flags, filename, and hash value
-     * @param flags a bit vector of flags (defined in FileAttributes)
-     * @param filename the name of the file (unqualified)
-     * @param hash the hash value of the file
-     */
-   public FileReference(long flags, String filename, byte[] hash){
-      Flags       = flags;
-      Name        = filename;
-      HashValue   = hash;
-      
-      fileAttributes = new java.util.Vector(10);
-   }
-   
-   /** Adds a CustomAttribute to this FileReference
-     */
-   public void addFileAttribute(CustomAttribute ca){
-      if (ca!=null)
-         fileAttributes.add(ca);
-   }
-   /** Returns a non-null array of CustomAttributes on thie FileReference  (File)
-     */
-   public CustomAttribute[] getFileAttributes(){
-      CustomAttribute[] cas = new CustomAttribute[fileAttributes.size()];
-      for (int i=0;i<cas.length;i++)
-         cas[i] = (CustomAttribute)fileAttributes.get(i);
-      return cas;   
-   }
-   /** Removes a CustomAttribute from this File
-     */
-   public void removeFileAttribute(CustomAttribute ca){
-      if (ca!=null)
-         fileAttributes.remove(ca);
-   }
+/**
+ * This class represents a File reference, and is analogous to a File metadata table.
+ * Modules use these to refer to other modules in the same assembly, as well as
+ * data for ManifestResources.
+ *
+ * @author Michael Stepp
+ */
+public class FileReference implements edu.arizona.cs.mbel.signature.FileAttributes {
+	private long FileRID = -1L;
 
-   
-   /** Returns the File RID of this FileReference
-     */
-   public long getFileRID(){
-      return FileRID;
-   }
-   /** Sets the File RID for this FileReference
-     */
-   public void setFileRID(long rid){
-      if (FileRID==-1L)
-         FileRID = rid;
-   }
+	private long Flags;
+	private String Name;          // filename, no path
+	private byte[] HashValue;     // blob (cannot be null)
 
-   /** Returns a bit vector of flags for this file reference (defined in FileAttributes)
-     */
-   public long getFlags(){
-      return Flags;
-   }
-   /** Sets the flags for this file reference
-     */
-   public void setFlags(long flags){
-      Flags = flags;
-   }
-   
-   /** Returns the filename of this file
-     */
-   public String getFileName(){
-      return Name;
-   }
-   /** Sets the filename of this file
-     */
-   public void setFileName(String filename){
-      Name = filename;
-   }
-   
-   /** Returns the hash value of this file
-     */
-   public byte[] getHashValue(){
-      return HashValue;
-   }
-   /** Sets the hash value of this file
-     */
-   public void setHashValue(byte[] hash){
-      HashValue = hash;
-   }
-   
-   /** Compares 2 file references
-     * Returns true iff all the fields are equal
-     */
-   public boolean equals(Object o){
-      if (o==null || !(o instanceof FileReference))
-         return false;
-         
-      FileReference ref = (FileReference)o;
-      if (Flags!=ref.Flags || !Name.equals(ref.Name))
-         return false;
-      if (HashValue.length!=ref.HashValue.length)
-         return false;
-      for (int i=0;i<HashValue.length;i++)
-         if (HashValue[i]!=ref.HashValue[i])
-            return false;
-      return true;      
-   }
+	private java.util.Vector fileAttributes;
+
+	/**
+	 * Makes a FileReference with the given flags, filename, and hash value
+	 *
+	 * @param flags    a bit vector of flags (defined in FileAttributes)
+	 * @param filename the name of the file (unqualified)
+	 * @param hash     the hash value of the file
+	 */
+	public FileReference(long flags, String filename, byte[] hash) {
+		Flags = flags;
+		Name = filename;
+		HashValue = hash;
+
+		fileAttributes = new java.util.Vector(10);
+	}
+
+	/**
+	 * Adds a CustomAttribute to this FileReference
+	 */
+	public void addFileAttribute(CustomAttribute ca) {
+		if (ca != null)
+			fileAttributes.add(ca);
+	}
+
+	/**
+	 * Returns a non-null array of CustomAttributes on thie FileReference  (File)
+	 */
+	public CustomAttribute[] getFileAttributes() {
+		CustomAttribute[] cas = new CustomAttribute[fileAttributes.size()];
+		for (int i = 0; i < cas.length; i++)
+			cas[i] = (CustomAttribute) fileAttributes.get(i);
+		return cas;
+	}
+
+	/**
+	 * Removes a CustomAttribute from this File
+	 */
+	public void removeFileAttribute(CustomAttribute ca) {
+		if (ca != null)
+			fileAttributes.remove(ca);
+	}
+
+
+	/**
+	 * Returns the File RID of this FileReference
+	 */
+	public long getFileRID() {
+		return FileRID;
+	}
+
+	/**
+	 * Sets the File RID for this FileReference
+	 */
+	public void setFileRID(long rid) {
+		if (FileRID == -1L)
+			FileRID = rid;
+	}
+
+	/**
+	 * Returns a bit vector of flags for this file reference (defined in FileAttributes)
+	 */
+	public long getFlags() {
+		return Flags;
+	}
+
+	/**
+	 * Sets the flags for this file reference
+	 */
+	public void setFlags(long flags) {
+		Flags = flags;
+	}
+
+	/**
+	 * Returns the filename of this file
+	 */
+	public String getFileName() {
+		return Name;
+	}
+
+	/**
+	 * Sets the filename of this file
+	 */
+	public void setFileName(String filename) {
+		Name = filename;
+	}
+
+	/**
+	 * Returns the hash value of this file
+	 */
+	public byte[] getHashValue() {
+		return HashValue;
+	}
+
+	/**
+	 * Sets the hash value of this file
+	 */
+	public void setHashValue(byte[] hash) {
+		HashValue = hash;
+	}
+
+	/**
+	 * Compares 2 file references
+	 * Returns true iff all the fields are equal
+	 */
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof FileReference))
+			return false;
+
+		FileReference ref = (FileReference) o;
+		if (Flags != ref.Flags || !Name.equals(ref.Name))
+			return false;
+		if (HashValue.length != ref.HashValue.length)
+			return false;
+		for (int i = 0; i < HashValue.length; i++)
+			if (HashValue[i] != ref.HashValue[i])
+				return false;
+		return true;
+	}
    
 /*
    public void output(){

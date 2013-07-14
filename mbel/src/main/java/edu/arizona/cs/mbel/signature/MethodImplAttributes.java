@@ -20,24 +20,26 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** Interface with constants for method implementation flags
-  * @author Michael Stepp
-  */
-public interface MethodImplAttributes{
-   public static final int CodeTypeMask      = 0x0003;
-   public static final int IL                = 0x0000;
-   public static final int Native            = 0x0001;
-   public static final int OPTIL             = 0x0002;
-   public static final int Runtime           = 0x0003;
-   
-   public static final int ManagedMask       = 0x0004;
-   public static final int Unmanaged         = 0x0004;
-   public static final int Managed           = 0x0000;
-   
-   public static final int ForwardRef        = 0x0010;
-   public static final int PreserveSig       = 0x0080;
-   public static final int InternalCall      = 0x1000;
-   public static final int Synchronized      = 0x0020;
-   public static final int NoInlining        = 0x0008;
-   public static final int MaxMethodImplVal  = 0xffff;
+/**
+ * Interface with constants for method implementation flags
+ *
+ * @author Michael Stepp
+ */
+public interface MethodImplAttributes {
+	public static final int CodeTypeMask = 0x0003;
+	public static final int IL = 0x0000;
+	public static final int Native = 0x0001;
+	public static final int OPTIL = 0x0002;
+	public static final int Runtime = 0x0003;
+
+	public static final int ManagedMask = 0x0004;
+	public static final int Unmanaged = 0x0004;
+	public static final int Managed = 0x0000;
+
+	public static final int ForwardRef = 0x0010;
+	public static final int PreserveSig = 0x0080;
+	public static final int InternalCall = 0x1000;
+	public static final int Synchronized = 0x0020;
+	public static final int NoInlining = 0x0008;
+	public static final int MaxMethodImplVal = 0xffff;
 }

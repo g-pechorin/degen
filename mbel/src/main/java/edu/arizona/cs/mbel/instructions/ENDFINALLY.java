@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** End finally block (also endfault).<br>
-  * Stack transition:<br>
-  *   ... --> ...
-  * @author Michael Stepp
-  */
-public class ENDFINALLY extends Instruction{
-   public static final int ENDFINALLY = 0xDC;
-   protected static final int OPCODE_LIST[] = {ENDFINALLY};
+/**
+ * End finally block (also endfault).<br>
+ * Stack transition:<br>
+ * ... --> ...
+ *
+ * @author Michael Stepp
+ */
+public class ENDFINALLY extends Instruction {
+	public static final int ENDFINALLY = 0xDC;
+	protected static final int OPCODE_LIST[] = {ENDFINALLY};
 
-   public ENDFINALLY() throws InstructionInitException{
-      super(ENDFINALLY, OPCODE_LIST);
-   }
+	public ENDFINALLY() throws InstructionInitException {
+		super(ENDFINALLY, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "endfinally";
-   }
+	public String getName() {
+		return "endfinally";
+	}
 
-   public ENDFINALLY(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof ENDFINALLY));
-   }
+	public ENDFINALLY(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof ENDFINALLY));
+	}
 }

@@ -20,10 +20,12 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** Interface with constants for external File flags
-  * @author Michael Stepp
-  */
-public interface FileAttributes{
-   public static final int ContainsMetaData     = 0x0000;
-   public static final int ContainsNoMetaData   = 0x0001;
+/**
+ * Interface with constants for external File flags
+ *
+ * @author Michael Stepp
+ */
+public interface FileAttributes {
+	public static final int ContainsMetaData = 0x0000;
+	public static final int ContainsNoMetaData = 0x0001;
 }

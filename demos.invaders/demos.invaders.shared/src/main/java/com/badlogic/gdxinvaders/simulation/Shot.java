@@ -21,12 +21,12 @@ public class Shot {
 	public boolean isInvaderShot;
 	public boolean hasLeftField = false;
 
-	public Shot (Vector3 position, boolean isInvaderShot) {
+	public Shot(Vector3 position, boolean isInvaderShot) {
 		this.position.set(position);
 		this.isInvaderShot = isInvaderShot;
 	}
 
-	public void update (float delta) {
+	public void update(float delta) {
 		if (isInvaderShot)
 			position.z += SHOT_VELOCITY * delta;
 		else

@@ -20,34 +20,37 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** To be extended by instructions that may have a .tail prefix on them.
-  * @author Michael Stepp
-  */
-public abstract class TailPrefixInstruction extends Instruction{
-   public static final int TAIL = 0x14FE;
-   
-   private boolean hasTailPrefix;
+/**
+ * To be extended by instructions that may have a .tail prefix on them.
+ *
+ * @author Michael Stepp
+ */
+public abstract class TailPrefixInstruction extends Instruction {
+	public static final int TAIL = 0x14FE;
 
-   protected TailPrefixInstruction(int op, int[] opcodes) throws InstructionInitException{
-      this(false, op, opcodes);
-   }
+	private boolean hasTailPrefix;
 
-   protected TailPrefixInstruction(boolean has, int op, int[] opcodes) throws InstructionInitException{
-      super(op, opcodes);
-      hasTailPrefix = has;
-   }
+	protected TailPrefixInstruction(int op, int[] opcodes) throws InstructionInitException {
+		this(false, op, opcodes);
+	}
 
-   public boolean hasTailPrefix(){
-      return hasTailPrefix;
-   }
-   protected void setTailPrefix(boolean has){
-      hasTailPrefix = has;
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof TailPrefixInstruction)))
-         return false;
-      TailPrefixInstruction tpi = (TailPrefixInstruction)o;
-      return (hasTailPrefix==tpi.hasTailPrefix);
-   }
+	protected TailPrefixInstruction(boolean has, int op, int[] opcodes) throws InstructionInitException {
+		super(op, opcodes);
+		hasTailPrefix = has;
+	}
+
+	public boolean hasTailPrefix() {
+		return hasTailPrefix;
+	}
+
+	protected void setTailPrefix(boolean has) {
+		hasTailPrefix = has;
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof TailPrefixInstruction)))
+			return false;
+		TailPrefixInstruction tpi = (TailPrefixInstruction) o;
+		return (hasTailPrefix == tpi.hasTailPrefix);
+	}
 }

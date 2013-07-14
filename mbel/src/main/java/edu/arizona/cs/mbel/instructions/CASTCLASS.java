@@ -19,56 +19,61 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Casts an object to a given class type.<br>
-  * Stack transition:<br>
-  *   ..., obj1 --> ..., obj2
-  * @author Michael Stepp
-  */
-public class CASTCLASS extends Instruction{
-   public static final int CASTCLASS = 0x74;
-   protected static final int OPCODE_LIST[] = {CASTCLASS};
-   private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
+/**
+ * Casts an object to a given class type.<br>
+ * Stack transition:<br>
+ * ..., obj1 --> ..., obj2
+ *
+ * @author Michael Stepp
+ */
+public class CASTCLASS extends Instruction {
+	public static final int CASTCLASS = 0x74;
+	protected static final int OPCODE_LIST[] = {CASTCLASS};
+	private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
 
-   /** Makes a CASTCLASS object with the given type reference
-     * @param ref the type reference for this instruction
-     */
-   public CASTCLASS(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException{
-      super(CASTCLASS, OPCODE_LIST);
-      classRef = ref;
-   }
+	/**
+	 * Makes a CASTCLASS object with the given type reference
+	 *
+	 * @param ref the type reference for this instruction
+	 */
+	public CASTCLASS(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException {
+		super(CASTCLASS, OPCODE_LIST);
+		classRef = ref;
+	}
 
-   public String getName(){
-      return "castclass";
-   }
+	public String getName() {
+		return "castclass";
+	}
 
-   /** Returns the type reference for this instruction
-     */
-   public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType(){
-      return classRef;
-   }
+	/**
+	 * Returns the type reference for this instruction
+	 */
+	public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType() {
+		return classRef;
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getTypeToken(classRef);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getTypeToken(classRef);
+		buffer.putTOKEN(token);
+	}
 
-   public CASTCLASS(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long classToken = parse.getMSILInputStream().readTOKEN();
-      classRef = parse.getClassRef(classToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof CASTCLASS)))
-         return false;
-      CASTCLASS castclass = (CASTCLASS)o;
-      return (classRef==castclass.classRef);
-   }
+	public CASTCLASS(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long classToken = parse.getMSILInputStream().readTOKEN();
+		classRef = parse.getClassRef(classToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof CASTCLASS)))
+			return false;
+		CASTCLASS castclass = (CASTCLASS) o;
+		return (classRef == castclass.classRef);
+	}
 
 /*
    public void output(){

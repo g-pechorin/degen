@@ -19,34 +19,40 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** Represents a method reference. Method references refer to 
-  * methods defined in types in other modules/assemblies. 
-  * This means that the parent type given to the MethodRef constructor will
-  * typically be a TypeRef or TypeSpec and not a TypeDef. It legally can
-  * be a TypeDef, but in that case it would be more convenient to simply
-  * use the appropriate Method object instead of a MethodRef.
-  * @author Michael Stepp
-  */
-public class MethodRef extends MethodDefOrRef{
-   private edu.arizona.cs.mbel.signature.MethodSignature callsiteSignature;
-   
-   /** Creates a MethodRef with the given name, parent type, and method callsite signature
-     */
-   public MethodRef(String name, AbstractTypeReference ref, edu.arizona.cs.mbel.signature.MethodSignature sig){
-      super(name, ref);
-      callsiteSignature = sig;
-   }
-   
-   /** Returns the method callsite signature for this method reference
-     */
-   public edu.arizona.cs.mbel.signature.MethodSignature getCallsiteSignature(){
-      return callsiteSignature;
-   }
-   /** Sets the method callsite signature for this method reference
-     */
-   public void setCallsiteSignature(edu.arizona.cs.mbel.signature.MethodSignature sig){
-      callsiteSignature = sig;
-   }
+/**
+ * Represents a method reference. Method references refer to
+ * methods defined in types in other modules/assemblies.
+ * This means that the parent type given to the MethodRef constructor will
+ * typically be a TypeRef or TypeSpec and not a TypeDef. It legally can
+ * be a TypeDef, but in that case it would be more convenient to simply
+ * use the appropriate Method object instead of a MethodRef.
+ *
+ * @author Michael Stepp
+ */
+public class MethodRef extends MethodDefOrRef {
+	private edu.arizona.cs.mbel.signature.MethodSignature callsiteSignature;
+
+	/**
+	 * Creates a MethodRef with the given name, parent type, and method callsite signature
+	 */
+	public MethodRef(String name, AbstractTypeReference ref, edu.arizona.cs.mbel.signature.MethodSignature sig) {
+		super(name, ref);
+		callsiteSignature = sig;
+	}
+
+	/**
+	 * Returns the method callsite signature for this method reference
+	 */
+	public edu.arizona.cs.mbel.signature.MethodSignature getCallsiteSignature() {
+		return callsiteSignature;
+	}
+
+	/**
+	 * Sets the method callsite signature for this method reference
+	 */
+	public void setCallsiteSignature(edu.arizona.cs.mbel.signature.MethodSignature sig) {
+		callsiteSignature = sig;
+	}
    
 /*
    public void output(){

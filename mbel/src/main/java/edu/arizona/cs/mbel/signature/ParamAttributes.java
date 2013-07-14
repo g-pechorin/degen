@@ -20,13 +20,15 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** Interface with constants for parameter flags
-  * @author Michael Stepp
-  */
-public interface ParamAttributes{
-   public static final int In                = 0x0001;
-   public static final int Out               = 0x0002;
-   public static final int Optional          = 0x0004;
-   public static final int HasDefault        = 0x1000;
-   public static final int HasFieldMarshal   = 0x2000;
+/**
+ * Interface with constants for parameter flags
+ *
+ * @author Michael Stepp
+ */
+public interface ParamAttributes {
+	public static final int In = 0x0001;
+	public static final int Out = 0x0002;
+	public static final int Optional = 0x0004;
+	public static final int HasDefault = 0x1000;
+	public static final int HasFieldMarshal = 0x2000;
 }

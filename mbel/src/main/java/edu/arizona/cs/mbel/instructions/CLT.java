@@ -19,36 +19,40 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Compare less than.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> ..., result
-  * @author Michael Stepp
-  */
-public class CLT extends Instruction{
-   public static final int CLT      = 0x04FE;
-   public static final int CLT_UN   = 0x05FE;
-   protected static final int OPCODE_LIST[] = {CLT, CLT_UN};
+/**
+ * Compare less than.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class CLT extends Instruction {
+	public static final int CLT = 0x04FE;
+	public static final int CLT_UN = 0x05FE;
+	protected static final int OPCODE_LIST[] = {CLT, CLT_UN};
 
-   /** Makes a CLT object, possibly unsigned
-     * @param un true iff this is an unsigned comparison
-     */
-   public CLT(boolean un) throws InstructionInitException{
-      super((un ? CLT_UN : CLT), OPCODE_LIST);
-   }
+	/**
+	 * Makes a CLT object, possibly unsigned
+	 *
+	 * @param un true iff this is an unsigned comparison
+	 */
+	public CLT(boolean un) throws InstructionInitException {
+		super((un ? CLT_UN : CLT), OPCODE_LIST);
+	}
 
-   public boolean isUnsignedOrUnordered(){
-      return (getOpcode()==CLT_UN);
-   }
+	public boolean isUnsignedOrUnordered() {
+		return (getOpcode() == CLT_UN);
+	}
 
-   public String getName(){
-      return (isUnsignedOrUnordered() ? "clt.un" : "clt");
-   }
+	public String getName() {
+		return (isUnsignedOrUnordered() ? "clt.un" : "clt");
+	}
 
-   public CLT(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof CLT));
-   }
+	public CLT(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof CLT));
+	}
 }

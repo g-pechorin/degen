@@ -19,65 +19,72 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Indirect method call. Calls method on stack with given signature.<br>
-  * Stack transition:<br>
-  *   ...arg1, ... argN, ftn --> ..., retVal (maybe)
-  * @author Michael Stepp
-  */
-public class CALLI extends TailPrefixInstruction{
-   // CALLI callsitedescr
-   public static final int CALLI = 0x29;
-   protected static final int OPCODE_LIST[] = {CALLI};
-   private edu.arizona.cs.mbel.signature.MethodSignature signature;
+/**
+ * Indirect method call. Calls method on stack with given signature.<br>
+ * Stack transition:<br>
+ * ...arg1, ... argN, ftn --> ..., retVal (maybe)
+ *
+ * @author Michael Stepp
+ */
+public class CALLI extends TailPrefixInstruction {
+	// CALLI callsitedescr
+	public static final int CALLI = 0x29;
+	protected static final int OPCODE_LIST[] = {CALLI};
+	private edu.arizona.cs.mbel.signature.MethodSignature signature;
 
-   /** Makes a new CALLI object with the given method callsite signature (with no tail prefix)
-     * @param sig the method callsite signature
-     */
-   public CALLI(edu.arizona.cs.mbel.signature.MethodSignature sig) throws InstructionInitException{
-      this(false, sig);
-   }
+	/**
+	 * Makes a new CALLI object with the given method callsite signature (with no tail prefix)
+	 *
+	 * @param sig the method callsite signature
+	 */
+	public CALLI(edu.arizona.cs.mbel.signature.MethodSignature sig) throws InstructionInitException {
+		this(false, sig);
+	}
 
-   /** Makes a new CALLI object with the given method callsite signature, possibly with a tail prefix.
-     * @param has true iff this CALLI has a tail prefix
-     * @param sig the method callsite signature
-     */
-   public CALLI(boolean has, edu.arizona.cs.mbel.signature.MethodSignature sig) throws InstructionInitException{
-      super(has, CALLI, OPCODE_LIST);
-      signature = sig;
-   }
+	/**
+	 * Makes a new CALLI object with the given method callsite signature, possibly with a tail prefix.
+	 *
+	 * @param has true iff this CALLI has a tail prefix
+	 * @param sig the method callsite signature
+	 */
+	public CALLI(boolean has, edu.arizona.cs.mbel.signature.MethodSignature sig) throws InstructionInitException {
+		super(has, CALLI, OPCODE_LIST);
+		signature = sig;
+	}
 
-   /** Returns the method callsite signature for this CALLI
-     */
-   public edu.arizona.cs.mbel.signature.MethodSignature getMethodSignature(){
-      return signature;
-   }
+	/**
+	 * Returns the method callsite signature for this CALLI
+	 */
+	public edu.arizona.cs.mbel.signature.MethodSignature getMethodSignature() {
+		return signature;
+	}
 
-   public String getName(){
-      return "calli";
-   }
+	public String getName() {
+		return "calli";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getStandAloneSigToken(signature);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getStandAloneSigToken(signature);
+		buffer.putTOKEN(token);
+	}
 
-   public CALLI(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long callsiteDescriptor = parse.getMSILInputStream().readTOKEN();
-      signature = parse.getStandAloneSignature(callsiteDescriptor);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof CALLI)))
-         return false;
-      CALLI calli = (CALLI)o;
-      return (signature==calli.signature);
-   }
+	public CALLI(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long callsiteDescriptor = parse.getMSILInputStream().readTOKEN();
+		signature = parse.getStandAloneSignature(callsiteDescriptor);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof CALLI)))
+			return false;
+		CALLI calli = (CALLI) o;
+		return (signature == calli.signature);
+	}
 
 /*
    public void output(){

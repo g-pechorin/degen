@@ -20,28 +20,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Bitwise not (negation).<br>
-  * Stack transition:<br>
-  *   ..., value --> ..., result
-  * @author Michael Stepp
-  */
-public class NOT extends Instruction{
-   public static final int NOT = 0x66;
-   protected static final int OPCODE_LIST[] = {NOT};
+/**
+ * Bitwise not (negation).<br>
+ * Stack transition:<br>
+ * ..., value --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class NOT extends Instruction {
+	public static final int NOT = 0x66;
+	protected static final int OPCODE_LIST[] = {NOT};
 
-   public NOT() throws InstructionInitException{
-      super(NOT, OPCODE_LIST);
-   }
+	public NOT() throws InstructionInitException {
+		super(NOT, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "not";
-   }
+	public String getName() {
+		return "not";
+	}
 
-   public NOT(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof NOT));
-   }
+	public NOT(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof NOT));
+	}
 }

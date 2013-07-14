@@ -19,56 +19,61 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Copy ValueType.<br>
-  * Stack transition:<br>
-  *   ..., desValueType, srcValueType --> ...
-  * @author Michael Stepp
-  */
-public class CPOBJ extends Instruction{
-   public static final int CPOBJ = 0x70;
-   protected static final int OPCODE_LIST[] = {CPOBJ};
-   private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
+/**
+ * Copy ValueType.<br>
+ * Stack transition:<br>
+ * ..., desValueType, srcValueType --> ...
+ *
+ * @author Michael Stepp
+ */
+public class CPOBJ extends Instruction {
+	public static final int CPOBJ = 0x70;
+	protected static final int OPCODE_LIST[] = {CPOBJ};
+	private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
 
-   /** Makes a CPOBJ object for the given ValueType
-     * @param ref the type reference of the ValueType
-     */
-   public CPOBJ(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException{
-      super(CPOBJ, OPCODE_LIST);
-      classRef = ref;
-   }
+	/**
+	 * Makes a CPOBJ object for the given ValueType
+	 *
+	 * @param ref the type reference of the ValueType
+	 */
+	public CPOBJ(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException {
+		super(CPOBJ, OPCODE_LIST);
+		classRef = ref;
+	}
 
-   /** Returns the type reference of the ValueType for this instruction
-     */
-   public edu.arizona.cs.mbel.mbel.AbstractTypeReference getValueType(){
-      return classRef;
-   }
-   
-   public String getName(){
-      return "cpobj";
-   }
+	/**
+	 * Returns the type reference of the ValueType for this instruction
+	 */
+	public edu.arizona.cs.mbel.mbel.AbstractTypeReference getValueType() {
+		return classRef;
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public String getName() {
+		return "cpobj";
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getTypeToken(classRef);
-      buffer.putTOKEN(token);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   public CPOBJ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long classToken = parse.getMSILInputStream().readTOKEN();
-      classRef = parse.getClassRef(classToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof CPOBJ)))
-         return false;
-      CPOBJ cpobj = (CPOBJ)o;
-      return (classRef==cpobj.classRef);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getTypeToken(classRef);
+		buffer.putTOKEN(token);
+	}
+
+	public CPOBJ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long classToken = parse.getMSILInputStream().readTOKEN();
+		classRef = parse.getClassRef(classToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof CPOBJ)))
+			return false;
+		CPOBJ cpobj = (CPOBJ) o;
+		return (classRef == cpobj.classRef);
+	}
 
 /*
    public void output(){

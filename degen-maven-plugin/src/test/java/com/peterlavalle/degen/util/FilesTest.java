@@ -5,13 +5,13 @@
 package com.peterlavalle.degen.util;
 
 import com.peterlavalle.degen.extractors.util.Files;
+import junit.framework.TestCase;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
-import junit.framework.TestCase;
 
 /**
- *
  * @author Peter LaValle
  */
 public class FilesTest extends TestCase {
@@ -23,6 +23,7 @@ public class FilesTest extends TestCase {
 		buffer.putChar('c');
 		assertEquals(2, buffer.position());
 	}
+
 	public void testIntSize() {
 		final ByteBuffer buffer = ByteBuffer.allocate(4);
 

@@ -20,7 +20,7 @@ public class Block {
 
 	public Vector3 position = new Vector3();
 
-	public Block (Vector3 position) {
+	public Block(Vector3 position) {
 		this.position.set(position);
 	}
 }

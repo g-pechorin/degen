@@ -19,102 +19,108 @@ package edu.arizona.cs.mbel.parse;
  */
 
 
-/** This is the structure used to parse a PE/COFF Section Header.
-  * Sections must appear in ascending order of virtual address,
-  * and must be consecutive in the virtual address space.
-  * Their virtual addresses must be multiples of SectionAlignment
-  * in the PE header.
+/**
+ * This is the structure used to parse a PE/COFF Section Header.
+ * Sections must appear in ascending order of virtual address,
+ * and must be consecutive in the virtual address space.
+ * Their virtual addresses must be multiples of SectionAlignment
+ * in the PE header.
+ * <p/>
+ * Also, the PointerToRawData and SizeOfRawData fields must be multiples of
+ * FileAlignment in the PE header.
+ * If (SectionAlignment < PageSize) then
+ * PointerToRawData == VirtualAddress
+ *
+ * @author Michael Stepp
+ */
+public class SectionHeader {
+	public static final int STRUCT_SIZE = 40;
 
-  * Also, the PointerToRawData and SizeOfRawData fields must be multiples of 
-  * FileAlignment in the PE header.
-  * If (SectionAlignment < PageSize) then
-  *    PointerToRawData == VirtualAddress
-  * @author Michael Stepp
-  */
-public class SectionHeader{
-   public static final int STRUCT_SIZE = 40;
-   
-   ///// Flags for 'Characteristics' field //////////////////////////////
-   public static final int IMAGE_SCN_SCALE_INDEX            = 0x00000001;
-   public static final int IMAGE_SCN_CNT_CODE               = 0x00000020;
-   public static final int IMAGE_SCN_CNT_INITIALIZED_DATA   = 0x00000040;
-   public static final int IMAGE_SCN_CNT_UNINITIALIZED_DATA = 0x00000080;
-   public static final int IMAGE_SCN_NO_DEFER_SPEC_EXC      = 0x00004000;
-   public static final int IMAGE_SCN_LNK_NRELOC_OVFL        = 0x01000000;
-   public static final int IMAGE_SCN_MEM_DISCARDABLE        = 0x02000000;
-   public static final int IMAGE_SCN_MEM_NOT_CACHED         = 0x04000000;
-   public static final int IMAGE_SCN_MEM_NOT_PAGED          = 0x08000000;
-   public static final int IMAGE_SCN_MEM_SHARED             = 0x10000000;
-   public static final int IMAGE_SCN_MEM_EXECUTE            = 0x20000000;
-   public static final int IMAGE_SCN_MEM_READ               = 0x40000000;
-   public static final int IMAGE_SCN_MEM_WRITE              = 0x80000000;
-   //////////////////////////////////////////////////////////////////////
+	///// Flags for 'Characteristics' field //////////////////////////////
+	public static final int IMAGE_SCN_SCALE_INDEX = 0x00000001;
+	public static final int IMAGE_SCN_CNT_CODE = 0x00000020;
+	public static final int IMAGE_SCN_CNT_INITIALIZED_DATA = 0x00000040;
+	public static final int IMAGE_SCN_CNT_UNINITIALIZED_DATA = 0x00000080;
+	public static final int IMAGE_SCN_NO_DEFER_SPEC_EXC = 0x00004000;
+	public static final int IMAGE_SCN_LNK_NRELOC_OVFL = 0x01000000;
+	public static final int IMAGE_SCN_MEM_DISCARDABLE = 0x02000000;
+	public static final int IMAGE_SCN_MEM_NOT_CACHED = 0x04000000;
+	public static final int IMAGE_SCN_MEM_NOT_PAGED = 0x08000000;
+	public static final int IMAGE_SCN_MEM_SHARED = 0x10000000;
+	public static final int IMAGE_SCN_MEM_EXECUTE = 0x20000000;
+	public static final int IMAGE_SCN_MEM_READ = 0x40000000;
+	public static final int IMAGE_SCN_MEM_WRITE = 0x80000000;
+	//////////////////////////////////////////////////////////////////////
 
-   public byte Name[];                 // 8bytes
-   public long VirtualSize;            // 4bytes
-   public long VirtualAddress;         // 4bytes (really an RVA)
-   public long SizeOfRawData;          // 4bytes
-   public long PointerToRawData;       // 4bytes
-   public long PointerToRelocations;   // 4bytes (file pointer) (object only)
-   public long PointerToLinenumbers;   // 4bytes (file pointer)
-   public int NumberOfRelocations;     // 2bytes
-   public int NumberOfLinenumbers;     // 2bytes
-   public long Characteristics;        // 4bytes
-   public long startFP;
+	public byte Name[];                 // 8bytes
+	public long VirtualSize;            // 4bytes
+	public long VirtualAddress;         // 4bytes (really an RVA)
+	public long SizeOfRawData;          // 4bytes
+	public long PointerToRawData;       // 4bytes
+	public long PointerToRelocations;   // 4bytes (file pointer) (object only)
+	public long PointerToLinenumbers;   // 4bytes (file pointer)
+	public int NumberOfRelocations;     // 2bytes
+	public int NumberOfLinenumbers;     // 2bytes
+	public long Characteristics;        // 4bytes
+	public long startFP;
 
-   /** Makes a new section header with none of its field set
-     */
-   public SectionHeader(){
-      Name = new byte[8];
-   }
+	/**
+	 * Makes a new section header with none of its field set
+	 */
+	public SectionHeader() {
+		Name = new byte[8];
+	}
 
-   /** Parses a Section Header from an input stream
-     */
-   protected SectionHeader(edu.arizona.cs.mbel.MSILInputStream in) throws java.io.IOException{
-      startFP = in.getCurrent();
-      
-      Name = new byte[8];
-      in.read(Name);
+	/**
+	 * Parses a Section Header from an input stream
+	 */
+	protected SectionHeader(edu.arizona.cs.mbel.MSILInputStream in) throws java.io.IOException {
+		startFP = in.getCurrent();
 
-      VirtualSize                   = in.readDWORD();
-      VirtualAddress                = in.readDWORD();
-      SizeOfRawData                 = in.readDWORD();
-      PointerToRawData              = in.readDWORD();
-      PointerToRelocations          = in.readDWORD();
-      PointerToLinenumbers          = in.readDWORD();
-      NumberOfRelocations           = in.readWORD();
-      NumberOfLinenumbers           = in.readWORD();
-      Characteristics               = in.readDWORD();
-   }
-   
-   /** This returns true iff the name of this section header is ".net"
-     */
-   public boolean isNetHeader(){
-      boolean result = (Name[0]==(byte)'.') &&
-                       (Name[1]==(byte)'n') &&
-                       (Name[2]==(byte)'e') &&
-                       (Name[3]==(byte)'t') &&
-                       (Name[4]==0)         &&
-                       (Name[5]==0)         &&
-                       (Name[6]==0)         &&
-                       (Name[7]==0);
-      return result;
-   }
-   
-   /** Writes this section header out to a buffer
-     */
-   public void emit(edu.arizona.cs.mbel.ByteBuffer buffer){
-      buffer.put(Name);
-      buffer.putDWORD(VirtualSize);
-      buffer.putDWORD(VirtualAddress);
-      buffer.putDWORD(SizeOfRawData);
-      buffer.putDWORD(PointerToRawData);
-      buffer.putDWORD(PointerToRelocations); // must be patched if shifted!
-      buffer.putDWORD(PointerToLinenumbers); // must be patched if shifted!
-      buffer.putWORD(NumberOfRelocations);
-      buffer.putWORD(NumberOfLinenumbers);
-      buffer.putDWORD(Characteristics);
-   }
+		Name = new byte[8];
+		in.read(Name);
+
+		VirtualSize = in.readDWORD();
+		VirtualAddress = in.readDWORD();
+		SizeOfRawData = in.readDWORD();
+		PointerToRawData = in.readDWORD();
+		PointerToRelocations = in.readDWORD();
+		PointerToLinenumbers = in.readDWORD();
+		NumberOfRelocations = in.readWORD();
+		NumberOfLinenumbers = in.readWORD();
+		Characteristics = in.readDWORD();
+	}
+
+	/**
+	 * This returns true iff the name of this section header is ".net"
+	 */
+	public boolean isNetHeader() {
+		boolean result = (Name[0] == (byte) '.') &&
+				(Name[1] == (byte) 'n') &&
+				(Name[2] == (byte) 'e') &&
+				(Name[3] == (byte) 't') &&
+				(Name[4] == 0) &&
+				(Name[5] == 0) &&
+				(Name[6] == 0) &&
+				(Name[7] == 0);
+		return result;
+	}
+
+	/**
+	 * Writes this section header out to a buffer
+	 */
+	public void emit(edu.arizona.cs.mbel.ByteBuffer buffer) {
+		buffer.put(Name);
+		buffer.putDWORD(VirtualSize);
+		buffer.putDWORD(VirtualAddress);
+		buffer.putDWORD(SizeOfRawData);
+		buffer.putDWORD(PointerToRawData);
+		buffer.putDWORD(PointerToRelocations); // must be patched if shifted!
+		buffer.putDWORD(PointerToLinenumbers); // must be patched if shifted!
+		buffer.putWORD(NumberOfRelocations);
+		buffer.putWORD(NumberOfLinenumbers);
+		buffer.putDWORD(Characteristics);
+	}
 
 	 /*
    public void output(){

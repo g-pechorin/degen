@@ -19,139 +19,155 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** A doubly-linked-list wrapper around an instruction. Handles also hold the byte offset 
-  * position of the instruction they carry, within its instruction list. Branch instructions 
-  * will refer to handles, not to instructions.
-  * @author Michael Stepp
-  */
-public class InstructionHandle{
-   private java.util.Vector targeters;
-   private Instruction instruction;
-   protected InstructionHandle next, prev;
-   protected int position;
+/**
+ * A doubly-linked-list wrapper around an instruction. Handles also hold the byte offset
+ * position of the instruction they carry, within its instruction list. Branch instructions
+ * will refer to handles, not to instructions.
+ *
+ * @author Michael Stepp
+ */
+public class InstructionHandle {
+	private java.util.Vector targeters;
+	private Instruction instruction;
+	protected InstructionHandle next, prev;
+	protected int position;
 
-   /** Creates a handle for the given instruction. The byte offset defaults to -1.
-     */
-   public InstructionHandle(Instruction instr){
-      instruction = instr;
-      next = prev = null;
-      position = -1;
-      targeters = new java.util.Vector(10);
-   }
-   
-   /** Inserts the given instruction handle after this one in the linked list.
-     * If null is passed, null is returned and nothing else happens.
-     */
-   public InstructionHandle insertAfter(InstructionHandle ih){
-      if (ih==null)
-         return null;
-      next.prev = ih;
-      ih.next = next;
-      ih.prev = this;
-      next = ih;
-      return ih;
-   }
+	/**
+	 * Creates a handle for the given instruction. The byte offset defaults to -1.
+	 */
+	public InstructionHandle(Instruction instr) {
+		instruction = instr;
+		next = prev = null;
+		position = -1;
+		targeters = new java.util.Vector(10);
+	}
 
-   /** Inserts the given instruction after this one in the linked list
-     */
-   public InstructionHandle insertAfter(Instruction i){
-      InstructionHandle ih = new InstructionHandle(i);
-      return insertAfter(ih);
-   }
+	/**
+	 * Inserts the given instruction handle after this one in the linked list.
+	 * If null is passed, null is returned and nothing else happens.
+	 */
+	public InstructionHandle insertAfter(InstructionHandle ih) {
+		if (ih == null)
+			return null;
+		next.prev = ih;
+		ih.next = next;
+		ih.prev = this;
+		next = ih;
+		return ih;
+	}
 
-   /** Returns an array of all the targeters registered on this handle
-     */
-   public InstructionTargeter[] getTargeters(){
-      InstructionTargeter[] tar = new InstructionTargeter[targeters.size()];
-      for (int i=0;i<tar.length;i++)
-         tar[i] = (InstructionTargeter)targeters.get(i);
-      return tar;
-   }
+	/**
+	 * Inserts the given instruction after this one in the linked list
+	 */
+	public InstructionHandle insertAfter(Instruction i) {
+		InstructionHandle ih = new InstructionHandle(i);
+		return insertAfter(ih);
+	}
 
-   /** Adds a targeter to this handle. If this targeter is already registered on this
-     * handle, nothing happens (search by reference). If the targeter is added, 
-     * tar.updateTarget(null, this) is called.
-     */
-   public void addTargeter(InstructionTargeter tar){
-      if (tar==null)
-         return;
-      for (int i=0;i<targeters.size();i++){
-         if (targeters.get(i)==tar)
-            return;
-      }
-      targeters.add(tar);
-      tar.updateTarget(null, this);
-   }
+	/**
+	 * Returns an array of all the targeters registered on this handle
+	 */
+	public InstructionTargeter[] getTargeters() {
+		InstructionTargeter[] tar = new InstructionTargeter[targeters.size()];
+		for (int i = 0; i < tar.length; i++)
+			tar[i] = (InstructionTargeter) targeters.get(i);
+		return tar;
+	}
 
-   /** Returns true if this handle is being targetted by any InstructionTargeters
-     */
-   public boolean hasTargeters(){
-      return (targeters.size()>0);
-   }
+	/**
+	 * Adds a targeter to this handle. If this targeter is already registered on this
+	 * handle, nothing happens (search by reference). If the targeter is added,
+	 * tar.updateTarget(null, this) is called.
+	 */
+	public void addTargeter(InstructionTargeter tar) {
+		if (tar == null)
+			return;
+		for (int i = 0; i < targeters.size(); i++) {
+			if (targeters.get(i) == tar)
+				return;
+		}
+		targeters.add(tar);
+		tar.updateTarget(null, this);
+	}
 
-   /** Removes all the InstructionTargeters from this handle
-     */
-   public void removeAllTargeters(){
-      for (int i=0;i<targeters.size();i++){
-         InstructionTargeter tar = (InstructionTargeter)targeters.get(i);
-         tar.updateTarget(this, null);
-      }
-      targeters.removeAllElements();
-   }
+	/**
+	 * Returns true if this handle is being targetted by any InstructionTargeters
+	 */
+	public boolean hasTargeters() {
+		return (targeters.size() > 0);
+	}
 
-   /** Removes the given InstructionTargeter from this handle (compares by reference).
-     * This method will also call tar.updateTarget(this, null).
-     */
-   public void removeTargeter(InstructionTargeter tar){
-      if (tar==null)
-         return;
-      for (int i=0;i<targeters.size();i++){
-         if (targeters.get(i)==tar){
-            targeters.removeElementAt(i); 
-            // must remove before calling tar.updateTarget
-            tar.updateTarget(this, null);
-            break;
-         }
-      }
-   }
-   
-   /** Resets the instruction inside this handle
-     */
-   public void setInstruction(Instruction i){
-      instruction = i;
-   }
+	/**
+	 * Removes all the InstructionTargeters from this handle
+	 */
+	public void removeAllTargeters() {
+		for (int i = 0; i < targeters.size(); i++) {
+			InstructionTargeter tar = (InstructionTargeter) targeters.get(i);
+			tar.updateTarget(this, null);
+		}
+		targeters.removeAllElements();
+	}
 
-   /** Returns the next handle after this one in the linked-list.
-     */
-   public InstructionHandle getNext(){
-      return next;
-   }
+	/**
+	 * Removes the given InstructionTargeter from this handle (compares by reference).
+	 * This method will also call tar.updateTarget(this, null).
+	 */
+	public void removeTargeter(InstructionTargeter tar) {
+		if (tar == null)
+			return;
+		for (int i = 0; i < targeters.size(); i++) {
+			if (targeters.get(i) == tar) {
+				targeters.removeElementAt(i);
+				// must remove before calling tar.updateTarget
+				tar.updateTarget(this, null);
+				break;
+			}
+		}
+	}
 
-   /** Returns the previous handle to this one in the linked-list.
-     */
-   public InstructionHandle getPrev(){
-      return prev;
-   }
+	/**
+	 * Resets the instruction inside this handle
+	 */
+	public void setInstruction(Instruction i) {
+		instruction = i;
+	}
 
-   /** Returns the byte offest position of this handle within its InstructionList
-     */
-   public int getPosition(){
-      return position;
-   }
+	/**
+	 * Returns the next handle after this one in the linked-list.
+	 */
+	public InstructionHandle getNext() {
+		return next;
+	}
 
-   /** Returns the instruction inside this handle.
-     */
-   public Instruction getInstruction(){
-      return instruction;
-   }
+	/**
+	 * Returns the previous handle to this one in the linked-list.
+	 */
+	public InstructionHandle getPrev() {
+		return prev;
+	}
 
-   /** Sets the offset of this handle, and returns the next byte offset after this handle (i.e. offset+mylength)
-     * Used by InstructionList.setPositions.
-     */
-   protected int updatePosition(int offset){
-      position = offset;
-      return instruction.getLength();
-   }
+	/**
+	 * Returns the byte offest position of this handle within its InstructionList
+	 */
+	public int getPosition() {
+		return position;
+	}
+
+	/**
+	 * Returns the instruction inside this handle.
+	 */
+	public Instruction getInstruction() {
+		return instruction;
+	}
+
+	/**
+	 * Sets the offset of this handle, and returns the next byte offset after this handle (i.e. offset+mylength)
+	 * Used by InstructionList.setPositions.
+	 */
+	protected int updatePosition(int offset) {
+		position = offset;
+		return instruction.getLength();
+	}
    
 /*
    public void output(){

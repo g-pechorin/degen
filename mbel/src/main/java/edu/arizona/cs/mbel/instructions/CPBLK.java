@@ -19,40 +19,45 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Copy block (memcpy).<br>
-  * Stack transition:<br>
-  *   ..., destAddress, srcAddress, size --> ...
-  * @author Michael Stepp
-  */
-public class CPBLK extends UnalignedPrefixInstruction{
-   public static final int CPBLK = 0x17FE;
-   protected static final int OPCODE_LIST[] = {CPBLK};
+/**
+ * Copy block (memcpy).<br>
+ * Stack transition:<br>
+ * ..., destAddress, srcAddress, size --> ...
+ *
+ * @author Michael Stepp
+ */
+public class CPBLK extends UnalignedPrefixInstruction {
+	public static final int CPBLK = 0x17FE;
+	protected static final int OPCODE_LIST[] = {CPBLK};
 
-   /** Makes a CPBLK with no unaligned prefix nor volatile prefix.
-     */
-   public CPBLK() throws InstructionInitException{
-      super(false, CPBLK, OPCODE_LIST);
-   }
+	/**
+	 * Makes a CPBLK with no unaligned prefix nor volatile prefix.
+	 */
+	public CPBLK() throws InstructionInitException {
+		super(false, CPBLK, OPCODE_LIST);
+	}
 
-   /** Makes a CPBLK with the given unaligned prefix alignment, possibly with a volatile prefix.
-     * @param alignment the unaligned prefix alignment
-     * @param hasV true iff this CPBLK has a volatile prefix
-     */
-   public CPBLK(int alignment, boolean hasV) throws InstructionInitException{
-      super(alignment, hasV, CPBLK, OPCODE_LIST);
-   }
+	/**
+	 * Makes a CPBLK with the given unaligned prefix alignment, possibly with a volatile prefix.
+	 *
+	 * @param alignment the unaligned prefix alignment
+	 * @param hasV      true iff this CPBLK has a volatile prefix
+	 */
+	public CPBLK(int alignment, boolean hasV) throws InstructionInitException {
+		super(alignment, hasV, CPBLK, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "cpblk";
-   }
+	public String getName() {
+		return "cpblk";
+	}
 
-   public CPBLK(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(false, opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof CPBLK));
-   }
+	public CPBLK(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(false, opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof CPBLK));
+	}
 
 /*
    public void output(){

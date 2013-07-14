@@ -20,56 +20,61 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Unboxes a ValueType object.<br>
-  * Stack transition:<br>
-  *   ..., obj --> .., valueTypePtr
-  * @author Michael Stepp
-  */
-public class UNBOX extends Instruction{
-   public static final int UNBOX = 0x79;
-   protected static final int OPCODE_LIST[] = {UNBOX};
-   private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
+/**
+ * Unboxes a ValueType object.<br>
+ * Stack transition:<br>
+ * ..., obj --> .., valueTypePtr
+ *
+ * @author Michael Stepp
+ */
+public class UNBOX extends Instruction {
+	public static final int UNBOX = 0x79;
+	protected static final int OPCODE_LIST[] = {UNBOX};
+	private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
 
-   /** Creates an UNBOX instruction for the given ValueType
-     * @param ref a reference to a ValueType
-     */
-   public UNBOX(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException{
-      super(UNBOX, OPCODE_LIST);
-      classRef = ref;
-   }
+	/**
+	 * Creates an UNBOX instruction for the given ValueType
+	 *
+	 * @param ref a reference to a ValueType
+	 */
+	public UNBOX(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException {
+		super(UNBOX, OPCODE_LIST);
+		classRef = ref;
+	}
 
-   /** Returns the ValueType reference for this UNBOX
-     */
-   public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType(){
-      return classRef;
-   }
+	/**
+	 * Returns the ValueType reference for this UNBOX
+	 */
+	public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType() {
+		return classRef;
+	}
 
-   public String getName(){
-      return "unbox";
-   }
+	public String getName() {
+		return "unbox";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getTypeToken(classRef);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getTypeToken(classRef);
+		buffer.putTOKEN(token);
+	}
 
-   public UNBOX(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long valueTypeToken = parse.getMSILInputStream().readTOKEN();
-      classRef = parse.getClassRef(valueTypeToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof UNBOX)))
-         return false;
-      UNBOX unbox = (UNBOX)o;
-      return (unbox.classRef==classRef);
-   }
+	public UNBOX(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long valueTypeToken = parse.getMSILInputStream().readTOKEN();
+		classRef = parse.getClassRef(valueTypeToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof UNBOX)))
+			return false;
+		UNBOX unbox = (UNBOX) o;
+		return (unbox.classRef == classRef);
+	}
 
 /*
    public void output(){

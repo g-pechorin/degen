@@ -19,35 +19,41 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class is for global fields defined in other modules of the same assembly. 
-  * Global fields are actually defined in a hidden TypeDef named "<Module>" with namespace "".
-  * @author Michael Stepp
-  */
-public class GlobalFieldRef extends FieldRef{
-   private ModuleRefInfo moduleRef;
-   
-   /** Makes a GlobalFieldRef with the given module, name, and signature
-     * @param module information about the module where this global field is defined
-     * @param name the name of this global field
-     * @param sig the field signature of this global field
-     */
-   public GlobalFieldRef(ModuleRefInfo module, String name, edu.arizona.cs.mbel.signature.FieldSignature sig){
-      super(name, sig, new ModuleTypeRef(module, "", "<Module>"));
-      moduleRef = module;
-   }
-   
-   /** Returns the module info for this global field
-     */
-   public ModuleRefInfo getModuleRefInfo(){
-      return moduleRef;
-   }
-   
-   /** Overrides this method to do nothing, because the parent of a 
-     * global field must always be "<Module>"
-     */
-   public void setParent(AbstractTypeReference ref){
-      // can't change my parent! :-P
-   }
+/**
+ * This class is for global fields defined in other modules of the same assembly.
+ * Global fields are actually defined in a hidden TypeDef named "<Module>" with namespace "".
+ *
+ * @author Michael Stepp
+ */
+public class GlobalFieldRef extends FieldRef {
+	private ModuleRefInfo moduleRef;
+
+	/**
+	 * Makes a GlobalFieldRef with the given module, name, and signature
+	 *
+	 * @param module information about the module where this global field is defined
+	 * @param name   the name of this global field
+	 * @param sig    the field signature of this global field
+	 */
+	public GlobalFieldRef(ModuleRefInfo module, String name, edu.arizona.cs.mbel.signature.FieldSignature sig) {
+		super(name, sig, new ModuleTypeRef(module, "", "<Module>"));
+		moduleRef = module;
+	}
+
+	/**
+	 * Returns the module info for this global field
+	 */
+	public ModuleRefInfo getModuleRefInfo() {
+		return moduleRef;
+	}
+
+	/**
+	 * Overrides this method to do nothing, because the parent of a
+	 * global field must always be "<Module>"
+	 */
+	public void setParent(AbstractTypeReference ref) {
+		// can't change my parent! :-P
+	}
    
 /*
    public void output(){

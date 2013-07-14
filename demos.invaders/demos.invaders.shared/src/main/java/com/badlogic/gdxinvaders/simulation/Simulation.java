@@ -13,9 +13,9 @@
 
 package com.badlogic.gdxinvaders.simulation;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector3;
+
+import java.util.ArrayList;
 
 public class Simulation {
 	public final static float PLAYFIELD_MIN_X = -14;
@@ -37,11 +37,11 @@ public class Simulation {
 	private ArrayList<Shot> removedShots = new ArrayList<Shot>();
 	private ArrayList<Explosion> removedExplosions = new ArrayList<Explosion>();
 
-	public Simulation () {
+	public Simulation() {
 		populate();
 	}
 
-	private void populate () {
+	private void populate() {
 		ship = new Ship();
 
 		for (int row = 0; row < 4; row++) {
@@ -60,7 +60,7 @@ public class Simulation {
 		}
 	}
 
-	public void update (float delta) {
+	public void update(float delta) {
 		ship.update(delta);
 		updateInvaders(delta);
 		updateShots(delta);
@@ -71,14 +71,14 @@ public class Simulation {
 		checkNextLevel();
 	}
 
-	private void updateInvaders (float delta) {
+	private void updateInvaders(float delta) {
 		for (int i = 0; i < invaders.size(); i++) {
 			Invader invader = invaders.get(i);
 			invader.update(delta, multiplier);
 		}
 	}
 
-	private void updateShots (float delta) {
+	private void updateShots(float delta) {
 		removedShots.clear();
 		for (int i = 0; i < shots.size(); i++) {
 			Shot shot = shots.get(i);
@@ -92,14 +92,14 @@ public class Simulation {
 		if (shipShot != null && shipShot.hasLeftField) shipShot = null;
 
 		if (Math.random() < 0.01 * multiplier && invaders.size() > 0) {
-			int index = (int)(Math.random() * (invaders.size() - 1));
+			int index = (int) (Math.random() * (invaders.size() - 1));
 			Shot shot = new Shot(invaders.get(index).position, true);
 			shots.add(shot);
 			if (listener != null) listener.shot();
 		}
 	}
 
-	public void updateExplosions (float delta) {
+	public void updateExplosions(float delta) {
 		removedExplosions.clear();
 		for (int i = 0; i < explosions.size(); i++) {
 			Explosion explosion = explosions.get(i);
@@ -111,7 +111,7 @@ public class Simulation {
 			explosions.remove(removedExplosions.get(i));
 	}
 
-	private void checkInvaderCollision () {
+	private void checkInvaderCollision() {
 		if (shipShot == null) return;
 
 		for (int j = 0; j < invaders.size(); j++) {
@@ -128,7 +128,7 @@ public class Simulation {
 		}
 	}
 
-	private void checkShipCollision () {
+	private void checkShipCollision() {
 		removedShots.clear();
 
 		if (!ship.isExploding) {
@@ -165,7 +165,7 @@ public class Simulation {
 		}
 	}
 
-	private void checkBlockCollision () {
+	private void checkBlockCollision() {
 		removedShots.clear();
 
 		for (int i = 0; i < shots.size(); i++) {
@@ -186,7 +186,7 @@ public class Simulation {
 			shots.remove(removedShots.get(i));
 	}
 
-	private void checkNextLevel () {
+	private void checkNextLevel() {
 		if (invaders.size() == 0 && ship.lives > 0) {
 			blocks.clear();
 			shots.clear();
@@ -201,21 +201,21 @@ public class Simulation {
 		}
 	}
 
-	public void moveShipLeft (float delta, float scale) {
+	public void moveShipLeft(float delta, float scale) {
 		if (ship.isExploding) return;
 
 		ship.position.x -= delta * Ship.SHIP_VELOCITY * scale;
 		if (ship.position.x < PLAYFIELD_MIN_X) ship.position.x = PLAYFIELD_MIN_X;
 	}
 
-	public void moveShipRight (float delta, float scale) {
+	public void moveShipRight(float delta, float scale) {
 		if (ship.isExploding) return;
 
 		ship.position.x += delta * Ship.SHIP_VELOCITY * scale;
 		if (ship.position.x > PLAYFIELD_MAX_X) ship.position.x = PLAYFIELD_MAX_X;
 	}
 
-	public void shot () {
+	public void shot() {
 		if (shipShot == null && !ship.isExploding) {
 			shipShot = new Shot(ship.position, false);
 			shots.add(shipShot);

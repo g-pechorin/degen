@@ -26,13 +26,14 @@ public class Invader {
 	public final Vector3 position = new Vector3();
 	public int state = STATE_MOVE_LEFT;
 	public boolean wasLastStateLeft = true;
-	public float movedDistance = Simulation.PLAYFIELD_MAX_X / 2;;
+	public float movedDistance = Simulation.PLAYFIELD_MAX_X / 2;
+	;
 
-	public Invader (Vector3 position) {
+	public Invader(Vector3 position) {
 		this.position.set(position);
 	}
 
-	public void update (float delta, float speedMultiplier) {
+	public void update(float delta, float speedMultiplier) {
 		movedDistance += delta * INVADER_VELOCITY * speedMultiplier;
 		if (state == STATE_MOVE_LEFT) {
 			position.x -= delta * INVADER_VELOCITY * speedMultiplier;

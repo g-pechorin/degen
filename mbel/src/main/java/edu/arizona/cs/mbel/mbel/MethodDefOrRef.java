@@ -19,19 +19,22 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** Abstract parent class of Method and MethodRef. Method does not extend MethodRef because 
-  * a MethodRef represents a calling point, whereas a Method represents a method definition.
-  * Therefore each MethodRef will have a callsite signature, and each Method will have a 
-  * definition signature. It would be wrong to give a Method a callsite signature, since the 
-  * same method may be called in several different ways if it has a VARARGS signature.
-  * @author Michael Stepp
-  */
-public abstract class MethodDefOrRef extends MemberRef{
-   /** Makes a MethodDefOrRef withthe given name and parent type
-     */
-   public MethodDefOrRef(String name, AbstractTypeReference par){
-      super(name, par);
-   }
-   
+/**
+ * Abstract parent class of Method and MethodRef. Method does not extend MethodRef because
+ * a MethodRef represents a calling point, whereas a Method represents a method definition.
+ * Therefore each MethodRef will have a callsite signature, and each Method will have a
+ * definition signature. It would be wrong to give a Method a callsite signature, since the
+ * same method may be called in several different ways if it has a VARARGS signature.
+ *
+ * @author Michael Stepp
+ */
+public abstract class MethodDefOrRef extends MemberRef {
+	/**
+	 * Makes a MethodDefOrRef withthe given name and parent type
+	 */
+	public MethodDefOrRef(String name, AbstractTypeReference par) {
+		super(name, par);
+	}
+
 //   public abstract void output();
 }

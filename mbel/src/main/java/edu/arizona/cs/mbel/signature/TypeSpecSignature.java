@@ -20,32 +20,36 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** This class holds the description of a TypeSpec
-  * @author Michael Stepp
-  */
-public abstract class TypeSpecSignature extends TypeSignature{
-   protected TypeSpecSignature(byte type){
-      super(type);
-   }
-     
-   /** Factory method for generating a TypeSpecSignature from a binary blob
-     * @param buffer the ByteBuffer wrapper around the binary blob
-     * @param group a TypeGroup for reconciling tokens to mbel references
-     * @return a TypeSpecSignature representing the binary blob, or null if there was a parse error
-     */
-   public static TypeSignature parse(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.mbel.TypeGroup group){
-      byte data = buffer.peek();
-      switch(data){
-         case ELEMENT_TYPE_PTR:
-            return PointerTypeSignature.parse(buffer, group);
-         case ELEMENT_TYPE_FNPTR:
-            return FunctionPointerTypeSignature.parse(buffer, group);
-         case ELEMENT_TYPE_ARRAY:
-            return ArrayTypeSignature.parse(buffer, group);
-         case ELEMENT_TYPE_SZARRAY:
-            return SZArrayTypeSignature.parse(buffer, group);
-         default:
-            return null;
-      }
-   }
+/**
+ * This class holds the description of a TypeSpec
+ *
+ * @author Michael Stepp
+ */
+public abstract class TypeSpecSignature extends TypeSignature {
+	protected TypeSpecSignature(byte type) {
+		super(type);
+	}
+
+	/**
+	 * Factory method for generating a TypeSpecSignature from a binary blob
+	 *
+	 * @param buffer the ByteBuffer wrapper around the binary blob
+	 * @param group  a TypeGroup for reconciling tokens to mbel references
+	 * @return a TypeSpecSignature representing the binary blob, or null if there was a parse error
+	 */
+	public static TypeSignature parse(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.mbel.TypeGroup group) {
+		byte data = buffer.peek();
+		switch (data) {
+			case ELEMENT_TYPE_PTR:
+				return PointerTypeSignature.parse(buffer, group);
+			case ELEMENT_TYPE_FNPTR:
+				return FunctionPointerTypeSignature.parse(buffer, group);
+			case ELEMENT_TYPE_ARRAY:
+				return ArrayTypeSignature.parse(buffer, group);
+			case ELEMENT_TYPE_SZARRAY:
+				return SZArrayTypeSignature.parse(buffer, group);
+			default:
+				return null;
+		}
+	}
 }

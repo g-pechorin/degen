@@ -19,56 +19,61 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Make reference to any type. Pushes a typed reference on the stack.<br>
-  * Stack transition:<br>
-  *   ..., ptr --> ..., typedRef
-  * @author Michael Stepp
-  */
-public class MKREFANY extends Instruction{
-   public static final int MKREFANY = 0xC6;
-   protected static final int OPCODE_LIST[] = {MKREFANY};
-   private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
+/**
+ * Make reference to any type. Pushes a typed reference on the stack.<br>
+ * Stack transition:<br>
+ * ..., ptr --> ..., typedRef
+ *
+ * @author Michael Stepp
+ */
+public class MKREFANY extends Instruction {
+	public static final int MKREFANY = 0xC6;
+	protected static final int OPCODE_LIST[] = {MKREFANY};
+	private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
 
-   /** Makes a MKREFANY object for the given type.
-     * @param ref the type reference
-     */
-   public MKREFANY(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException{
-      super(MKREFANY, OPCODE_LIST);
-      classRef = ref;
-   }
+	/**
+	 * Makes a MKREFANY object for the given type.
+	 *
+	 * @param ref the type reference
+	 */
+	public MKREFANY(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException {
+		super(MKREFANY, OPCODE_LIST);
+		classRef = ref;
+	}
 
-   /** Returns the type reference for this instruction.
-     */
-   public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType(){
-      return classRef;
-   }
+	/**
+	 * Returns the type reference for this instruction.
+	 */
+	public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType() {
+		return classRef;
+	}
 
-   public String getName(){
-      return "mkrefany";
-   }
+	public String getName() {
+		return "mkrefany";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getTypeToken(classRef);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getTypeToken(classRef);
+		buffer.putTOKEN(token);
+	}
 
-   public MKREFANY(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long classToken = parse.getMSILInputStream().readTOKEN();
-      classRef = parse.getClassRef(classToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof MKREFANY)))
-         return false;
-      MKREFANY mkrefany = (MKREFANY)o;
-      return (classRef==mkrefany.classRef);
-   }
+	public MKREFANY(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long classToken = parse.getMSILInputStream().readTOKEN();
+		classRef = parse.getClassRef(classToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof MKREFANY)))
+			return false;
+		MKREFANY mkrefany = (MKREFANY) o;
+		return (classRef == mkrefany.classRef);
+	}
 
 /*
    public void output(){

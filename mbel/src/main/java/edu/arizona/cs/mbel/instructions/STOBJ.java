@@ -20,66 +20,73 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Store object.<br>
-  * Stack transition:<br>
-  *   ..., addr, valObj --> ...
-  * @author Michael Stepp
-  */
-public class STOBJ extends UnalignedPrefixInstruction{
-   public static final int STOBJ = 0x81;
-   protected static final int OPCODE_LIST[] = {STOBJ};
-   private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
+/**
+ * Store object.<br>
+ * Stack transition:<br>
+ * ..., addr, valObj --> ...
+ *
+ * @author Michael Stepp
+ */
+public class STOBJ extends UnalignedPrefixInstruction {
+	public static final int STOBJ = 0x81;
+	protected static final int OPCODE_LIST[] = {STOBJ};
+	private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
 
-   /** Makes a STOBJ for the given type (with no unaligned prefix nor volatile prefix)
-     * @param ref the type
-     */
-   public STOBJ(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException{
-      super(false, STOBJ, OPCODE_LIST);
-      classRef = ref;
-   }
+	/**
+	 * Makes a STOBJ for the given type (with no unaligned prefix nor volatile prefix)
+	 *
+	 * @param ref the type
+	 */
+	public STOBJ(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException {
+		super(false, STOBJ, OPCODE_LIST);
+		classRef = ref;
+	}
 
-   /** Makes a STOBJ for the given type with an unaligned prefix, possibly with a volatile prefix
-     * @param alignment the unaligned prefix alignment value (0<=alignment<256)
-     * @param hasV true iff this STOBJ has a volatile prefix
-     * @param ref the type
-     */
-   public STOBJ(int alignment, boolean hasV, edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException{
-      super(alignment, hasV, STOBJ, OPCODE_LIST);
-      classRef = ref;
-   }
+	/**
+	 * Makes a STOBJ for the given type with an unaligned prefix, possibly with a volatile prefix
+	 *
+	 * @param alignment the unaligned prefix alignment value (0<=alignment<256)
+	 * @param hasV      true iff this STOBJ has a volatile prefix
+	 * @param ref       the type
+	 */
+	public STOBJ(int alignment, boolean hasV, edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException {
+		super(alignment, hasV, STOBJ, OPCODE_LIST);
+		classRef = ref;
+	}
 
-   /** Returns the type for this STOBJ
-     */
-   public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType(){
-      return classRef;
-   }
+	/**
+	 * Returns the type for this STOBJ
+	 */
+	public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType() {
+		return classRef;
+	}
 
-   public String getName(){
-      return "stobj";
-   }
+	public String getName() {
+		return "stobj";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getTypeToken(classRef);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getTypeToken(classRef);
+		buffer.putTOKEN(token);
+	}
 
-   public STOBJ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(false, opcode, OPCODE_LIST);
-      long classToken = parse.getMSILInputStream().readTOKEN();
-      classRef = parse.getClassRef(classToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof STOBJ)))
-         return false;
-      STOBJ stobj = (STOBJ)o;
-      return (classRef==stobj.classRef);
-   }
+	public STOBJ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(false, opcode, OPCODE_LIST);
+		long classToken = parse.getMSILInputStream().readTOKEN();
+		classRef = parse.getClassRef(classToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof STOBJ)))
+			return false;
+		STOBJ stobj = (STOBJ) o;
+		return (classRef == stobj.classRef);
+	}
 
 /*
    public void output(){

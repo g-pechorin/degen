@@ -19,52 +19,63 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class represents a set of special semantics for a method. These special
-  * semantics can be property getters or setters, or event methods. While a MethodSemantics
-  * has both getEvent and getProperty methods, only one of these will be valid for a 
-  * given instance.
-  * @author Michael Stepp
-  */
-public class MethodSemantics implements edu.arizona.cs.mbel.signature.MethodSemanticsAttributes{
-   // Setter, Getter, Other, AddOn, RemoveOn, Fire
-   private int Semantics;  // 2 bytes
-   private Event event;
-   private Property property;
-   // only one of these will be nonnull
+/**
+ * This class represents a set of special semantics for a method. These special
+ * semantics can be property getters or setters, or event methods. While a MethodSemantics
+ * has both getEvent and getProperty methods, only one of these will be valid for a
+ * given instance.
+ *
+ * @author Michael Stepp
+ */
+public class MethodSemantics implements edu.arizona.cs.mbel.signature.MethodSemanticsAttributes {
+	// Setter, Getter, Other, AddOn, RemoveOn, Fire
+	private int Semantics;  // 2 bytes
+	private Event event;
+	private Property property;
+	// only one of these will be nonnull
 
-   /** Makes a MethodSemantics object with the given semantics code and Event parent.
-     * @param sem the semantics code value (from MethodSemanticsAttributes). Legal values are AddOn, RemoveOn, Fire, or Other
-     * @param e the event parent
-     */
-   public MethodSemantics(int sem, Event e){
-      Semantics = sem;
-      event = e;
-   }
-   
-   /** Makes a MethodSemantics object with the given semantics code and Property parent.
-     * @param sem the semantics code value (from MethodSemanticsAttributes). Legal values are Setter, Getter, or Other
-     * @param p the Property parent
-     */
-   public MethodSemantics(int sem, Property p){
-      Semantics = sem;
-      property = p;
-   }
-   
-   /** Returns the semantics code value (defined in MethodSemanticsAttributes)
-     */
-   public int getSemantics(){
-      return Semantics;
-   }
-   /** Returns the Event parent for these MethodSemantics (if this is a property method, this will return null)
-     */
-   public Event getEvent(){
-      return event;
-   }
-   /** Returns the Property parent for these MethodSemantics (if this is an event method, this will return null)
-     */
-   public Property getProperty(){
-      return property;
-   }
+	/**
+	 * Makes a MethodSemantics object with the given semantics code and Event parent.
+	 *
+	 * @param sem the semantics code value (from MethodSemanticsAttributes). Legal values are AddOn, RemoveOn, Fire, or Other
+	 * @param e   the event parent
+	 */
+	public MethodSemantics(int sem, Event e) {
+		Semantics = sem;
+		event = e;
+	}
+
+	/**
+	 * Makes a MethodSemantics object with the given semantics code and Property parent.
+	 *
+	 * @param sem the semantics code value (from MethodSemanticsAttributes). Legal values are Setter, Getter, or Other
+	 * @param p   the Property parent
+	 */
+	public MethodSemantics(int sem, Property p) {
+		Semantics = sem;
+		property = p;
+	}
+
+	/**
+	 * Returns the semantics code value (defined in MethodSemanticsAttributes)
+	 */
+	public int getSemantics() {
+		return Semantics;
+	}
+
+	/**
+	 * Returns the Event parent for these MethodSemantics (if this is a property method, this will return null)
+	 */
+	public Event getEvent() {
+		return event;
+	}
+
+	/**
+	 * Returns the Property parent for these MethodSemantics (if this is an event method, this will return null)
+	 */
+	public Property getProperty() {
+		return property;
+	}
    
 /*
    public void output(){

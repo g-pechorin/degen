@@ -19,42 +19,49 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class is just a container for the various types defined in a module.
-  * It is used by the parser to pass around all the types, without glutting each method's 
-  * signature with 3 extra params. NOT TO BE USED BY USER.
-  * @author Michael Stepp
-  */
-public class TypeGroup{
-   private TypeDef[] typeDefs;
-   private TypeRef[] typeRefs;
-   private TypeSpec[] typeSpecs;
-  
-   /** Makes a new TypeGroup for the given defs, refs, and specs.
-     * @param def the list of TypeDefs in a module
-     * @param ref the list of TypeRefs in a module
-     * @param spec the list of TypeSpecs in a module
-     */
-   public TypeGroup(TypeDef[] def, TypeRef[] ref, TypeSpec[] spec){
-      typeDefs = def;
-      typeRefs = ref;
-      typeSpecs = spec;
-   }
-   
-   /** Returns the TypeDef list
-     */
-   public TypeDef[] getTypeDefs(){
-      return typeDefs;
-   }
-   
-   /** Returns the TypeRef list
-     */
-   public TypeRef[] getTypeRefs(){
-      return typeRefs;
-   }
-   
-   /** Returns the TypeSpec list
-     */
-   public TypeSpec[] getTypeSpecs(){
-      return typeSpecs;
-   }
+/**
+ * This class is just a container for the various types defined in a module.
+ * It is used by the parser to pass around all the types, without glutting each method's
+ * signature with 3 extra params. NOT TO BE USED BY USER.
+ *
+ * @author Michael Stepp
+ */
+public class TypeGroup {
+	private TypeDef[] typeDefs;
+	private TypeRef[] typeRefs;
+	private TypeSpec[] typeSpecs;
+
+	/**
+	 * Makes a new TypeGroup for the given defs, refs, and specs.
+	 *
+	 * @param def  the list of TypeDefs in a module
+	 * @param ref  the list of TypeRefs in a module
+	 * @param spec the list of TypeSpecs in a module
+	 */
+	public TypeGroup(TypeDef[] def, TypeRef[] ref, TypeSpec[] spec) {
+		typeDefs = def;
+		typeRefs = ref;
+		typeSpecs = spec;
+	}
+
+	/**
+	 * Returns the TypeDef list
+	 */
+	public TypeDef[] getTypeDefs() {
+		return typeDefs;
+	}
+
+	/**
+	 * Returns the TypeRef list
+	 */
+	public TypeRef[] getTypeRefs() {
+		return typeRefs;
+	}
+
+	/**
+	 * Returns the TypeSpec list
+	 */
+	public TypeSpec[] getTypeSpecs() {
+		return typeSpecs;
+	}
 }

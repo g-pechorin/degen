@@ -16,18 +16,22 @@
 
 package com.peterlavalle.libgdx.scala.demo.game
 
-import com.badlogic.gdx.ApplicationListener
 
 class GameApplication extends ApplicationListener {
-  def create () = {
-	println("Created!")
+  def create() = {
+    println("Created!")
   }
-  def resize (width:Int, height:Int)= {
-	println("Resized!")
+
+  def resize(width: Int, height: Int) = {
+    println("Resized!")
   }
-  def render ()= {}
-  def pause ()= {}
-  def resume ()= {}
-  def dispose () = {}
+
+  def render() = {}
+
+  def pause() = {}
+
+  def resume() = {}
+
+  def dispose() = {}
 
 }

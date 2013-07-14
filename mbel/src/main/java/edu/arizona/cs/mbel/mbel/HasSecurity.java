@@ -19,11 +19,14 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** Tag interface for all MBEL objects that can have DeclSecurity permissions.
-  * This is implemented by TypeDef, Assembly, and Method. 
-  * @author Michael Stepp
-  */
-public interface HasSecurity{
-   public DeclSecurity getDeclSecurity();
-   public void setDeclSecurity(DeclSecurity decl);
+/**
+ * Tag interface for all MBEL objects that can have DeclSecurity permissions.
+ * This is implemented by TypeDef, Assembly, and Method.
+ *
+ * @author Michael Stepp
+ */
+public interface HasSecurity {
+	public DeclSecurity getDeclSecurity();
+
+	public void setDeclSecurity(DeclSecurity decl);
 }

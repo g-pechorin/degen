@@ -20,11 +20,13 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** Interface with constants for the hash algorithm used by a given assembly
-  * @author Michael Stepp
-  */
-public interface AssemblyHashAlgorithm{
-   public static final int None     = 0x0000;
-   public static final int Reserved = 0x8003;
-   public static final int SHA1     = 0x8004;
+/**
+ * Interface with constants for the hash algorithm used by a given assembly
+ *
+ * @author Michael Stepp
+ */
+public interface AssemblyHashAlgorithm {
+	public static final int None = 0x0000;
+	public static final int Reserved = 0x8003;
+	public static final int SHA1 = 0x8004;
 }

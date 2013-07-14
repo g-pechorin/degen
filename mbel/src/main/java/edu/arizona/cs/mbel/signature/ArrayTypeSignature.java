@@ -20,70 +20,80 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** This class describes an array type
-  * @author Michael Stepp
-  */
-public class ArrayTypeSignature extends TypeSpecSignature{
-   private TypeSignature elementTypeSignature;
-   private ArrayShapeSignature arrayShape;
+/**
+ * This class describes an array type
+ *
+ * @author Michael Stepp
+ */
+public class ArrayTypeSignature extends TypeSpecSignature {
+	private TypeSignature elementTypeSignature;
+	private ArrayShapeSignature arrayShape;
 
-   /** Makes an array type with the given element type and shape
-     * @param type the element type of this array
-     * @param shape the shape of this array
-     */
-   public ArrayTypeSignature(TypeSignature type, ArrayShapeSignature shape) throws SignatureException{
-      this();
-      if (type==null || shape==null)
-         throw new SignatureException("ArrayTypeSignature: null values specified");
-      elementTypeSignature = type;
-      arrayShape = shape;
-   }
+	/**
+	 * Makes an array type with the given element type and shape
+	 *
+	 * @param type  the element type of this array
+	 * @param shape the shape of this array
+	 */
+	public ArrayTypeSignature(TypeSignature type, ArrayShapeSignature shape) throws SignatureException {
+		this();
+		if (type == null || shape == null)
+			throw new SignatureException("ArrayTypeSignature: null values specified");
+		elementTypeSignature = type;
+		arrayShape = shape;
+	}
 
-   private ArrayTypeSignature(){
-      super(ELEMENT_TYPE_ARRAY);
-   }
+	private ArrayTypeSignature() {
+		super(ELEMENT_TYPE_ARRAY);
+	}
 
-   /** Factory method for parsing array type signatures from raw binary blobs
-     * @param buffer the buffer to read from
-     * @param group a TyprGroup for reconciling tokens to mbel references
-     * @return an ArrayTypeSignature representing the given blob, or null if there was a parse error
-     */
-   public static TypeSignature parse(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.mbel.TypeGroup group){
-      ArrayTypeSignature blob = new ArrayTypeSignature();
-      byte data = buffer.get();
-      if (data!=ELEMENT_TYPE_ARRAY)
-         return null;
+	/**
+	 * Factory method for parsing array type signatures from raw binary blobs
+	 *
+	 * @param buffer the buffer to read from
+	 * @param group  a TyprGroup for reconciling tokens to mbel references
+	 * @return an ArrayTypeSignature representing the given blob, or null if there was a parse error
+	 */
+	public static TypeSignature parse(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.mbel.TypeGroup group) {
+		ArrayTypeSignature blob = new ArrayTypeSignature();
+		byte data = buffer.get();
+		if (data != ELEMENT_TYPE_ARRAY)
+			return null;
 
-      blob.elementTypeSignature = TypeSignature.parse(buffer, group);
-      if (blob.elementTypeSignature==null)
-         return null;
+		blob.elementTypeSignature = TypeSignature.parse(buffer, group);
+		if (blob.elementTypeSignature == null)
+			return null;
 
-      blob.arrayShape = ArrayShapeSignature.parse(buffer);
-      if (blob.arrayShape==null)
-         return null;
-      return blob;
-   }
+		blob.arrayShape = ArrayShapeSignature.parse(buffer);
+		if (blob.arrayShape == null)
+			return null;
+		return blob;
+	}
 
-   /** Returns the element type of this array
-     */
-   public TypeSignature getElementType(){
-      return elementTypeSignature;
-   }
+	/**
+	 * Returns the element type of this array
+	 */
+	public TypeSignature getElementType() {
+		return elementTypeSignature;
+	}
 
-   /** Returns the shape of this array
-     */
-   public ArrayShapeSignature getArrayShape(){
-      return arrayShape;
-   }
-   
-   /** Writes this signature to a buffer in raw binary form
-     * @param buffer the buffer to write to
-     */
-   public void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      buffer.put(ELEMENT_TYPE_ARRAY);
-      elementTypeSignature.emit(buffer, emitter);
-      arrayShape.emit(buffer, emitter);
-   }
+	/**
+	 * Returns the shape of this array
+	 */
+	public ArrayShapeSignature getArrayShape() {
+		return arrayShape;
+	}
+
+	/**
+	 * Writes this signature to a buffer in raw binary form
+	 *
+	 * @param buffer the buffer to write to
+	 */
+	public void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		buffer.put(ELEMENT_TYPE_ARRAY);
+		elementTypeSignature.emit(buffer, emitter);
+		arrayShape.emit(buffer, emitter);
+	}
    
 /*
    public void output(){

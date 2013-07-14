@@ -18,31 +18,32 @@
  */
 
 
-
 package edu.arizona.cs.mbel.instructions;
 
-/** Nop.<br>
-  * Stack transition:<br>
-  *   ... --> ...
-  * @author Michael Stepp
-  */
-public class NOP extends Instruction{
-   public static final int NOP = 0x00;
-   protected static final int OPCODE_LIST[] = {NOP};
+/**
+ * Nop.<br>
+ * Stack transition:<br>
+ * ... --> ...
+ *
+ * @author Michael Stepp
+ */
+public class NOP extends Instruction {
+	public static final int NOP = 0x00;
+	protected static final int OPCODE_LIST[] = {NOP};
 
-   public NOP() throws InstructionInitException{
-      super(NOP, OPCODE_LIST);
-   }
+	public NOP() throws InstructionInitException {
+		super(NOP, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "nop";
-   }
+	public String getName() {
+		return "nop";
+	}
 
-   public NOP(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof NOP));
-   }
+	public NOP(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof NOP));
+	}
 }

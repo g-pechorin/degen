@@ -19,35 +19,41 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class represents a typeref for a global method in another module in this assembly.
-  * Global methods actually belong to a hidden TypeDef called "<Module>" with namespace "".
-  * @author Michael Stepp
-  */
-public class GlobalMethodRef extends MethodRef{
-   private ModuleRefInfo moduleRef;
-   
-   /** Makes a GlobalMethodRef with the given parent module, name, and signature
-     * @param mod information about the parent module of this global method
-     * @param name the name of the method
-     * @param sig the callsite signature of the method
-     */
-   public GlobalMethodRef(ModuleRefInfo mod, String name, edu.arizona.cs.mbel.signature.MethodSignature sig){
-      super(name, new ModuleTypeRef(mod, "", "<Module>"), sig);
-      moduleRef = mod;
-   }
-   
-   /** Returns the ModuleRefInfo for the parent module of this methodref
-     */
-   public ModuleRefInfo getModuleRefInfo(){
-      return moduleRef;
-   }
-   
-   /** This method is ovverridden to do nothing, because the parent 
-     * of a global method must always be "<Module>"
-     */
-   public void setParent(AbstractTypeReference ref){
-      // can't change my parent! :-P
-   }
+/**
+ * This class represents a typeref for a global method in another module in this assembly.
+ * Global methods actually belong to a hidden TypeDef called "<Module>" with namespace "".
+ *
+ * @author Michael Stepp
+ */
+public class GlobalMethodRef extends MethodRef {
+	private ModuleRefInfo moduleRef;
+
+	/**
+	 * Makes a GlobalMethodRef with the given parent module, name, and signature
+	 *
+	 * @param mod  information about the parent module of this global method
+	 * @param name the name of the method
+	 * @param sig  the callsite signature of the method
+	 */
+	public GlobalMethodRef(ModuleRefInfo mod, String name, edu.arizona.cs.mbel.signature.MethodSignature sig) {
+		super(name, new ModuleTypeRef(mod, "", "<Module>"), sig);
+		moduleRef = mod;
+	}
+
+	/**
+	 * Returns the ModuleRefInfo for the parent module of this methodref
+	 */
+	public ModuleRefInfo getModuleRefInfo() {
+		return moduleRef;
+	}
+
+	/**
+	 * This method is ovverridden to do nothing, because the parent
+	 * of a global method must always be "<Module>"
+	 */
+	public void setParent(AbstractTypeReference ref) {
+		// can't change my parent! :-P
+	}
   
 /*
    public void output(){
@@ -55,5 +61,5 @@ public class GlobalMethodRef extends MethodRef{
       getCallsiteSignature().output();
       System.out.print(", Parent=<Module>]");
    }
-*/   
+*/
 }

@@ -19,67 +19,74 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Load field.<br>
-  * Stack transition:<br>
-  *   ..., obj --> ..., value
-  * @author Michael Stepp
-  */
-public class LDFLD extends UnalignedPrefixInstruction{
-   public static final int LDFLD = 0x7B;
-   protected static final int OPCODE_LIST[] = {LDFLD};
-   private edu.arizona.cs.mbel.mbel.FieldRef field;
+/**
+ * Load field.<br>
+ * Stack transition:<br>
+ * ..., obj --> ..., value
+ *
+ * @author Michael Stepp
+ */
+public class LDFLD extends UnalignedPrefixInstruction {
+	public static final int LDFLD = 0x7B;
+	protected static final int OPCODE_LIST[] = {LDFLD};
+	private edu.arizona.cs.mbel.mbel.FieldRef field;
 
-   /** Makes a LDFLD object from the given field reference with no unaligned prefix nor volatile prefix
-     * @param ref the field reference
-     */
-   public LDFLD(edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException{
-      super(false, LDFLD, OPCODE_LIST);
-      field = ref;
-   }
+	/**
+	 * Makes a LDFLD object from the given field reference with no unaligned prefix nor volatile prefix
+	 *
+	 * @param ref the field reference
+	 */
+	public LDFLD(edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException {
+		super(false, LDFLD, OPCODE_LIST);
+		field = ref;
+	}
 
-   /** Makes a LDFLD object from the given field reference with the given unaligned 
-     * prefix alignment, possibly with a volatile prefix.
-     * @param alignment the unaligned prefix alignment
-     * @param hasV true iff this LDFLD has a volatile prefix
-     * @param ref the field reference
-     */
-   public LDFLD(int alignment, boolean hasV, edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException{
-      super(alignment, hasV, LDFLD, OPCODE_LIST);
-      field = ref;
-   }
+	/**
+	 * Makes a LDFLD object from the given field reference with the given unaligned
+	 * prefix alignment, possibly with a volatile prefix.
+	 *
+	 * @param alignment the unaligned prefix alignment
+	 * @param hasV      true iff this LDFLD has a volatile prefix
+	 * @param ref       the field reference
+	 */
+	public LDFLD(int alignment, boolean hasV, edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException {
+		super(alignment, hasV, LDFLD, OPCODE_LIST);
+		field = ref;
+	}
 
-   /** Returns the field reference for this instruction.
-     */
-   public edu.arizona.cs.mbel.mbel.FieldRef getField(){
-      return field;
-   }
+	/**
+	 * Returns the field reference for this instruction.
+	 */
+	public edu.arizona.cs.mbel.mbel.FieldRef getField() {
+		return field;
+	}
 
-   public String getName(){
-      return "ldfld";
-   }
+	public String getName() {
+		return "ldfld";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getFieldRefToken(field);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getFieldRefToken(field);
+		buffer.putTOKEN(token);
+	}
 
-   public LDFLD(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(false, opcode, OPCODE_LIST);
-      long fieldToken = parse.getMSILInputStream().readTOKEN();
-      field = parse.getFieldRef(fieldToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof LDFLD)))
-         return false;
-      LDFLD ldfld = (LDFLD)o;
-      return (field==ldfld.field);
-   }
+	public LDFLD(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(false, opcode, OPCODE_LIST);
+		long fieldToken = parse.getMSILInputStream().readTOKEN();
+		field = parse.getFieldRef(fieldToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof LDFLD)))
+			return false;
+		LDFLD ldfld = (LDFLD) o;
+		return (field == ldfld.field);
+	}
 
 /*
    public void output(){

@@ -20,29 +20,34 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** An exception clause that only catches exceptions of the given type.
-  * @author Michael Stepp
-  */
-public class TypedExceptionClause extends StructuredExceptionClause{
-   private edu.arizona.cs.mbel.mbel.AbstractTypeReference exceptionType;
+/**
+ * An exception clause that only catches exceptions of the given type.
+ *
+ * @author Michael Stepp
+ */
+public class TypedExceptionClause extends StructuredExceptionClause {
+	private edu.arizona.cs.mbel.mbel.AbstractTypeReference exceptionType;
 
-   /** Creates a TypedException clause with the given instruction range, that accepts exceptions of type 'type'.
-     * @param type the type of exception this clause targets
-     * @param ts the 'try' block start point
-     * @param te the 'try' block end point
-     * @param hs the handler block start point
-     * @param he the handler end point
-     */
-   public TypedExceptionClause(edu.arizona.cs.mbel.mbel.AbstractTypeReference type, InstructionHandle ts, InstructionHandle te, InstructionHandle hs, InstructionHandle he){
-      super(ts,te,hs,he);
-      exceptionType = type;
-   }
-   
-   /** Returns the type of exception this clause looks for
-     */
-   public edu.arizona.cs.mbel.mbel.AbstractTypeReference getExceptionType(){
-      return exceptionType;
-   }
+	/**
+	 * Creates a TypedException clause with the given instruction range, that accepts exceptions of type 'type'.
+	 *
+	 * @param type the type of exception this clause targets
+	 * @param ts   the 'try' block start point
+	 * @param te   the 'try' block end point
+	 * @param hs   the handler block start point
+	 * @param he   the handler end point
+	 */
+	public TypedExceptionClause(edu.arizona.cs.mbel.mbel.AbstractTypeReference type, InstructionHandle ts, InstructionHandle te, InstructionHandle hs, InstructionHandle he) {
+		super(ts, te, hs, he);
+		exceptionType = type;
+	}
+
+	/**
+	 * Returns the type of exception this clause looks for
+	 */
+	public edu.arizona.cs.mbel.mbel.AbstractTypeReference getExceptionType() {
+		return exceptionType;
+	}
    
 /*
    public void output(){

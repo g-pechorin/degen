@@ -20,11 +20,13 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** Interface with constants for manifest resource flags
-  * @author Michael Stepp
-  */
-public interface ManifestResourceAttributes{
-   public static final int VisibilityMask = 0x0007;
-   public static final int Public         = 0x0001;
-   public static final int Private        = 0x0002;
+/**
+ * Interface with constants for manifest resource flags
+ *
+ * @author Michael Stepp
+ */
+public interface ManifestResourceAttributes {
+	public static final int VisibilityMask = 0x0007;
+	public static final int Public = 0x0001;
+	public static final int Private = 0x0002;
 }

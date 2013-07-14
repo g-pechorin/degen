@@ -20,62 +20,69 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** This class represents a ValueType type signature.
-  * @author Michael Stepp
-  */
-public class ValueTypeSignature extends TypeSignature{
-   private edu.arizona.cs.mbel.mbel.AbstractTypeReference valueType;
+/**
+ * This class represents a ValueType type signature.
+ *
+ * @author Michael Stepp
+ */
+public class ValueTypeSignature extends TypeSignature {
+	private edu.arizona.cs.mbel.mbel.AbstractTypeReference valueType;
 
-   /** Constructs a ValueTypeSignature representing the given ValueType
-     * @param value an AbstractTypeReference representing a ValueType
-     * @throws SignatureException if value is not a ValueType or is null
-     */
-   public ValueTypeSignature(edu.arizona.cs.mbel.mbel.AbstractTypeReference value) throws SignatureException{
-      this();
-      if (value==null)
-         throw new SignatureException("ValueTypeSignature: Given class null");
-      valueType = value;
-   }
+	/**
+	 * Constructs a ValueTypeSignature representing the given ValueType
+	 *
+	 * @param value an AbstractTypeReference representing a ValueType
+	 * @throws SignatureException if value is not a ValueType or is null
+	 */
+	public ValueTypeSignature(edu.arizona.cs.mbel.mbel.AbstractTypeReference value) throws SignatureException {
+		this();
+		if (value == null)
+			throw new SignatureException("ValueTypeSignature: Given class null");
+		valueType = value;
+	}
 
-   private ValueTypeSignature(){
-      super(ELEMENT_TYPE_VALUETYPE);
-   }
+	private ValueTypeSignature() {
+		super(ELEMENT_TYPE_VALUETYPE);
+	}
 
-   /** Factory method to get a ValueTypeSignature from a binary blob (called by TypeSignature.parse)
-     * @param buffer the buffer wrapped around the binary blob
-     * @param group a TypeGroup for reconciling tokens to mbel references
-     * @return the ValueTypeSignature representing the binary blob, or null if there was a parse error
-     */
-   public static TypeSignature parse(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.mbel.TypeGroup group){
-      ValueTypeSignature blob = new ValueTypeSignature();
-      byte data = buffer.get();
-      if (data!=ELEMENT_TYPE_VALUETYPE)
-         return null;
+	/**
+	 * Factory method to get a ValueTypeSignature from a binary blob (called by TypeSignature.parse)
+	 *
+	 * @param buffer the buffer wrapped around the binary blob
+	 * @param group  a TypeGroup for reconciling tokens to mbel references
+	 * @return the ValueTypeSignature representing the binary blob, or null if there was a parse error
+	 */
+	public static TypeSignature parse(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.mbel.TypeGroup group) {
+		ValueTypeSignature blob = new ValueTypeSignature();
+		byte data = buffer.get();
+		if (data != ELEMENT_TYPE_VALUETYPE)
+			return null;
 
-      int token[] = parseTypeDefOrRefEncoded(buffer);
-      if (token[0]==edu.arizona.cs.mbel.metadata.TableConstants.TypeDef){
-         blob.valueType = group.getTypeDefs()[token[1]-1];
-      }else if (token[0]==edu.arizona.cs.mbel.metadata.TableConstants.TypeRef){
-         blob.valueType = group.getTypeRefs()[token[1]-1];
-      }else if (token[0]==edu.arizona.cs.mbel.metadata.TableConstants.TypeSpec){
-         blob.valueType = group.getTypeSpecs()[token[1]-1];
-      }else 
-         return null;
-      return blob;
-   }
-   
-   public void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      buffer.put(ELEMENT_TYPE_VALUETYPE);
-      long token = emitter.getTypeToken(valueType);
-      byte[] data = makeTypeDefOrRefEncoded((int)((token>>24)&0xFF), (int)(token&0xFFFFFF));
-      buffer.put(data);
-   }
+		int token[] = parseTypeDefOrRefEncoded(buffer);
+		if (token[0] == edu.arizona.cs.mbel.metadata.TableConstants.TypeDef) {
+			blob.valueType = group.getTypeDefs()[token[1] - 1];
+		} else if (token[0] == edu.arizona.cs.mbel.metadata.TableConstants.TypeRef) {
+			blob.valueType = group.getTypeRefs()[token[1] - 1];
+		} else if (token[0] == edu.arizona.cs.mbel.metadata.TableConstants.TypeSpec) {
+			blob.valueType = group.getTypeSpecs()[token[1] - 1];
+		} else
+			return null;
+		return blob;
+	}
 
-   /** Getter method for the ValueType reference
-     */
-   public edu.arizona.cs.mbel.mbel.AbstractTypeReference getValueType(){
-      return valueType;
-   }
+	public void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		buffer.put(ELEMENT_TYPE_VALUETYPE);
+		long token = emitter.getTypeToken(valueType);
+		byte[] data = makeTypeDefOrRefEncoded((int) ((token >> 24) & 0xFF), (int) (token & 0xFFFFFF));
+		buffer.put(data);
+	}
+
+	/**
+	 * Getter method for the ValueType reference
+	 */
+	public edu.arizona.cs.mbel.mbel.AbstractTypeReference getValueType() {
+		return valueType;
+	}
    
 /*
    public void output(){

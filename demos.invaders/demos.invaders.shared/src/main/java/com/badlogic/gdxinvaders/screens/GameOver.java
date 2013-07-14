@@ -24,26 +24,40 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
-/** The game over screen displays the final score and a game over text and waits for the user to touch the screen in which case it
+/**
+ * The game over screen displays the final score and a game over text and waits for the user to touch the screen in which case it
  * will signal that it is done to the orchestrating GdxInvaders class.
- * 
- * @author mzechner */
+ *
+ * @author mzechner
+ */
 public class GameOver extends InvadersScreen {
-	/** the SpriteBatch used to draw the background, logo and text **/
+	/**
+	 * the SpriteBatch used to draw the background, logo and text *
+	 */
 	private final SpriteBatch spriteBatch;
-	/** the background texture **/
+	/**
+	 * the background texture *
+	 */
 	private final Texture background;
-	/** the logo texture **/
+	/**
+	 * the logo texture *
+	 */
 	private final Texture logo;
-	/** the font **/
+	/**
+	 * the font *
+	 */
 	private final BitmapFont font;
-	/** is done flag **/
+	/**
+	 * is done flag *
+	 */
 	private boolean isDone = false;
-	/** view & transform matrix **/
+	/**
+	 * view & transform matrix *
+	 */
 	private final Matrix4 viewMatrix = new Matrix4();
 	private final Matrix4 transformMatrix = new Matrix4();
 
-	public GameOver () {
+	public GameOver() {
 		spriteBatch = new SpriteBatch();
 		background = new Texture(Gdx.files.internal("data/planet.jpg"));
 		background.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -55,7 +69,7 @@ public class GameOver extends InvadersScreen {
 	}
 
 	@Override
-	public void dispose () {
+	public void dispose() {
 		spriteBatch.dispose();
 		background.dispose();
 		logo.dispose();
@@ -63,12 +77,12 @@ public class GameOver extends InvadersScreen {
 	}
 
 	@Override
-	public boolean isDone () {
+	public boolean isDone() {
 		return isDone;
 	}
 
 	@Override
-	public void draw (float delta) {
+	public void draw(float delta) {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		viewMatrix.setToOrtho2D(0, 0, 480, 320);
@@ -88,7 +102,7 @@ public class GameOver extends InvadersScreen {
 	}
 
 	@Override
-	public void update (float delta) {
+	public void update(float delta) {
 		if (Gdx.input.isTouched()) {
 			isDone = true;
 		}

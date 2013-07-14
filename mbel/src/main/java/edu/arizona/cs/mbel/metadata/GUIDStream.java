@@ -19,71 +19,80 @@
 
 package edu.arizona.cs.mbel.metadata;
 
-/** This class stores the #GUID metadata stream.
-  * A GUID is a 128-bit value (Globally Unique IDentifier).
-  * GUIDs are indexed by GUID number, not by byte offset.
-  * The GUID numbers are 1-based.
-  * @author Michael Stepp
-  */
-public class GUIDStream{
-   // should be 4-byte aligned
-   private byte[][] guids;
-   private int num_guids;
+/**
+ * This class stores the #GUID metadata stream.
+ * A GUID is a 128-bit value (Globally Unique IDentifier).
+ * GUIDs are indexed by GUID number, not by byte offset.
+ * The GUID numbers are 1-based.
+ *
+ * @author Michael Stepp
+ */
+public class GUIDStream {
+	// should be 4-byte aligned
+	private byte[][] guids;
+	private int num_guids;
 
-   /** Constructs and parses a GUIDStream
-     * @param in the input stream to read from
-     * @param size the size in bytes of the #GUID stream
-     */
-   public GUIDStream(edu.arizona.cs.mbel.MSILInputStream in, long size) throws java.io.IOException{
-      guids = new byte[(int)(size>>4)+1][16];
-      num_guids = 0;
+	/**
+	 * Constructs and parses a GUIDStream
+	 *
+	 * @param in   the input stream to read from
+	 * @param size the size in bytes of the #GUID stream
+	 */
+	public GUIDStream(edu.arizona.cs.mbel.MSILInputStream in, long size) throws java.io.IOException {
+		guids = new byte[(int) (size >> 4) + 1][16];
+		num_guids = 0;
 
-      for (num_guids=0;(num_guids<<4)<size;num_guids++){
-         in.read(guids[num_guids]);
-      }
-   }
+		for (num_guids = 0; (num_guids << 4) < size; num_guids++) {
+			in.read(guids[num_guids]);
+		}
+	}
 
-   /** Method to convert a GUID to a hexadecimal string
-     * @param guid a byte array which represents a GUID (should be of size 16)
-     */
-   public static String GUIDToString(byte[] guid){
-      // prints out a big-endian interpretation of the byte array
-      // (==BlobStream.blobToString(byte[]))
+	/**
+	 * Method to convert a GUID to a hexadecimal string
+	 *
+	 * @param guid a byte array which represents a GUID (should be of size 16)
+	 */
+	public static String GUIDToString(byte[] guid) {
+		// prints out a big-endian interpretation of the byte array
+		// (==BlobStream.blobToString(byte[]))
 
-      char hex[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-      String result = "0x";
-      int temp;
-      for (int i=0;i<guid.length;i++){
-         temp = guid[i]&0xFF;
-         result += hex[(temp>>4)&0xF] + hex[temp&0xF];
-      }
-      if (guid.length==0)
-         result += '0';
-      return result;
-   }
+		char hex[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+		String result = "0x";
+		int temp;
+		for (int i = 0; i < guid.length; i++) {
+			temp = guid[i] & 0xFF;
+			result += hex[(temp >> 4) & 0xF] + hex[temp & 0xF];
+		}
+		if (guid.length == 0)
+			result += '0';
+		return result;
+	}
 
-   /** Returns the GUID indexed by the given number
-     * @param index the GUID index number. If index is out of bounds, then a 0-length byte array is returned.
-     * @return the given GUID, or a 0-length byte array if the index is invalid
-     */
-   public byte[] getGUIDByIndex(long index){
-      // returns a copy of the given GUID (uses 1-based indexes (0==null))
-      index--;
-      if (index<0 || index>=num_guids)
-         return new byte[0];
+	/**
+	 * Returns the GUID indexed by the given number
+	 *
+	 * @param index the GUID index number. If index is out of bounds, then a 0-length byte array is returned.
+	 * @return the given GUID, or a 0-length byte array if the index is invalid
+	 */
+	public byte[] getGUIDByIndex(long index) {
+		// returns a copy of the given GUID (uses 1-based indexes (0==null))
+		index--;
+		if (index < 0 || index >= num_guids)
+			return new byte[0];
 
-      byte[] result = new byte[16];
-      for (int i=0;i<16;i++)
-         result[i] = guids[(int)index][i];
+		byte[] result = new byte[16];
+		for (int i = 0; i < 16; i++)
+			result[i] = guids[(int) index][i];
 
-      return result;
-   }
+		return result;
+	}
 
-   /** Returns the number of GUIDS (note: this value should be 1/16th the size in bytes of the GUID stream)
-     */
-   public int getNumGUIDS(){
-      return num_guids;
-   }
+	/**
+	 * Returns the number of GUIDS (note: this value should be 1/16th the size in bytes of the GUID stream)
+	 */
+	public int getNumGUIDS() {
+		return num_guids;
+	}
 
 /*
    public void output(){

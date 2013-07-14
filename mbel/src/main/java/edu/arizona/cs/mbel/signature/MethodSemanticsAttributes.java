@@ -20,14 +20,16 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** Interface with constants for method semantics flags
-  * @author Michael Stepp
-  */
-public interface MethodSemanticsAttributes{
-   public static final int Setter   = 0x0001;
-   public static final int Getter   = 0x0002;
-   public static final int Other    = 0x0004;
-   public static final int AddOn    = 0x0008;
-   public static final int RemoveOn = 0x0010;
-   public static final int Fire     = 0x0020;
+/**
+ * Interface with constants for method semantics flags
+ *
+ * @author Michael Stepp
+ */
+public interface MethodSemanticsAttributes {
+	public static final int Setter = 0x0001;
+	public static final int Getter = 0x0002;
+	public static final int Other = 0x0004;
+	public static final int AddOn = 0x0008;
+	public static final int RemoveOn = 0x0010;
+	public static final int Fire = 0x0020;
 }

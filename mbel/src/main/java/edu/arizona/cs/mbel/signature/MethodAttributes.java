@@ -20,33 +20,35 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** Interface with constants for method definition flags
-  * @author Michael Stepp
-  */
-public interface MethodAttributes{
-   public static final int MemberAccessMask     = 0x0007;
-   public static final int Compilercontrolled   = 0x0000;
-   public static final int Private              = 0x0001;
-   public static final int FamANDAssem          = 0x0002;
-   public static final int Assem                = 0x0003;
-   public static final int Family               = 0x0004;
-   public static final int FamORAssem           = 0x0005;
-   public static final int Public               = 0x0006;
-   
-   public static final int Static               = 0x0010;
-   public static final int Final                = 0x0020;
-   public static final int Virtual              = 0x0040;
-   public static final int HideBySig            = 0x0080;
-   
-   public static final int VtableLayoutMask     = 0x0100;
-   public static final int ReuseSlot            = 0x0000;
-   public static final int NewSlot              = 0x0100;
-   
-   public static final int Abstract             = 0x0400;
-   public static final int SpecialName          = 0x0800;
-   public static final int PInvokeImpl          = 0x2000;
-   public static final int UnmanagedExport      = 0x0008;
-   public static final int RTSpecialName        = 0x1000;
-   public static final int HasSecurity          = 0x4000;
-   public static final int RequireSecObject     = 0x8000;
+/**
+ * Interface with constants for method definition flags
+ *
+ * @author Michael Stepp
+ */
+public interface MethodAttributes {
+	public static final int MemberAccessMask = 0x0007;
+	public static final int Compilercontrolled = 0x0000;
+	public static final int Private = 0x0001;
+	public static final int FamANDAssem = 0x0002;
+	public static final int Assem = 0x0003;
+	public static final int Family = 0x0004;
+	public static final int FamORAssem = 0x0005;
+	public static final int Public = 0x0006;
+
+	public static final int Static = 0x0010;
+	public static final int Final = 0x0020;
+	public static final int Virtual = 0x0040;
+	public static final int HideBySig = 0x0080;
+
+	public static final int VtableLayoutMask = 0x0100;
+	public static final int ReuseSlot = 0x0000;
+	public static final int NewSlot = 0x0100;
+
+	public static final int Abstract = 0x0400;
+	public static final int SpecialName = 0x0800;
+	public static final int PInvokeImpl = 0x2000;
+	public static final int UnmanagedExport = 0x0008;
+	public static final int RTSpecialName = 0x1000;
+	public static final int HasSecurity = 0x4000;
+	public static final int RequireSecObject = 0x8000;
 }

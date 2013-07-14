@@ -18,45 +18,51 @@
  */
 
 
-
 package edu.arizona.cs.mbel.mbel;
 
-/** Represents a method reference for a CALLI instruction, 
-  * which has a callsite method signature. This is only used when 
-  * the called method has a VARARGS signature, so the caller must 
-  * specify the exact list of arguments.
-  * @author Michael Stepp
-  */
-public class VarargsMethodRef extends MethodRef{
-   private Method method;
-  
-   /** Creates a VarargsMethodRef for the given method, with the given callsite method signature.
-     * The signature should have the VARARG calling convention.
-     */
-   public VarargsMethodRef(Method meth, edu.arizona.cs.mbel.signature.MethodSignature callsig){
-      super(meth.getName(), meth.getParent(), callsig);
-      method = meth;
-   }
+/**
+ * Represents a method reference for a CALLI instruction,
+ * which has a callsite method signature. This is only used when
+ * the called method has a VARARGS signature, so the caller must
+ * specify the exact list of arguments.
+ *
+ * @author Michael Stepp
+ */
+public class VarargsMethodRef extends MethodRef {
+	private Method method;
 
-   /** Overrides MemberRef.getParent() so that this will always return the 
-     * parent of the underlying Method object.
-     */
-   public AbstractTypeReference getParent(){
-      return method.getParent();
-   }
-   
-   /** Returns a reference to the method in this methodref
-     */
-   public Method getMethod(){
-      return method;
-   }
-   /** Sets the method for this methodref
-     */
-   public void setMethod(Method meth){
-      method = meth;
-      setName(method.getName());
-      setParent(method.getParent());
-   }
+	/**
+	 * Creates a VarargsMethodRef for the given method, with the given callsite method signature.
+	 * The signature should have the VARARG calling convention.
+	 */
+	public VarargsMethodRef(Method meth, edu.arizona.cs.mbel.signature.MethodSignature callsig) {
+		super(meth.getName(), meth.getParent(), callsig);
+		method = meth;
+	}
+
+	/**
+	 * Overrides MemberRef.getParent() so that this will always return the
+	 * parent of the underlying Method object.
+	 */
+	public AbstractTypeReference getParent() {
+		return method.getParent();
+	}
+
+	/**
+	 * Returns a reference to the method in this methodref
+	 */
+	public Method getMethod() {
+		return method;
+	}
+
+	/**
+	 * Sets the method for this methodref
+	 */
+	public void setMethod(Method meth) {
+		method = meth;
+		setName(method.getName());
+		setParent(method.getParent());
+	}
    
 /*
    public void output(){

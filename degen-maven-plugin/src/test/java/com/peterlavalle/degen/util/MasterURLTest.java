@@ -1,13 +1,13 @@
 package com.peterlavalle.degen.util;
 
 import com.peterlavalle.degen.extractors.util.MasterURL;
+import junit.framework.TestCase;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
-import junit.framework.TestCase;
 
 /**
- *
  * @author Peter LaValle
  */
 public class MasterURLTest extends TestCase {

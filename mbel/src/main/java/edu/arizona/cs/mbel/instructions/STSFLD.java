@@ -20,63 +20,69 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Store static field.<br>
-  * Stack transition:<br>
-  *   ..., val --> ...
-  * @author Michael Stepp
-  */
-public class STSFLD extends VolatilePrefixInstruction{
-   public static final int STSFLD = 0x80;
-   protected static final int OPCODE_LIST[] = {STSFLD};
-   private edu.arizona.cs.mbel.mbel.FieldRef field;
+/**
+ * Store static field.<br>
+ * Stack transition:<br>
+ * ..., val --> ...
+ *
+ * @author Michael Stepp
+ */
+public class STSFLD extends VolatilePrefixInstruction {
+	public static final int STSFLD = 0x80;
+	protected static final int OPCODE_LIST[] = {STSFLD};
+	private edu.arizona.cs.mbel.mbel.FieldRef field;
 
-   /** Makes a STSFLD object for the given Field reference with no volatile prefix.
-     */
-   public STSFLD(edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException{
-      super(false, STSFLD, OPCODE_LIST);
-      field = ref;
-   }
+	/**
+	 * Makes a STSFLD object for the given Field reference with no volatile prefix.
+	 */
+	public STSFLD(edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException {
+		super(false, STSFLD, OPCODE_LIST);
+		field = ref;
+	}
 
-   /** Makes a STSFLD object for the given Field reference, possibly with a volatile prefix.
-     * @param hasV true iff this STSFLD has a volatile prefix
-     */
-   public STSFLD(boolean hasV, edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException{
-      super(hasV, STSFLD, OPCODE_LIST);
-      field = ref;
-   }
+	/**
+	 * Makes a STSFLD object for the given Field reference, possibly with a volatile prefix.
+	 *
+	 * @param hasV true iff this STSFLD has a volatile prefix
+	 */
+	public STSFLD(boolean hasV, edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException {
+		super(hasV, STSFLD, OPCODE_LIST);
+		field = ref;
+	}
 
-   /** Returns the FieldRef to which this STSFLD refers
-     */
-   public edu.arizona.cs.mbel.mbel.FieldRef getField(){
-      return field;
-   }
+	/**
+	 * Returns the FieldRef to which this STSFLD refers
+	 */
+	public edu.arizona.cs.mbel.mbel.FieldRef getField() {
+		return field;
+	}
 
-   public String getName(){
-      return "stsfld";
-   }
+	public String getName() {
+		return "stsfld";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getFieldRefToken(field);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getFieldRefToken(field);
+		buffer.putTOKEN(token);
+	}
 
-   public STSFLD(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(false, opcode, OPCODE_LIST);
-      long fieldToken = parse.getMSILInputStream().readTOKEN();
-      field = parse.getFieldRef(fieldToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof STSFLD)))
-         return false;
-      STSFLD stsfld = (STSFLD)o;
-      return (stsfld.field==field);
-   }
+	public STSFLD(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(false, opcode, OPCODE_LIST);
+		long fieldToken = parse.getMSILInputStream().readTOKEN();
+		field = parse.getFieldRef(fieldToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof STSFLD)))
+			return false;
+		STSFLD stsfld = (STSFLD) o;
+		return (stsfld.field == field);
+	}
 
 /*
    public void output(){
@@ -85,5 +91,5 @@ public class STSFLD extends VolatilePrefixInstruction{
       System.out.print(getName()+" ");
       field.output();
    }
-*/   
+*/
 }

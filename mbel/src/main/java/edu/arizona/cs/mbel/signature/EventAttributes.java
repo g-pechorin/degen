@@ -20,10 +20,12 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** Interface with constants for Event flags
-  * @author Michael Stepp
-  */
-public interface EventAttributes{
-   public static final int SpecialName    = 0x0200;
-   public static final int RTSpecialName  = 0x0400;
+/**
+ * Interface with constants for Event flags
+ *
+ * @author Michael Stepp
+ */
+public interface EventAttributes {
+	public static final int SpecialName = 0x0200;
+	public static final int RTSpecialName = 0x0400;
 }

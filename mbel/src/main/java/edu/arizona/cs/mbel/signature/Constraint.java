@@ -20,46 +20,54 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** This class decsribes a constraint on a local var.
-  * As of right now, the only possible constraint is ELEMENT_TYPE_PINNED, 
-  * so this class is kinda useless.
-  * @author Michael Stepp
-  */
-public class Constraint extends Signature{
-   private byte elementType;
+/**
+ * This class decsribes a constraint on a local var.
+ * As of right now, the only possible constraint is ELEMENT_TYPE_PINNED,
+ * so this class is kinda useless.
+ *
+ * @author Michael Stepp
+ */
+public class Constraint extends Signature {
+	private byte elementType;
 
-   /** Makes a new Constraint (with type PINNED)
-     */
-   public Constraint(){
-      elementType = ELEMENT_TYPE_PINNED;
-   }
+	/**
+	 * Makes a new Constraint (with type PINNED)
+	 */
+	public Constraint() {
+		elementType = ELEMENT_TYPE_PINNED;
+	}
 
-   /** Factory method for parsing a constraint from a raw binary blob
-     * @param buffer the buffer to read from
-     * @return a Constraint representing the given blob, or null if there was a parse error
-     */
-   public static Constraint parse(edu.arizona.cs.mbel.ByteBuffer buffer){
-      Constraint blob = new Constraint();
-      blob.elementType = buffer.get();
-      if (blob.elementType != ELEMENT_TYPE_PINNED)
-         return null;
-      return blob;
-   }
+	/**
+	 * Factory method for parsing a constraint from a raw binary blob
+	 *
+	 * @param buffer the buffer to read from
+	 * @return a Constraint representing the given blob, or null if there was a parse error
+	 */
+	public static Constraint parse(edu.arizona.cs.mbel.ByteBuffer buffer) {
+		Constraint blob = new Constraint();
+		blob.elementType = buffer.get();
+		if (blob.elementType != ELEMENT_TYPE_PINNED)
+			return null;
+		return blob;
+	}
 
-   /** Returns the type of constraint this is (as of now, always ELEMENT_TYPE_PINNED)
-     */
-   public byte getElementType(){
-      return elementType;
-   }
+	/**
+	 * Returns the type of constraint this is (as of now, always ELEMENT_TYPE_PINNED)
+	 */
+	public byte getElementType() {
+		return elementType;
+	}
 
-   /** Writes this signature out to a buffer in raw binary form
-     * @param buffer the buffer to write to
-     */
-   public void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      buffer.put(elementType);
-   }
+	/**
+	 * Writes this signature out to a buffer in raw binary form
+	 *
+	 * @param buffer the buffer to write to
+	 */
+	public void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		buffer.put(elementType);
+	}
 
-   public String toString(){
-      return "Constraint[PINNED]";
-   }
+	public String toString() {
+		return "Constraint[PINNED]";
+	}
 }

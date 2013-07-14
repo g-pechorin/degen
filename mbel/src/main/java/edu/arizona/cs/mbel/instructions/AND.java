@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Bitwise And.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> ..., result
-  * @author Michael Stepp
-  */
-public class AND extends Instruction{
-   public static final int AND = 0x5F;
-   protected static final int OPCODE_LIST[] = {AND};
+/**
+ * Bitwise And.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class AND extends Instruction {
+	public static final int AND = 0x5F;
+	protected static final int OPCODE_LIST[] = {AND};
 
-   public AND() throws InstructionInitException{
-      super(AND, OPCODE_LIST);
-   }
+	public AND() throws InstructionInitException {
+		super(AND, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "and";
-   }
+	public String getName() {
+		return "and";
+	}
 
-   public AND(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof AND));
-   }
+	public AND(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof AND));
+	}
 }

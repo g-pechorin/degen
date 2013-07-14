@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Get argument list.<br>
-  * Stack transition:<br>
-  *   ... --> ..., argListHandle
-  * @author Michael Stepp
-  */
-public class ARGLIST extends Instruction{
-   public static final int ARGLIST = 0x00FE;
-   protected static final int OPCODE_LIST[] = {ARGLIST};
+/**
+ * Get argument list.<br>
+ * Stack transition:<br>
+ * ... --> ..., argListHandle
+ *
+ * @author Michael Stepp
+ */
+public class ARGLIST extends Instruction {
+	public static final int ARGLIST = 0x00FE;
+	protected static final int OPCODE_LIST[] = {ARGLIST};
 
-   public ARGLIST() throws InstructionInitException{
-      super(ARGLIST, OPCODE_LIST);
-   }
+	public ARGLIST() throws InstructionInitException {
+		super(ARGLIST, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "arglist";
-   }
+	public String getName() {
+		return "arglist";
+	}
 
-   public ARGLIST(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof ARGLIST));
-   }
+	public ARGLIST(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof ARGLIST));
+	}
 }

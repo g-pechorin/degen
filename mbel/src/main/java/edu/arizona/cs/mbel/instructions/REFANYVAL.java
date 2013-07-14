@@ -20,56 +20,61 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Reference any value. Loads the address stored in a typed reference.<br>
-  * Stack transition:<br>
-  *   ..., TypedRef --> ..., address
-  * @author Michael Stepp
-  */
-public class REFANYVAL extends Instruction{
-   public static final int REFANYVAL = 0xC2;
-   protected static final int OPCODE_LIST[] = {REFANYVAL};
-   private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
+/**
+ * Reference any value. Loads the address stored in a typed reference.<br>
+ * Stack transition:<br>
+ * ..., TypedRef --> ..., address
+ *
+ * @author Michael Stepp
+ */
+public class REFANYVAL extends Instruction {
+	public static final int REFANYVAL = 0xC2;
+	protected static final int OPCODE_LIST[] = {REFANYVAL};
+	private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
 
-   /** Makes a REFANYVAL object for the given type reference
-     * @param ref the type reference
-     */
-   public REFANYVAL(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException{
-      super(REFANYVAL, OPCODE_LIST);
-      classRef = ref;
-   }
+	/**
+	 * Makes a REFANYVAL object for the given type reference
+	 *
+	 * @param ref the type reference
+	 */
+	public REFANYVAL(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException {
+		super(REFANYVAL, OPCODE_LIST);
+		classRef = ref;
+	}
 
-   /** Returns the type reference for this instruction
-     */
-   public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType(){
-      return classRef;
-   }
+	/**
+	 * Returns the type reference for this instruction
+	 */
+	public edu.arizona.cs.mbel.mbel.AbstractTypeReference getType() {
+		return classRef;
+	}
 
-   public String getName(){
-      return "refanyval";
-   }
+	public String getName() {
+		return "refanyval";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getTypeToken(classRef);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getTypeToken(classRef);
+		buffer.putTOKEN(token);
+	}
 
-   public REFANYVAL(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long typeToken = parse.getMSILInputStream().readTOKEN();
-      classRef = parse.getClassRef(typeToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof REFANYVAL)))
-         return false;
-      REFANYVAL refanyval = (REFANYVAL)o;
-      return (classRef==refanyval.classRef);
-   }
+	public REFANYVAL(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long typeToken = parse.getMSILInputStream().readTOKEN();
+		classRef = parse.getClassRef(typeToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof REFANYVAL)))
+			return false;
+		REFANYVAL refanyval = (REFANYVAL) o;
+		return (classRef == refanyval.classRef);
+	}
 
 /*
    public void output(){

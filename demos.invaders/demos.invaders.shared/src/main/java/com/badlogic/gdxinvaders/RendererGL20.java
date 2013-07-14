@@ -13,96 +13,120 @@
 
 package com.badlogic.gdxinvaders;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.GLCommon;
-import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.loaders.ModelLoaderOld;
 import com.badlogic.gdx.graphics.g3d.loaders.obj.ObjLoader;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdxinvaders.simulation.Block;
-import com.badlogic.gdxinvaders.simulation.Explosion;
-import com.badlogic.gdxinvaders.simulation.Invader;
-import com.badlogic.gdxinvaders.simulation.Ship;
-import com.badlogic.gdxinvaders.simulation.Shot;
-import com.badlogic.gdxinvaders.simulation.Simulation;
+import com.badlogic.gdxinvaders.simulation.*;
 
-/** The renderer receives a simulation and renders it.
- * @author mzechner */
+import java.io.InputStream;
+import java.util.ArrayList;
+
+/**
+ * The renderer receives a simulation and renders it.
+ *
+ * @author mzechner
+ */
 public class RendererGL20 implements Renderer {
-	/** sprite batch to draw text **/
+	/**
+	 * sprite batch to draw text *
+	 */
 	private SpriteBatch spriteBatch;
-	/** the ship mesh **/
+	/**
+	 * the ship mesh *
+	 */
 	private Mesh shipMesh;
-	/** the ship texture **/
+	/**
+	 * the ship texture *
+	 */
 	private Texture shipTexture;
-	/** the invader mesh **/
+	/**
+	 * the invader mesh *
+	 */
 	private Mesh invaderMesh;
-	/** the invader texture **/
+	/**
+	 * the invader texture *
+	 */
 	private Texture invaderTexture;
-	/** the block mesh **/
+	/**
+	 * the block mesh *
+	 */
 	private Mesh blockMesh;
-	/** the shot mesh **/
+	/**
+	 * the shot mesh *
+	 */
 	private Mesh shotMesh;
-	/** the background texture **/
+	/**
+	 * the background texture *
+	 */
 	private Texture backgroundTexture;
-	/** the explosion mesh **/
+	/**
+	 * the explosion mesh *
+	 */
 	private Mesh explosionMesh;
-	/** the explosion texture **/
+	/**
+	 * the explosion texture *
+	 */
 	private Texture explosionTexture;
-	/** the font **/
+	/**
+	 * the font *
+	 */
 	private BitmapFont font;
-	/** the rotation angle of all invaders around y **/
+	/**
+	 * the rotation angle of all invaders around y *
+	 */
 	private float invaderAngle = 0;
-	/** status string **/
+	/**
+	 * status string *
+	 */
 	private String status = "";
-	/** keeping track of the last score so we don't constantly construct a new string **/
+	/**
+	 * keeping track of the last score so we don't constantly construct a new string *
+	 */
 	private int lastScore = 0;
 	private int lastLives = 0;
 	private int lastWave = 0;
 
-	/** view and transform matrix for text rendering and transforming 3D objects**/
+	/**
+	 * view and transform matrix for text rendering and transforming 3D objects*
+	 */
 	private final Matrix4 viewMatrix = new Matrix4();
 	private final Matrix4 transform = new Matrix4();
 	private final Matrix4 normal = new Matrix4();
 	private final Matrix3 normal3 = new Matrix3();
-	
-	/** perspective camera **/
+
+	/**
+	 * perspective camera *
+	 */
 	private PerspectiveCamera camera;
-	
-	/** shaders **/
+
+	/**
+	 * shaders *
+	 */
 	ShaderProgram texShader;
 	ShaderProgram colorShader;
 	ShaderProgram lightTexShader;
 
-	public RendererGL20 () {
+	public RendererGL20() {
 		try {
 			spriteBatch = new SpriteBatch();
 
 			texShader = new ShaderProgram(Gdx.files.internal("data/shaders/tex-vs.glsl"), Gdx.files.internal("data/shaders/tex-fs.glsl"));
 			colorShader = new ShaderProgram(Gdx.files.internal("data/shaders/color-vs.glsl"), Gdx.files.internal("data/shaders/color-fs.glsl"));
 			lightTexShader = new ShaderProgram(Gdx.files.internal("data/shaders/light-tex-vs.glsl"), Gdx.files.internal("data/shaders/light-tex-fs.glsl"));
-			
-			if(!texShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile tex shader");
-			if(!colorShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile color shader");
-			if(!lightTexShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile light/tex shader");
-			
+
+			if (!texShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile tex shader");
+			if (!colorShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile color shader");
+			if (!lightTexShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile light/tex shader");
+
 			InputStream in = Gdx.files.internal("data/ship.obj").read();
 			shipMesh = ObjLoader.loadObj(in);
 			in.close();
@@ -129,7 +153,7 @@ public class RendererGL20 implements Renderer {
 			explosionTexture.setFilter(TextureFilter.MipMap, TextureFilter.Linear);
 
 			explosionMesh = new Mesh(true, 4 * 16, 0, new VertexAttribute(Usage.Position, 3, "a_position"), new VertexAttribute(
-				Usage.TextureCoordinates, 2, "a_texCoord0"));
+					Usage.TextureCoordinates, 2, "a_texCoord0"));
 
 			float[] vertices = new float[4 * 16 * (3 + 2)];
 			int idx = 0;
@@ -170,7 +194,7 @@ public class RendererGL20 implements Renderer {
 		}
 	}
 
-	public void render (Simulation simulation, float delta) {
+	public void render(Simulation simulation, float delta) {
 		// We explicitly require GL10, otherwise we could've used the GLCommon
 		// interface via Gdx.gl
 		GLCommon gl = Gdx.gl;
@@ -203,7 +227,7 @@ public class RendererGL20 implements Renderer {
 		if (invaderAngle > 360) invaderAngle -= 360;
 	}
 
-	private void renderBackground () {
+	private void renderBackground() {
 		viewMatrix.setToOrtho2D(0, 0, 400, 320);
 		spriteBatch.setProjectionMatrix(viewMatrix);
 		spriteBatch.begin();
@@ -215,13 +239,13 @@ public class RendererGL20 implements Renderer {
 
 	final Vector3 dir = new Vector3();
 
-	private void setProjectionAndCamera (Ship ship) {
+	private void setProjectionAndCamera(Ship ship) {
 		camera.position.set(ship.position.x, 6, 2);
 		camera.direction.set(ship.position.x, 0, -4).sub(camera.position).nor();
 		camera.update();
 	}
 
-	private void renderShip (Ship ship) {
+	private void renderShip(Ship ship) {
 		if (ship.isExploding) return;
 
 		shipTexture.bind();
@@ -235,17 +259,17 @@ public class RendererGL20 implements Renderer {
 		normal.idt();
 		normal.rotate(0, 1, 0, 180);
 		normal3.set(normal.toNormalMatrix());
-		lightTexShader.setUniformMatrix("u_normal", normal3); 
+		lightTexShader.setUniformMatrix("u_normal", normal3);
 		shipMesh.render(lightTexShader, GL10.GL_TRIANGLES);
 		lightTexShader.end();
 	}
 
-	private void renderInvaders (ArrayList<Invader> invaders) {
+	private void renderInvaders(ArrayList<Invader> invaders) {
 		lightTexShader.begin();
 		normal.idt();
 		normal.rotate(0, 1, 0, invaderAngle);
 		normal3.set(normal.toNormalMatrix());
-		lightTexShader.setUniformMatrix("u_normal", normal3); 
+		lightTexShader.setUniformMatrix("u_normal", normal3);
 		invaderTexture.bind();
 		for (int i = 0; i < invaders.size(); i++) {
 			Invader invader = invaders.get(i);
@@ -258,7 +282,7 @@ public class RendererGL20 implements Renderer {
 		lightTexShader.end();
 	}
 
-	private void renderBlocks (ArrayList<Block> blocks) {
+	private void renderBlocks(ArrayList<Block> blocks) {
 		Gdx.gl.glEnable(GL10.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		colorShader.begin();
@@ -274,7 +298,7 @@ public class RendererGL20 implements Renderer {
 		Gdx.gl.glDisable(GL10.GL_BLEND);
 	}
 
-	private void renderShots (ArrayList<Shot> shots) {
+	private void renderShots(ArrayList<Shot> shots) {
 		colorShader.begin();
 		colorShader.setUniformf("u_color", 1, 1, 0, 1f);
 		for (int i = 0; i < shots.size(); i++) {
@@ -287,7 +311,7 @@ public class RendererGL20 implements Renderer {
 		colorShader.end();
 	}
 
-	private void renderExplosions (ArrayList<Explosion> explosions) {
+	private void renderExplosions(ArrayList<Explosion> explosions) {
 		Gdx.gl.glEnable(GL10.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		explosionTexture.bind();
@@ -298,13 +322,13 @@ public class RendererGL20 implements Renderer {
 			transform.set(camera.combined);
 			transform.translate(explosion.position.x, explosion.position.y, explosion.position.z);
 			texShader.setUniformMatrix("u_projView", transform);
-			explosionMesh.render(texShader, GL10.GL_TRIANGLE_FAN, (int)(explosion.aliveTime / Explosion.EXPLOSION_LIVE_TIME * 15) * 4, 4);
+			explosionMesh.render(texShader, GL10.GL_TRIANGLE_FAN, (int) (explosion.aliveTime / Explosion.EXPLOSION_LIVE_TIME * 15) * 4, 4);
 		}
 		texShader.end();
 		Gdx.gl.glDisable(GL10.GL_BLEND);
 	}
 
-	public void dispose () {
+	public void dispose() {
 		spriteBatch.dispose();
 		shipTexture.dispose();
 		invaderTexture.dispose();

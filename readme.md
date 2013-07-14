@@ -59,7 +59,15 @@ Goals (1.3.4)
 	* [x] removal of libGDX version numbers
 	* [x] droid::cull - needs to not-fail when there are no files to repack
 	* [ ] droid::cull - needs reliable method of locating aapt
+	* [x] rewrite it to have one-and-only-one maven plugin (but still multiple mojos)
 	* [ ] degen - when the zip file is not found, print an error. don't throw a nullpointer exception
+	* CMake
+		* [ ] get it to emit cmake lists
+		* [ ] compile stuff with cmake and attach it to the project
+		* [ ] attach headers files to a project
+		* [ ] unpack dependecy headers (if available)
+		* [ ] unpack and attach dependency libs (if available)
+		* [ ] cross compile cmake stuff to os/arch permutations
  
 Goals (1.3.5)
 ------------------
@@ -73,6 +81,7 @@ Goals (1.3.5)
 		** [ ] android
 			*** [ ]apk.arm
 			*** [ ]apk.armv7a
+			*** [ ]apk.x86
 	* [ ] update to the libGDX version 0.9.??? (with the new modelling stuff)
 		** remove any "my classes" that have been upstreamed
 	* "full" Scala demos / archetypes
@@ -81,7 +90,6 @@ Goals (1.3.5)
 		** [ ] Applet
 		** [ ] Android
 		** [ ] JNLP
-	* [ ] rewrite it to have one-and-only-one maven plugin (but still multiple mojos)
 	* [ ] get `Gdx.files.local` files to read from the user's home directory on Windoze
 	* [ ] degen - allow ?{} so that if the left side of the pattern exists, the right side file is copied i.e. ?{(.*)\.fnt@$1.png} copies all .png files who match a .fnt file
 	* [ ] degen - print number of files copied per pattern

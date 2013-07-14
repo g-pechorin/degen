@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Negate numeric value.<br>
-  * Stack transition:<br>
-  *   ..., value --> ..., result
-  * @author Michael Stepp
-  */
-public class NEG extends Instruction{
-   public static final int NEG = 0x65;
-   protected static final int OPCODE_LIST[] = {NEG};
+/**
+ * Negate numeric value.<br>
+ * Stack transition:<br>
+ * ..., value --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class NEG extends Instruction {
+	public static final int NEG = 0x65;
+	protected static final int OPCODE_LIST[] = {NEG};
 
-   public NEG() throws InstructionInitException{
-      super(NEG, OPCODE_LIST);
-   }
+	public NEG() throws InstructionInitException {
+		super(NEG, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "neg";
-   }
+	public String getName() {
+		return "neg";
+	}
 
-   public NEG(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof NEG));
-   }
+	public NEG(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof NEG));
+	}
 }

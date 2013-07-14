@@ -20,11 +20,13 @@
 
 package edu.arizona.cs.mbel.parse;
 
-/** Thrown when a parsing error has occurred in an MSILInputStream
-  * @author Michael Stepp
-  */
-public class MSILParseException extends Exception{
-   public MSILParseException(String message){
-      super(message);
-   }
+/**
+ * Thrown when a parsing error has occurred in an MSILInputStream
+ *
+ * @author Michael Stepp
+ */
+public class MSILParseException extends Exception {
+	public MSILParseException(String message) {
+		super(message);
+	}
 }

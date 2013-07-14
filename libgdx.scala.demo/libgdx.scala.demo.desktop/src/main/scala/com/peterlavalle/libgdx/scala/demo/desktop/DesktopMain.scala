@@ -17,10 +17,9 @@
 package com.peterlavalle.libgdx.scala.demo.desktop
 
 import com.peterlavalle.libgdx.scala.demo.game.GameApplication
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 
 object DesktopMain {
-  def main(args : Array[String]) {
-	new LwjglApplication(new GameApplication(), "Yay!", 1024, 768, false)
+  def main(args: Array[String]) {
+    new LwjglApplication(new GameApplication(), "Yay!", 1024, 768, false)
   }
 }

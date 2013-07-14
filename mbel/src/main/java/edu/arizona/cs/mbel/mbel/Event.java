@@ -19,143 +19,172 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** Represents a .NET event. Events may have references to their 
-  * add, remove, and fire methods, and also their handler type.
-  * @author Michael Stepp
-  */
-public class Event implements edu.arizona.cs.mbel.signature.EventAttributes{
-   private long EventRID=-1L;
-   
-   private int EventFlags;
-   private String Name;
-   private TypeRef EventType; // handler type
-   private Method addOn, removeOn, fire;
-   
-   private java.util.Vector eventAttributes;
+/**
+ * Represents a .NET event. Events may have references to their
+ * add, remove, and fire methods, and also their handler type.
+ *
+ * @author Michael Stepp
+ */
+public class Event implements edu.arizona.cs.mbel.signature.EventAttributes {
+	private long EventRID = -1L;
 
-   /** Makes a new Event with the given name, flags, and handler type
-     * @param name the name of this event
-     * @param flags a bit vector of event flags, as defined in EventAttributes
-     * @param handler the TypeRef of the handler for this event
-     */
-   public Event(String name, int flags, TypeRef handler){
-      Name = name;
-      EventFlags = flags;
-      EventType = handler;
-      
-      eventAttributes = new java.util.Vector(10);
-   }
-   
-   /** Adds a CustomAttribute to this event
-     */
-   public void addEventAttribute(CustomAttribute ca){
-      if (ca!=null)
-         eventAttributes.add(ca);
-   }
-   /** Returns a non-null array of CustomAttributes on this Event
-     */
-   public CustomAttribute[] getEventAttributes(){
-      CustomAttribute[] cas = new CustomAttribute[eventAttributes.size()];
-      for (int i=0;i<cas.length;i++)
-         cas[i] = (CustomAttribute)eventAttributes.get(i);
-      return cas;
-   }
-   /** Removes a CustomAttribute from this Event
-     */
-   public void removeEventAttribute(CustomAttribute ca){
-      if (ca!=null)
-         eventAttributes.remove(ca);
-   }
-   
-   /** Returns the Event RID of this Event (used by emitter)
-     */
-   public long getEventRID(){
-      return EventRID;
-   }
-   /** Sets the Event RID for this event (used by emitter).
-     * This method can only be called once.
-     */
-   public void setEventRID(long rid){
-      if (EventRID==-1L)
-         EventRID = rid;
-   }
-   
-   /** Returns the "AddOn" method for this event
-     */
-   public Method getAddOnMethod(){
-      return addOn;
-   }
-   /** Sets the "AddOn" method for this Event 
-     */
-   public void setAddOnMethod(Method add){
-      addOn = add;
-   }
-   
-   /** Returns the "RemoveOn" method for this event
-     */
-   public Method getRemoveOnMethod(){
-      return removeOn;
-   }
-   /** Sets the "RemoveOn" method for this event
-     */
-   public void setRemoveOnMethod(Method rem){
-      removeOn = rem;
-   }
-   
-   /** Returns the "Fire" method for this event
-     */
-   public Method getFireMethod(){
-      return fire;
-   }
-   /** Sets the "Fire" method for this event
-     */
-   public void setFireMethod(Method f){
-      fire = f;
-   }
+	private int EventFlags;
+	private String Name;
+	private TypeRef EventType; // handler type
+	private Method addOn, removeOn, fire;
 
-   /** Returns the TypeRef of the handler for this event
-     */
-   public TypeRef getEventType(){
-      return EventType;
-   }
-   /** Sets the TypeRef for the handler for this event
-     */
-   public void setEventType(TypeRef type){
-      EventType = type;
-   }
-   
-   /** Returns the bit vector of flags for this event (as defined in EventAttributes)
-     */
-   public int getEventFlags(){
-      return EventFlags;
-   }
-   
-   /** Sets the flags for this event
-     */
-   public void setEventFlags(int flags){
-      EventFlags = flags;
-   }
-   
-   /** Returns the name of this event
-     */
-   public String getName(){
-      return Name;
-   }
-   
-   /** Sets the name of this event
-     */
-   public void setName(String name){
-      Name = name;
-   }
+	private java.util.Vector eventAttributes;
 
-   /** Compares 2 events. Events are equal if they have the same name (within a TypeDef)
-     */
-   public boolean equals(Object o){
-      if (o==null || !(o instanceof Event))
-         return false;
-      Event e = (Event)o;
-      return Name.equals(e.getName());
-   }
+	/**
+	 * Makes a new Event with the given name, flags, and handler type
+	 *
+	 * @param name    the name of this event
+	 * @param flags   a bit vector of event flags, as defined in EventAttributes
+	 * @param handler the TypeRef of the handler for this event
+	 */
+	public Event(String name, int flags, TypeRef handler) {
+		Name = name;
+		EventFlags = flags;
+		EventType = handler;
+
+		eventAttributes = new java.util.Vector(10);
+	}
+
+	/**
+	 * Adds a CustomAttribute to this event
+	 */
+	public void addEventAttribute(CustomAttribute ca) {
+		if (ca != null)
+			eventAttributes.add(ca);
+	}
+
+	/**
+	 * Returns a non-null array of CustomAttributes on this Event
+	 */
+	public CustomAttribute[] getEventAttributes() {
+		CustomAttribute[] cas = new CustomAttribute[eventAttributes.size()];
+		for (int i = 0; i < cas.length; i++)
+			cas[i] = (CustomAttribute) eventAttributes.get(i);
+		return cas;
+	}
+
+	/**
+	 * Removes a CustomAttribute from this Event
+	 */
+	public void removeEventAttribute(CustomAttribute ca) {
+		if (ca != null)
+			eventAttributes.remove(ca);
+	}
+
+	/**
+	 * Returns the Event RID of this Event (used by emitter)
+	 */
+	public long getEventRID() {
+		return EventRID;
+	}
+
+	/**
+	 * Sets the Event RID for this event (used by emitter).
+	 * This method can only be called once.
+	 */
+	public void setEventRID(long rid) {
+		if (EventRID == -1L)
+			EventRID = rid;
+	}
+
+	/**
+	 * Returns the "AddOn" method for this event
+	 */
+	public Method getAddOnMethod() {
+		return addOn;
+	}
+
+	/**
+	 * Sets the "AddOn" method for this Event
+	 */
+	public void setAddOnMethod(Method add) {
+		addOn = add;
+	}
+
+	/**
+	 * Returns the "RemoveOn" method for this event
+	 */
+	public Method getRemoveOnMethod() {
+		return removeOn;
+	}
+
+	/**
+	 * Sets the "RemoveOn" method for this event
+	 */
+	public void setRemoveOnMethod(Method rem) {
+		removeOn = rem;
+	}
+
+	/**
+	 * Returns the "Fire" method for this event
+	 */
+	public Method getFireMethod() {
+		return fire;
+	}
+
+	/**
+	 * Sets the "Fire" method for this event
+	 */
+	public void setFireMethod(Method f) {
+		fire = f;
+	}
+
+	/**
+	 * Returns the TypeRef of the handler for this event
+	 */
+	public TypeRef getEventType() {
+		return EventType;
+	}
+
+	/**
+	 * Sets the TypeRef for the handler for this event
+	 */
+	public void setEventType(TypeRef type) {
+		EventType = type;
+	}
+
+	/**
+	 * Returns the bit vector of flags for this event (as defined in EventAttributes)
+	 */
+	public int getEventFlags() {
+		return EventFlags;
+	}
+
+	/**
+	 * Sets the flags for this event
+	 */
+	public void setEventFlags(int flags) {
+		EventFlags = flags;
+	}
+
+	/**
+	 * Returns the name of this event
+	 */
+	public String getName() {
+		return Name;
+	}
+
+	/**
+	 * Sets the name of this event
+	 */
+	public void setName(String name) {
+		Name = name;
+	}
+
+	/**
+	 * Compares 2 events. Events are equal if they have the same name (within a TypeDef)
+	 */
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof Event))
+			return false;
+		Event e = (Event) o;
+		return Name.equals(e.getName());
+	}
    
 /*
    public void output(){

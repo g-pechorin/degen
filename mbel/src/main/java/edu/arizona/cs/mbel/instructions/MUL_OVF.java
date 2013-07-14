@@ -19,36 +19,40 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Multiply with overflow detection.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> ..., result
-  * @author Michael Stepp
-  */
-public class MUL_OVF extends Instruction{
-   public static final int MUL_OVF     = 0xD8;
-   public static final int MUL_OVF_UN  = 0xD9;
-   protected static final int OPCODE_LIST[] = {MUL_OVF, MUL_OVF_UN};
+/**
+ * Multiply with overflow detection.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class MUL_OVF extends Instruction {
+	public static final int MUL_OVF = 0xD8;
+	public static final int MUL_OVF_UN = 0xD9;
+	protected static final int OPCODE_LIST[] = {MUL_OVF, MUL_OVF_UN};
 
-   /** Makes a MUL_OVF object that is possibly unsigned.
-     * @param un true iff this is unsigned multiplication.
-     */
-   public MUL_OVF(boolean un) throws InstructionInitException{
-      super((un ? MUL_OVF_UN : MUL_OVF), OPCODE_LIST);
-   }
+	/**
+	 * Makes a MUL_OVF object that is possibly unsigned.
+	 *
+	 * @param un true iff this is unsigned multiplication.
+	 */
+	public MUL_OVF(boolean un) throws InstructionInitException {
+		super((un ? MUL_OVF_UN : MUL_OVF), OPCODE_LIST);
+	}
 
-   public boolean isUnsigned(){
-      return (getOpcode()==MUL_OVF_UN);
-   }
+	public boolean isUnsigned() {
+		return (getOpcode() == MUL_OVF_UN);
+	}
 
-   public String getName(){
-      return (isUnsigned() ? "mul.ovf.un" : "mul.ovf");
-   }
+	public String getName() {
+		return (isUnsigned() ? "mul.ovf.un" : "mul.ovf");
+	}
 
-   public MUL_OVF(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof MUL_OVF));
-   }
+	public MUL_OVF(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof MUL_OVF));
+	}
 }

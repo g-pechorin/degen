@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Load array length.<br>
-  * Stack transition:<br>
-  *   ..., array --> ..., length
-  * @author Michael Stepp
-  */ 
-public class LDLEN extends Instruction{
-   public static final int LDLEN = 0x8E;
-   protected static final int OPCODE_LIST[] = {LDLEN};
+/**
+ * Load array length.<br>
+ * Stack transition:<br>
+ * ..., array --> ..., length
+ *
+ * @author Michael Stepp
+ */
+public class LDLEN extends Instruction {
+	public static final int LDLEN = 0x8E;
+	protected static final int OPCODE_LIST[] = {LDLEN};
 
-   public LDLEN() throws InstructionInitException{
-      super(LDLEN, OPCODE_LIST);
-   }
+	public LDLEN() throws InstructionInitException {
+		super(LDLEN, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "ldlen";
-   }
+	public String getName() {
+		return "ldlen";
+	}
 
-   public LDLEN(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof LDLEN));
-   }
+	public LDLEN(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof LDLEN));
+	}
 }

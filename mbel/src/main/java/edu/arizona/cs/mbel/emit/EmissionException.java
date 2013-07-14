@@ -19,11 +19,13 @@
 
 package edu.arizona.cs.mbel.emit;
 
-/** Exception to be used when an error occurs while emitting a module to disk.
-  * @author Michael Stepp
-  */
-public class EmissionException extends Exception{
-   public EmissionException(String mesg){
-      super(mesg);
-   }
+/**
+ * Exception to be used when an error occurs while emitting a module to disk.
+ *
+ * @author Michael Stepp
+ */
+public class EmissionException extends Exception {
+	public EmissionException(String mesg) {
+		super(mesg);
+	}
 }

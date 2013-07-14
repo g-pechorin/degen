@@ -13,8 +13,8 @@
 
 package com.badlogic.gdxinvaders.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,26 +23,41 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
-/** The main menu screen showing a background, the logo of the game and a label telling the user to touch the screen to start the
+/**
+ * The main menu screen showing a background, the logo of the game and a label telling the user to touch the screen to start the
  * game. Waits for the touch and returns isDone() == true when it's done so that the ochestrating GdxInvaders class can switch to
  * the next screen.
- * @author mzechner */
+ *
+ * @author mzechner
+ */
 public class MainMenu extends InvadersScreen {
-	/** the SpriteBatch used to draw the background, logo and text **/
+	/**
+	 * the SpriteBatch used to draw the background, logo and text *
+	 */
 	private final SpriteBatch spriteBatch;
-	/** the background texture **/
+	/**
+	 * the background texture *
+	 */
 	private final Texture background;
-	/** the logo texture **/
+	/**
+	 * the logo texture *
+	 */
 	private final Texture logo;
-	/** the font **/
+	/**
+	 * the font *
+	 */
 	private final BitmapFont font;
-	/** is done flag **/
+	/**
+	 * is done flag *
+	 */
 	private boolean isDone = false;
-	/** view & transform matrix **/
+	/**
+	 * view & transform matrix *
+	 */
 	private final Matrix4 viewMatrix = new Matrix4();
 	private final Matrix4 transformMatrix = new Matrix4();
 
-	public MainMenu () {
+	public MainMenu() {
 		spriteBatch = new SpriteBatch();
 		background = new Texture(Gdx.files.internal("data/planet.jpg"));
 		background.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -54,19 +69,19 @@ public class MainMenu extends InvadersScreen {
 	}
 
 	@Override
-	public boolean isDone () {
+	public boolean isDone() {
 		return isDone;
 	}
 
 	@Override
-	public void update (float delta) {
+	public void update(float delta) {
 		if (Gdx.input.isTouched()) {
 			isDone = true;
 		}
 	}
 
 	@Override
-	public void draw (float delta) {
+	public void draw(float delta) {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		viewMatrix.setToOrtho2D(0, 0, 480, 320);
@@ -82,7 +97,7 @@ public class MainMenu extends InvadersScreen {
 		String text = "Touch screen to start!";
 		float width = font.getBounds(text).width;
 		font.draw(spriteBatch, text, 240 - width / 2, 128);
-		if(Gdx.app.getType() == ApplicationType.WebGL) {
+		if (Gdx.app.getType() == ApplicationType.WebGL) {
 			text = "Press Enter for Fullscreen Mode";
 			width = font.getBounds(text).width;
 			font.draw(spriteBatch, "Press Enter for Fullscreen Mode", 240 - width / 2, 128 - font.getLineHeight());
@@ -91,7 +106,7 @@ public class MainMenu extends InvadersScreen {
 	}
 
 	@Override
-	public void dispose () {
+	public void dispose() {
 		spriteBatch.dispose();
 		background.dispose();
 		logo.dispose();

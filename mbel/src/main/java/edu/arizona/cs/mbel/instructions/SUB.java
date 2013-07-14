@@ -20,28 +20,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Subtract without overflow detection.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> ..., result
-  * @author Michael Stepp
-  */
-public class SUB extends Instruction{
-   public static final int SUB = 0x59;
-   protected static final int OPCODE_LIST[] = {SUB};
+/**
+ * Subtract without overflow detection.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class SUB extends Instruction {
+	public static final int SUB = 0x59;
+	protected static final int OPCODE_LIST[] = {SUB};
 
-   public SUB() throws InstructionInitException{
-      super(SUB, OPCODE_LIST);
-   }
+	public SUB() throws InstructionInitException {
+		super(SUB, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "sub";
-   }
+	public String getName() {
+		return "sub";
+	}
 
-   public SUB(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof SUB));
-   }
+	public SUB(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof SUB));
+	}
 }

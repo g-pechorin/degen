@@ -20,28 +20,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Pops a value off the stack.<br>
-  * Stack transition:<br>
-  *   ..., value --> ...
-  * @author Michael Stepp
-  */
-public class POP extends Instruction{
-   public static final int POP = 0x26;
-   protected static final int OPCODE_LIST[] = {POP};
+/**
+ * Pops a value off the stack.<br>
+ * Stack transition:<br>
+ * ..., value --> ...
+ *
+ * @author Michael Stepp
+ */
+public class POP extends Instruction {
+	public static final int POP = 0x26;
+	protected static final int OPCODE_LIST[] = {POP};
 
-   public POP() throws InstructionInitException{
-      super(POP, OPCODE_LIST);
-   }
+	public POP() throws InstructionInitException {
+		super(POP, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "pop";
-   }
+	public String getName() {
+		return "pop";
+	}
 
-   public POP(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof POP));
-   }
+	public POP(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof POP));
+	}
 }

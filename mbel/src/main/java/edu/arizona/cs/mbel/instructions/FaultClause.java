@@ -19,19 +19,23 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Represent a Fault Exception Clause.
-  * @author Michael Stepp
-  */
-public class FaultClause extends StructuredExceptionClause{
-   /** Creates a FaultExceptionClause with the given try and handler blocks
-     * @param ts the start of the try block
-     * @param te the end of the try block
-     * @param hs the start of the handler block
-     * @param hs the end of the handler block
-     */
-   public FaultClause(InstructionHandle ts, InstructionHandle te, InstructionHandle hs, InstructionHandle he){
-      super(ts,te,hs,he);
-   }
+/**
+ * Represent a Fault Exception Clause.
+ *
+ * @author Michael Stepp
+ */
+public class FaultClause extends StructuredExceptionClause {
+	/**
+	 * Creates a FaultExceptionClause with the given try and handler blocks
+	 *
+	 * @param ts the start of the try block
+	 * @param te the end of the try block
+	 * @param hs the start of the handler block
+	 * @param hs the end of the handler block
+	 */
+	public FaultClause(InstructionHandle ts, InstructionHandle te, InstructionHandle hs, InstructionHandle he) {
+		super(ts, te, hs, he);
+	}
    
 /*
    public void output(){

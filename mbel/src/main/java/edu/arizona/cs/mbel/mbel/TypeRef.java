@@ -19,85 +19,100 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** Represents a type reference. Type references refer to types 
-  * in other assemblies or modules, as well as nested types or even 
-  * TypeDefs within the same file. All TypeRefs know their name and namespace.
-  * @author Michael Stepp
-  */
-public abstract class TypeRef extends AbstractTypeReference{
-   private long TypeRefRID=-1L;
-   private String Name;
-   private String Namespace;
+/**
+ * Represents a type reference. Type references refer to types
+ * in other assemblies or modules, as well as nested types or even
+ * TypeDefs within the same file. All TypeRefs know their name and namespace.
+ *
+ * @author Michael Stepp
+ */
+public abstract class TypeRef extends AbstractTypeReference {
+	private long TypeRefRID = -1L;
+	private String Name;
+	private String Namespace;
 
-   private java.util.Vector typeRefAttributes;
+	private java.util.Vector typeRefAttributes;
 
-   /** Makes a TypeRef with the given name and namespace.
-     * @param ns the namespace of this TypeRef
-     * @param name the name of this TypeRef
-     */
-   protected TypeRef(String ns, String name){
-      Name = name;
-      Namespace = ns;
-      
-      typeRefAttributes = new java.util.Vector(10);
-   }
-   
-   /** Adds a CustomAttribute to this TypeRef
-     */
-   public void addTypeRefAttribute(CustomAttribute ca){
-      if (ca!=null)
-         typeRefAttributes.add(ca);
-   }
-   /** Returns a non-null array of CustomAttributes on this TypeRef
-     */
-   public CustomAttribute[] getTypeRefAttributes(){
-      CustomAttribute[] cas = new CustomAttribute[typeRefAttributes.size()];
-      for (int i=0;i<cas.length;i++)
-         cas[i] = (CustomAttribute)typeRefAttributes.get(i);
-      return cas;   
-   }
+	/**
+	 * Makes a TypeRef with the given name and namespace.
+	 *
+	 * @param ns   the namespace of this TypeRef
+	 * @param name the name of this TypeRef
+	 */
+	protected TypeRef(String ns, String name) {
+		Name = name;
+		Namespace = ns;
 
-	/** Removes a CustomAttribute from this TypeRef
-	  */
-   public void removeTypeRefAttribute(CustomAttribute ca){
-      if (ca!=null)
-         typeRefAttributes.remove(ca);
-   }
-   
-   /** Returns the TypeRef RID for this TypeRef (used by emitter)
-     */
-   public long getTypeRefRID(){
-      return TypeRefRID;
-   }
-   /** Sets the TypeRef RID for this TypeRef (used by emitter).
-     * This method can only be called once.
-     */
-   public void setTypeRefRID(long rid){
-      if (TypeRefRID==-1L)
-         TypeRefRID = rid;
-   }
+		typeRefAttributes = new java.util.Vector(10);
+	}
 
-   /** Returns the name of this TypeRef.
-     */
-   public String getName(){
-      return Name;
-   }
-   
-   /** Sets the name of this TypeRef
-     */
-   public void setName(String name){
-      Name = name;
-   }
-   
-   /** Returns the namespace of this TypeRef
-     */
-   public String getNamespace(){
-      return Namespace;
-   }
+	/**
+	 * Adds a CustomAttribute to this TypeRef
+	 */
+	public void addTypeRefAttribute(CustomAttribute ca) {
+		if (ca != null)
+			typeRefAttributes.add(ca);
+	}
 
-   /** Sets the namespace of this TypeRef
-     */
-   public void setNamespace(String ns){
-      Namespace = ns;
-   }
+	/**
+	 * Returns a non-null array of CustomAttributes on this TypeRef
+	 */
+	public CustomAttribute[] getTypeRefAttributes() {
+		CustomAttribute[] cas = new CustomAttribute[typeRefAttributes.size()];
+		for (int i = 0; i < cas.length; i++)
+			cas[i] = (CustomAttribute) typeRefAttributes.get(i);
+		return cas;
+	}
+
+	/**
+	 * Removes a CustomAttribute from this TypeRef
+	 */
+	public void removeTypeRefAttribute(CustomAttribute ca) {
+		if (ca != null)
+			typeRefAttributes.remove(ca);
+	}
+
+	/**
+	 * Returns the TypeRef RID for this TypeRef (used by emitter)
+	 */
+	public long getTypeRefRID() {
+		return TypeRefRID;
+	}
+
+	/**
+	 * Sets the TypeRef RID for this TypeRef (used by emitter).
+	 * This method can only be called once.
+	 */
+	public void setTypeRefRID(long rid) {
+		if (TypeRefRID == -1L)
+			TypeRefRID = rid;
+	}
+
+	/**
+	 * Returns the name of this TypeRef.
+	 */
+	public String getName() {
+		return Name;
+	}
+
+	/**
+	 * Sets the name of this TypeRef
+	 */
+	public void setName(String name) {
+		Name = name;
+	}
+
+	/**
+	 * Returns the namespace of this TypeRef
+	 */
+	public String getNamespace() {
+		return Namespace;
+	}
+
+	/**
+	 * Sets the namespace of this TypeRef
+	 */
+	public void setNamespace(String ns) {
+		Namespace = ns;
+	}
 }

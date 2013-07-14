@@ -19,36 +19,41 @@
 
 package edu.arizona.cs.mbel.metadata;
 
-/** This exception is thrown whenever an error is found in terms of valid metadata. 
-  * This will mostly be used in the validator, upon emitting a module back to a file.
-  * @author Michael Stepp
-  */
-public class MetadataValidationException extends Exception{
-   public static final int ERROR   = 0;
-   public static final int WARNING = 1;
-   public static final int CLS     = 2;
+/**
+ * This exception is thrown whenever an error is found in terms of valid metadata.
+ * This will mostly be used in the validator, upon emitting a module back to a file.
+ *
+ * @author Michael Stepp
+ */
+public class MetadataValidationException extends Exception {
+	public static final int ERROR = 0;
+	public static final int WARNING = 1;
+	public static final int CLS = 2;
 
-   private int myType;
-   private String message;
+	private int myType;
+	private String message;
 
-   /** Makes an exception with the given message and error type.
-     * @param mesg the message to print
-     * @param type the error type (one of ERROR, WARNING, CLS)
-     */
-   public MetadataValidationException(String mesg, int type){
-      message = mesg;
-      myType = type;
-   }
+	/**
+	 * Makes an exception with the given message and error type.
+	 *
+	 * @param mesg the message to print
+	 * @param type the error type (one of ERROR, WARNING, CLS)
+	 */
+	public MetadataValidationException(String mesg, int type) {
+		message = mesg;
+		myType = type;
+	}
 
-   /** Returns the error type
-     */
-   public int getType(){
-      return myType;
-   }
+	/**
+	 * Returns the error type
+	 */
+	public int getType() {
+		return myType;
+	}
 
-   public String toString(){
-      String[] types = {"[ERROR]", "[WARNING]", "[CLS]"};
-      String result = "MetadataValidationException: " + message + " " + types[myType];
-      return result;
-   }
+	public String toString() {
+		String[] types = {"[ERROR]", "[WARNING]", "[CLS]"};
+		String result = "MetadataValidationException: " + message + " " + types[myType];
+		return result;
+	}
 }

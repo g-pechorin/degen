@@ -20,11 +20,13 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** To be used by instructions that have an optional "short form", 
-  * meaning that one version takes an integer argument, and another 
-  * version takes a smaller integer argument (i.e. uint16 and uint8)
-  * @author Michael Stepp
-  */
-public interface ShortFormInstruction{
-   public boolean isShort();
+/**
+ * To be used by instructions that have an optional "short form",
+ * meaning that one version takes an integer argument, and another
+ * version takes a smaller integer argument (i.e. uint16 and uint8)
+ *
+ * @author Michael Stepp
+ */
+public interface ShortFormInstruction {
+	public boolean isShort();
 }

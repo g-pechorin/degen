@@ -19,36 +19,40 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Add with overflow detection.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> ..., result
-  * @author Michael Stepp
-  */
-public class ADD_OVF extends Instruction{
-   public static final int ADD_OVF     = 0xD6;
-   public static final int ADD_OVF_UN  = 0xD7;
-   protected static final int OPCODE_LIST[] = {ADD_OVF, ADD_OVF_UN};
+/**
+ * Add with overflow detection.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class ADD_OVF extends Instruction {
+	public static final int ADD_OVF = 0xD6;
+	public static final int ADD_OVF_UN = 0xD7;
+	protected static final int OPCODE_LIST[] = {ADD_OVF, ADD_OVF_UN};
 
-   /** Makes a ADD_OVF object, possibly unsigned
-     * @param unsign true iff this is unsigned addition
-     */
-   public ADD_OVF(boolean unsign) throws InstructionInitException{
-      super((unsign ? ADD_OVF_UN : ADD_OVF), OPCODE_LIST);
-   }
+	/**
+	 * Makes a ADD_OVF object, possibly unsigned
+	 *
+	 * @param unsign true iff this is unsigned addition
+	 */
+	public ADD_OVF(boolean unsign) throws InstructionInitException {
+		super((unsign ? ADD_OVF_UN : ADD_OVF), OPCODE_LIST);
+	}
 
-   public boolean isUnsigned(){
-      return (getOpcode()==ADD_OVF_UN);
-   }
+	public boolean isUnsigned() {
+		return (getOpcode() == ADD_OVF_UN);
+	}
 
-   public String getName(){
-      return (isUnsigned() ? "add.ovf.un" : "add.ovf");
-   }
+	public String getName() {
+		return (isUnsigned() ? "add.ovf.un" : "add.ovf");
+	}
 
-   public ADD_OVF(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof ADD_OVF));
-   }
+	public ADD_OVF(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof ADD_OVF));
+	}
 }

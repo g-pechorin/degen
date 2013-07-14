@@ -20,12 +20,14 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** Interface with constants for property flags
-  * @author Michael Stepp
-  */
-public interface PropertyAttributes{
-   public static final int SpecialName    = 0x0200;
-   public static final int RTSpecialName  = 0x0400;
-   public static final int HasDefault     = 0x1000;
-   public static final int Unused         = 0xe9ff;
+/**
+ * Interface with constants for property flags
+ *
+ * @author Michael Stepp
+ */
+public interface PropertyAttributes {
+	public static final int SpecialName = 0x0200;
+	public static final int RTSpecialName = 0x0400;
+	public static final int HasDefault = 0x1000;
+	public static final int Unused = 0xe9ff;
 }

@@ -19,73 +19,88 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** Represents a managed resource. Managed resources can be embedded in the current module, 
-  * or found in another assembly, or in a File that is reference by this module.
-  * Resources all have a logical name associated with them.
-  * @author Michael Stepp
-  */
-public abstract class ManifestResource implements edu.arizona.cs.mbel.signature.ManifestResourceAttributes{
-   private long Flags;
-   private String Name;
-   private java.util.Vector manifestResourceAttributes;
-   
-   /** Makes a new ManifestResource with the given name and flags
-     * @param name the logical name of this resource
-     * @param flags a bit vector of flags (defined in ManifestResourceAttributes)
-     */
-   protected ManifestResource(String name, long flags){
-      Name = name;
-      Flags = flags;
-      
-      manifestResourceAttributes = new java.util.Vector(10);
-   }
-   
-   /** Adds a CustomAttribute to this ManifestResource
-     */
-   public void addManifestResourceAttribute(CustomAttribute ca){
-      if (ca!=null)
-         manifestResourceAttributes.add(ca);
-   }
-   /** Returns a non-null array of CustomAttributes on this ManifestResource
-     */
-   public CustomAttribute[] getManifestResourceAttributes(){
-      CustomAttribute[] cas = new CustomAttribute[manifestResourceAttributes.size()];
-      for (int i=0;i<cas.length;i++)
-         cas[i] = (CustomAttribute)manifestResourceAttributes.get(i);
-      return cas;   
-   }
-   /** Removes a CustomAttribute from this ManifestResource
-     */
-   public void removeManifestResourceAttribute(CustomAttribute ca){
-      if (ca!=null)
-         manifestResourceAttributes.remove(ca);
-   }
-   
-   /** Returns the logical name of this ManifestResource
-     */
-   public String getName(){
-      return Name;
-   }
-   /** Sets the logical name of this ManifestResource
-     */
-   public void setName(String name){
-      Name = name;
-   }
-   /** Returns the bit vector of flags for this resource (defined in ManifestResourceAttributes)
-     */
-   public long getFlags(){
-      return Flags;
-   }
-   
-   /** Compares 2 ManifestResources.
-     * Returns true iff the name and flags are equal
-     */
-   public boolean equals(Object o){
-      if (o==null || !(o instanceof ManifestResource))
-         return false;
-      ManifestResource res = (ManifestResource)o;
-      return (Name.equals(res.Name) && Flags==res.Flags);
-   }
-   
+/**
+ * Represents a managed resource. Managed resources can be embedded in the current module,
+ * or found in another assembly, or in a File that is reference by this module.
+ * Resources all have a logical name associated with them.
+ *
+ * @author Michael Stepp
+ */
+public abstract class ManifestResource implements edu.arizona.cs.mbel.signature.ManifestResourceAttributes {
+	private long Flags;
+	private String Name;
+	private java.util.Vector manifestResourceAttributes;
+
+	/**
+	 * Makes a new ManifestResource with the given name and flags
+	 *
+	 * @param name  the logical name of this resource
+	 * @param flags a bit vector of flags (defined in ManifestResourceAttributes)
+	 */
+	protected ManifestResource(String name, long flags) {
+		Name = name;
+		Flags = flags;
+
+		manifestResourceAttributes = new java.util.Vector(10);
+	}
+
+	/**
+	 * Adds a CustomAttribute to this ManifestResource
+	 */
+	public void addManifestResourceAttribute(CustomAttribute ca) {
+		if (ca != null)
+			manifestResourceAttributes.add(ca);
+	}
+
+	/**
+	 * Returns a non-null array of CustomAttributes on this ManifestResource
+	 */
+	public CustomAttribute[] getManifestResourceAttributes() {
+		CustomAttribute[] cas = new CustomAttribute[manifestResourceAttributes.size()];
+		for (int i = 0; i < cas.length; i++)
+			cas[i] = (CustomAttribute) manifestResourceAttributes.get(i);
+		return cas;
+	}
+
+	/**
+	 * Removes a CustomAttribute from this ManifestResource
+	 */
+	public void removeManifestResourceAttribute(CustomAttribute ca) {
+		if (ca != null)
+			manifestResourceAttributes.remove(ca);
+	}
+
+	/**
+	 * Returns the logical name of this ManifestResource
+	 */
+	public String getName() {
+		return Name;
+	}
+
+	/**
+	 * Sets the logical name of this ManifestResource
+	 */
+	public void setName(String name) {
+		Name = name;
+	}
+
+	/**
+	 * Returns the bit vector of flags for this resource (defined in ManifestResourceAttributes)
+	 */
+	public long getFlags() {
+		return Flags;
+	}
+
+	/**
+	 * Compares 2 ManifestResources.
+	 * Returns true iff the name and flags are equal
+	 */
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof ManifestResource))
+			return false;
+		ManifestResource res = (ManifestResource) o;
+		return (Name.equals(res.Name) && Flags == res.Flags);
+	}
+
 //   public abstract void output();
 }

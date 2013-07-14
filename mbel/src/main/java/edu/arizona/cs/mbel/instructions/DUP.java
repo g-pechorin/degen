@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Duplicate top stack item.<br>
-  * Stack transition:<br>
-  *   ..., value --> ..., value, value
-  * @author Michael Stepp
-  */
-public class DUP extends Instruction{
-   public static final int DUP = 0x25;
-   protected static final int OPCODE_LIST[] = {DUP};
+/**
+ * Duplicate top stack item.<br>
+ * Stack transition:<br>
+ * ..., value --> ..., value, value
+ *
+ * @author Michael Stepp
+ */
+public class DUP extends Instruction {
+	public static final int DUP = 0x25;
+	protected static final int OPCODE_LIST[] = {DUP};
 
-   public DUP() throws InstructionInitException{
-      super(DUP, OPCODE_LIST);
-   }
+	public DUP() throws InstructionInitException {
+		super(DUP, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "dup";
-   }
+	public String getName() {
+		return "dup";
+	}
 
-   public DUP(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof DUP));
-   }
+	public DUP(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof DUP));
+	}
 }

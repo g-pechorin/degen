@@ -13,74 +13,97 @@
 
 package com.badlogic.gdxinvaders;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.loaders.ModelLoaderOld;
 import com.badlogic.gdx.graphics.g3d.loaders.obj.ObjLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdxinvaders.simulation.Block;
-import com.badlogic.gdxinvaders.simulation.Explosion;
-import com.badlogic.gdxinvaders.simulation.Invader;
-import com.badlogic.gdxinvaders.simulation.Ship;
-import com.badlogic.gdxinvaders.simulation.Shot;
-import com.badlogic.gdxinvaders.simulation.Simulation;
+import com.badlogic.gdxinvaders.simulation.*;
 
-/** The renderer receives a simulation and renders it.
- * @author mzechner */
+import java.io.InputStream;
+import java.util.ArrayList;
+
+/**
+ * The renderer receives a simulation and renders it.
+ *
+ * @author mzechner
+ */
 public class RendererGL10 implements Renderer {
-	/** sprite batch to draw text **/
+	/**
+	 * sprite batch to draw text *
+	 */
 	private SpriteBatch spriteBatch;
-	/** the ship mesh **/
+	/**
+	 * the ship mesh *
+	 */
 	private Mesh shipMesh;
-	/** the ship texture **/
+	/**
+	 * the ship texture *
+	 */
 	private Texture shipTexture;
-	/** the invader mesh **/
+	/**
+	 * the invader mesh *
+	 */
 	private Mesh invaderMesh;
-	/** the invader texture **/
+	/**
+	 * the invader texture *
+	 */
 	private Texture invaderTexture;
-	/** the block mesh **/
+	/**
+	 * the block mesh *
+	 */
 	private Mesh blockMesh;
-	/** the shot mesh **/
+	/**
+	 * the shot mesh *
+	 */
 	private Mesh shotMesh;
-	/** the background texture **/
+	/**
+	 * the background texture *
+	 */
 	private Texture backgroundTexture;
-	/** the explosion mesh **/
+	/**
+	 * the explosion mesh *
+	 */
 	private Mesh explosionMesh;
-	/** the explosion texture **/
+	/**
+	 * the explosion texture *
+	 */
 	private Texture explosionTexture;
-	/** the font **/
+	/**
+	 * the font *
+	 */
 	private BitmapFont font;
-	/** the rotation angle of all invaders around y **/
+	/**
+	 * the rotation angle of all invaders around y *
+	 */
 	private float invaderAngle = 0;
-	/** status string **/
+	/**
+	 * status string *
+	 */
 	private String status = "";
-	/** keeping track of the last score so we don't constantly construct a new string **/
+	/**
+	 * keeping track of the last score so we don't constantly construct a new string *
+	 */
 	private int lastScore = 0;
 	private int lastLives = 0;
 	private int lastWave = 0;
 
-	/** view and transform matrix for text rendering **/
+	/**
+	 * view and transform matrix for text rendering *
+	 */
 	private final Matrix4 viewMatrix = new Matrix4();
 	private final Matrix4 transformMatrix = new Matrix4();
 
-	/** perspective camera **/
+	/**
+	 * perspective camera *
+	 */
 	private PerspectiveCamera camera;
 
-	public RendererGL10 () {
+	public RendererGL10() {
 		try {
 			spriteBatch = new SpriteBatch();
 
@@ -110,7 +133,7 @@ public class RendererGL10 implements Renderer {
 			explosionTexture.setFilter(TextureFilter.MipMap, TextureFilter.Linear);
 
 			explosionMesh = new Mesh(true, 4 * 16, 0, new VertexAttribute(Usage.Position, 3, "a_position"), new VertexAttribute(
-				Usage.TextureCoordinates, 2, "a_texCoord"));
+					Usage.TextureCoordinates, 2, "a_texCoord"));
 
 			float[] vertices = new float[4 * 16 * (3 + 2)];
 			int idx = 0;
@@ -151,7 +174,7 @@ public class RendererGL10 implements Renderer {
 		}
 	}
 
-	public void render (Simulation simulation, float delta) {
+	public void render(Simulation simulation, float delta) {
 		// We explicitly require GL10, otherwise we could've used the GLCommon
 		// interface via Gdx.gl
 		GL10 gl = Gdx.graphics.getGL10();
@@ -202,7 +225,7 @@ public class RendererGL10 implements Renderer {
 		if (invaderAngle > 360) invaderAngle -= 360;
 	}
 
-	private void renderBackground () {
+	private void renderBackground() {
 		viewMatrix.setToOrtho2D(0, 0, 400, 320);
 		spriteBatch.setProjectionMatrix(viewMatrix);
 		spriteBatch.setTransformMatrix(transformMatrix);
@@ -215,7 +238,7 @@ public class RendererGL10 implements Renderer {
 
 	final Vector3 dir = new Vector3();
 
-	private void setProjectionAndCamera (GL10 gl, Ship ship) {
+	private void setProjectionAndCamera(GL10 gl, Ship ship) {
 		camera.position.set(ship.position.x, 6, 2);
 		camera.direction.set(ship.position.x, 0, -4).sub(camera.position).nor();
 		camera.update();
@@ -224,14 +247,14 @@ public class RendererGL10 implements Renderer {
 
 	float[] direction = {1, 0.5f, 0, 0};
 
-	private void setLighting (GL10 gl) {
+	private void setLighting(GL10 gl) {
 		gl.glEnable(GL10.GL_LIGHTING);
 		gl.glEnable(GL10.GL_LIGHT0);
 		gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, direction, 0);
 		gl.glEnable(GL10.GL_COLOR_MATERIAL);
 	}
 
-	private void renderShip (GL10 gl, Ship ship) {
+	private void renderShip(GL10 gl, Ship ship) {
 		if (ship.isExploding) return;
 
 		shipTexture.bind();
@@ -243,7 +266,7 @@ public class RendererGL10 implements Renderer {
 		gl.glPopMatrix();
 	}
 
-	private void renderInvaders (GL10 gl, ArrayList<Invader> invaders) {
+	private void renderInvaders(GL10 gl, ArrayList<Invader> invaders) {
 		invaderTexture.bind();
 		for (int i = 0; i < invaders.size(); i++) {
 			Invader invader = invaders.get(i);
@@ -255,7 +278,7 @@ public class RendererGL10 implements Renderer {
 		}
 	}
 
-	private void renderBlocks (GL10 gl, ArrayList<Block> blocks) {
+	private void renderBlocks(GL10 gl, ArrayList<Block> blocks) {
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glColor4f(0.2f, 0.2f, 1, 0.7f);
@@ -270,7 +293,7 @@ public class RendererGL10 implements Renderer {
 		gl.glDisable(GL10.GL_BLEND);
 	}
 
-	private void renderShots (GL10 gl, ArrayList<Shot> shots) {
+	private void renderShots(GL10 gl, ArrayList<Shot> shots) {
 		gl.glColor4f(1, 1, 0, 1);
 		for (int i = 0; i < shots.size(); i++) {
 			Shot shot = shots.get(i);
@@ -282,7 +305,7 @@ public class RendererGL10 implements Renderer {
 		gl.glColor4f(1, 1, 1, 1);
 	}
 
-	private void renderExplosions (GL10 gl, ArrayList<Explosion> explosions) {
+	private void renderExplosions(GL10 gl, ArrayList<Explosion> explosions) {
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		explosionTexture.bind();
@@ -290,13 +313,13 @@ public class RendererGL10 implements Renderer {
 			Explosion explosion = explosions.get(i);
 			gl.glPushMatrix();
 			gl.glTranslatef(explosion.position.x, explosion.position.y, explosion.position.z);
-			explosionMesh.render(GL10.GL_TRIANGLE_FAN, (int)(explosion.aliveTime / Explosion.EXPLOSION_LIVE_TIME * 15) * 4, 4);
+			explosionMesh.render(GL10.GL_TRIANGLE_FAN, (int) (explosion.aliveTime / Explosion.EXPLOSION_LIVE_TIME * 15) * 4, 4);
 			gl.glPopMatrix();
 		}
 		gl.glDisable(GL10.GL_BLEND);
 	}
 
-	public void dispose () {
+	public void dispose() {
 		spriteBatch.dispose();
 		shipTexture.dispose();
 		invaderTexture.dispose();

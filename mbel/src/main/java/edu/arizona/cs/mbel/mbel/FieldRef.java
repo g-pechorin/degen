@@ -19,34 +19,41 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** Repesents a field reference, as used in an instruction. Field references can 
-  * be fields defined in this module, another module, or another assembly. They can 
-  * also be GlobalFieldRefs which reference a global field in another module.
-  * @author Michael Stepp
-  */
-public class FieldRef extends MemberRef{
-   private edu.arizona.cs.mbel.signature.FieldSignature signature;
+/**
+ * Repesents a field reference, as used in an instruction. Field references can
+ * be fields defined in this module, another module, or another assembly. They can
+ * also be GlobalFieldRefs which reference a global field in another module.
+ *
+ * @author Michael Stepp
+ */
+public class FieldRef extends MemberRef {
+	private edu.arizona.cs.mbel.signature.FieldSignature signature;
 
-   /** Makes a field reference witht he given name, field signature, and parent type
-     * @param name the name of the field
-     * @param sig the field signature
-     * @param par the parent type in which the field is defined
-     */
-   public FieldRef(String name, edu.arizona.cs.mbel.signature.FieldSignature sig, AbstractTypeReference par){
-      super(name, par);
-      signature = sig;
-   }
-   
-   /** Returns the field signature for this field
-     */
-   public edu.arizona.cs.mbel.signature.FieldSignature getSignature(){
-      return signature;
-   }
-   /** Sets the field signature for this field
-     */
-   public void setSignature(edu.arizona.cs.mbel.signature.FieldSignature sig){
-      signature = sig;
-   }
+	/**
+	 * Makes a field reference witht he given name, field signature, and parent type
+	 *
+	 * @param name the name of the field
+	 * @param sig  the field signature
+	 * @param par  the parent type in which the field is defined
+	 */
+	public FieldRef(String name, edu.arizona.cs.mbel.signature.FieldSignature sig, AbstractTypeReference par) {
+		super(name, par);
+		signature = sig;
+	}
+
+	/**
+	 * Returns the field signature for this field
+	 */
+	public edu.arizona.cs.mbel.signature.FieldSignature getSignature() {
+		return signature;
+	}
+
+	/**
+	 * Sets the field signature for this field
+	 */
+	public void setSignature(edu.arizona.cs.mbel.signature.FieldSignature sig) {
+		signature = sig;
+	}
    
 /*
    public void output(){

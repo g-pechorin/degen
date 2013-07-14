@@ -19,56 +19,61 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Jump to method.<br>
-  * Stack transition:<br>
-  *   ... --> ...
-  * @author Michael Stepp
-  */
-public class JMP extends Instruction{
-   public static final int JMP = 0x27;
-   protected static final int OPCODE_LIST[] = {JMP};
-   private edu.arizona.cs.mbel.mbel.MethodDefOrRef method;
+/**
+ * Jump to method.<br>
+ * Stack transition:<br>
+ * ... --> ...
+ *
+ * @author Michael Stepp
+ */
+public class JMP extends Instruction {
+	public static final int JMP = 0x27;
+	protected static final int OPCODE_LIST[] = {JMP};
+	private edu.arizona.cs.mbel.mbel.MethodDefOrRef method;
 
-   /** Makes a JMP object for the given method reference
-     * @param ref the method reference
-     */
-   public JMP(edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException{
-      super(JMP, OPCODE_LIST);
-      method = ref;
-   }
+	/**
+	 * Makes a JMP object for the given method reference
+	 *
+	 * @param ref the method reference
+	 */
+	public JMP(edu.arizona.cs.mbel.mbel.MethodDefOrRef ref) throws InstructionInitException {
+		super(JMP, OPCODE_LIST);
+		method = ref;
+	}
 
-   /** Returns the method reference for this JMP
-     */
-   public edu.arizona.cs.mbel.mbel.MethodDefOrRef getMethod(){
-      return method;
-   }
+	/**
+	 * Returns the method reference for this JMP
+	 */
+	public edu.arizona.cs.mbel.mbel.MethodDefOrRef getMethod() {
+		return method;
+	}
 
-   public String getName(){
-      return "jmp";
-   }
+	public String getName() {
+		return "jmp";
+	}
 
-   public int getLength(){
-      return (super.getLength() + 4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getMethodRefToken(method);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getMethodRefToken(method);
+		buffer.putTOKEN(token);
+	}
 
-   public JMP(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      long methodToken = parse.getMSILInputStream().readTOKEN();
-      method = parse.getMethodDefOrRef(methodToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof JMP)))
-         return false;
-      JMP jmp = (JMP)o;
-      return (method==jmp.method);
-   }
+	public JMP(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		long methodToken = parse.getMSILInputStream().readTOKEN();
+		method = parse.getMethodDefOrRef(methodToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof JMP)))
+			return false;
+		JMP jmp = (JMP) o;
+		return (method == jmp.method);
+	}
 
 /*
    public void output(){

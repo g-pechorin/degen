@@ -4,31 +4,20 @@
  */
 package com.peterlavalle.degen.extractors.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.project.MavenProject;
+
+import java.io.*;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.project.MavenProject;
 
 /**
- *
  * @author Peter LaValle
  */
 public final class Files {
@@ -65,7 +54,7 @@ public final class Files {
 	 * Copies the data from the stream to the specified file, then closes it.
 	 *
 	 * @param inputStream a stream with data. it will be closed
-	 * @param output the file to store the data in. it will be overwritten
+	 * @param output      the file to store the data in. it will be overwritten
 	 * @throws IOException if any other method does, or if the output file has no parent
 	 */
 	public static File copyStream(final InputStream inputStream, final File output) throws IOException {
@@ -273,7 +262,7 @@ public final class Files {
 
 		if (!file.exists()) {
 
-			System.out.println("Caching " + url + " into `"+cacheDir+"` ...");
+			System.out.println("Caching " + url + " into `" + cacheDir + "` ...");
 
 			copyStream(url.openStream(), file);
 

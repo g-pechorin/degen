@@ -19,44 +19,50 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** Represents a ManifestResource defined in another assembly.
-  * The only information needed is the Assembly reference 
-  * and the name of the resource, with some flags.
-  * @author Michael Stepp
-  */
-public class AssemblyManifestResource extends ManifestResource{
-   private AssemblyRefInfo assemblyRef;
-   
-   /** Makes a new ManifestResource for the given assembly
-     * @param name the logical resource name
-     * @param flags a bit vector fo flags (defined in ManifestResourceAttributes)
-     * @param ref the Asembly reference for the assembly containting this resource
-     */
-   public AssemblyManifestResource(String name, long flags, AssemblyRefInfo ref){
-      super(name, flags);
-      assemblyRef = ref;
-   }
-   
-   /** Returns the Assembly info for the assembly containing this resource
-     */
-   public AssemblyRefInfo getAssemblyRefInfo(){
-      return assemblyRef;
-   }
+/**
+ * Represents a ManifestResource defined in another assembly.
+ * The only information needed is the Assembly reference
+ * and the name of the resource, with some flags.
+ *
+ * @author Michael Stepp
+ */
+public class AssemblyManifestResource extends ManifestResource {
+	private AssemblyRefInfo assemblyRef;
 
-   /** Compares 2 AssemblyManifestResources.
-     * Returns true iff their AssemblyRefInfo are equal
-     */
-   public boolean equals(Object o){
-      if (!super.equals(o))
-         return false;
-         
-      if (!(o instanceof AssemblyManifestResource))
-         return false;
-         
-      AssemblyManifestResource res = (AssemblyManifestResource)o;
+	/**
+	 * Makes a new ManifestResource for the given assembly
+	 *
+	 * @param name  the logical resource name
+	 * @param flags a bit vector fo flags (defined in ManifestResourceAttributes)
+	 * @param ref   the Asembly reference for the assembly containting this resource
+	 */
+	public AssemblyManifestResource(String name, long flags, AssemblyRefInfo ref) {
+		super(name, flags);
+		assemblyRef = ref;
+	}
 
-      return assemblyRef.equals(res.assemblyRef);
-   }
+	/**
+	 * Returns the Assembly info for the assembly containing this resource
+	 */
+	public AssemblyRefInfo getAssemblyRefInfo() {
+		return assemblyRef;
+	}
+
+	/**
+	 * Compares 2 AssemblyManifestResources.
+	 * Returns true iff their AssemblyRefInfo are equal
+	 */
+	public boolean equals(Object o) {
+		if (!super.equals(o))
+			return false;
+
+		if (!(o instanceof AssemblyManifestResource))
+			return false;
+
+		AssemblyManifestResource res = (AssemblyManifestResource) o;
+
+		return assemblyRef.equals(res.assemblyRef);
+	}
    
 /*
    public void output(){

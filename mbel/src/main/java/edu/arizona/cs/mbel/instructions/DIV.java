@@ -19,36 +19,40 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Divide.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> result
-  * @author Michael Stepp
-  */
-public class DIV extends Instruction{
-   public static final int DIV      = 0x5B;
-   public static final int DIV_UN   = 0x5C;
-   protected static final int OPCODE_LIST[] = {DIV, DIV_UN};
+/**
+ * Divide.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> result
+ *
+ * @author Michael Stepp
+ */
+public class DIV extends Instruction {
+	public static final int DIV = 0x5B;
+	public static final int DIV_UN = 0x5C;
+	protected static final int OPCODE_LIST[] = {DIV, DIV_UN};
 
-   /** Makes a new DIV object, possibly unsigned
-     * @param un true iff this is unsigned division
-     */
-   public DIV(boolean un) throws InstructionInitException{
-      super((un ? DIV_UN : DIV), OPCODE_LIST);
-   }
+	/**
+	 * Makes a new DIV object, possibly unsigned
+	 *
+	 * @param un true iff this is unsigned division
+	 */
+	public DIV(boolean un) throws InstructionInitException {
+		super((un ? DIV_UN : DIV), OPCODE_LIST);
+	}
 
-   public boolean isUnsigned(){
-      return (getOpcode()==DIV_UN);
-   }
+	public boolean isUnsigned() {
+		return (getOpcode() == DIV_UN);
+	}
 
-   public String getName(){
-      return (isUnsigned() ? "div.un" : "div");
-   }
+	public String getName() {
+		return (isUnsigned() ? "div.un" : "div");
+	}
 
-   public DIV(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof DIV));
-   }
+	public DIV(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof DIV));
+	}
 }

@@ -19,65 +19,72 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Load static field (value).<br>
-  * Stack transition:<br>
-  *   ... --> ..., value
-  * @author Michael Stepp
-  */
-public class LDSFLD extends VolatilePrefixInstruction{
-   public static final int LDSFLD = 0x7E;
-   protected static final int OPCODE_LIST[] = {LDSFLD};
-   private edu.arizona.cs.mbel.mbel.FieldRef field;
+/**
+ * Load static field (value).<br>
+ * Stack transition:<br>
+ * ... --> ..., value
+ *
+ * @author Michael Stepp
+ */
+public class LDSFLD extends VolatilePrefixInstruction {
+	public static final int LDSFLD = 0x7E;
+	protected static final int OPCODE_LIST[] = {LDSFLD};
+	private edu.arizona.cs.mbel.mbel.FieldRef field;
 
-   /** Makes a LDSFLD object for the given static field with no volatile prefix
-     * @param ref a reference to a static field
-     */
-   public LDSFLD(edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException{
-      super(false, LDSFLD, OPCODE_LIST);
-      field = ref;
-   }
+	/**
+	 * Makes a LDSFLD object for the given static field with no volatile prefix
+	 *
+	 * @param ref a reference to a static field
+	 */
+	public LDSFLD(edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException {
+		super(false, LDSFLD, OPCODE_LIST);
+		field = ref;
+	}
 
-   /** Makes a LDSFLD object for the given static field, possibly with a volatile prefix
-     * @param hasV true iff this LDSFLD has a volatile prefix
-     * @param ref a reference to a static field
-     */
-   public LDSFLD(boolean hasV, edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException{
-      super(hasV, LDSFLD, OPCODE_LIST);
-      field = ref;
-   }
+	/**
+	 * Makes a LDSFLD object for the given static field, possibly with a volatile prefix
+	 *
+	 * @param hasV true iff this LDSFLD has a volatile prefix
+	 * @param ref  a reference to a static field
+	 */
+	public LDSFLD(boolean hasV, edu.arizona.cs.mbel.mbel.FieldRef ref) throws InstructionInitException {
+		super(hasV, LDSFLD, OPCODE_LIST);
+		field = ref;
+	}
 
-   /** Returns a reference to the static field for this instruction
-     */
-   public edu.arizona.cs.mbel.mbel.FieldRef getField(){
-      return field;
-   }
+	/**
+	 * Returns a reference to the static field for this instruction
+	 */
+	public edu.arizona.cs.mbel.mbel.FieldRef getField() {
+		return field;
+	}
 
-   public String getName(){
-      return "ldsfld";
-   }
+	public String getName() {
+		return "ldsfld";
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getFieldRefToken(field);
-      buffer.putTOKEN(token);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getFieldRefToken(field);
+		buffer.putTOKEN(token);
+	}
 
-   public LDSFLD(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(false, opcode, OPCODE_LIST);
-      long fieldToken = parse.getMSILInputStream().readTOKEN();
-      field = parse.getFieldRef(fieldToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof LDSFLD)))
-         return false;
-      LDSFLD ldsfld = (LDSFLD)o;
-      return (field==ldsfld.field);
-   }
+	public LDSFLD(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(false, opcode, OPCODE_LIST);
+		long fieldToken = parse.getMSILInputStream().readTOKEN();
+		field = parse.getFieldRef(fieldToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof LDSFLD)))
+			return false;
+		LDSFLD ldsfld = (LDSFLD) o;
+		return (field == ldsfld.field);
+	}
 
 /*
    public void output(){

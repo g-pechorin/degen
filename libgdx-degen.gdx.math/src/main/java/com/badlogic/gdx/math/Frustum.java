@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2011 See AUTHORS file.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,8 +21,8 @@ import com.badlogic.gdx.math.collision.BoundingBox;
 
 public class Frustum {
 	protected static final Vector3[] clipSpacePlanePoints = {new Vector3(-1, -1, -1), new Vector3(1, -1, -1),
-		new Vector3(1, 1, -1), new Vector3(-1, 1, -1), // near clip
-		new Vector3(-1, -1, 1), new Vector3(1, -1, 1), new Vector3(1, 1, 1), new Vector3(-1, 1, 1)}; // far clip
+			new Vector3(1, 1, -1), new Vector3(-1, 1, -1), // near clip
+			new Vector3(-1, -1, 1), new Vector3(1, -1, 1), new Vector3(1, 1, 1), new Vector3(-1, 1, 1)}; // far clip
 	protected static final float[] clipSpacePlanePointsArray = new float[8 * 3];
 
 	static {
@@ -34,24 +34,31 @@ public class Frustum {
 		}
 	}
 
-	/** the six clipping planes, near, far, left, right, top, bottm **/
+	/**
+	 * the six clipping planes, near, far, left, right, top, bottm *
+	 */
 	public final Plane[] planes = new Plane[6];
 
-	/** eight points making up the near and far clipping "rectangles". order is counter clockwise, starting at bottom left **/
+	/**
+	 * eight points making up the near and far clipping "rectangles". order is counter clockwise, starting at bottom left *
+	 */
 	public final Vector3[] planePoints = {new Vector3(), new Vector3(), new Vector3(), new Vector3(), new Vector3(),
-		new Vector3(), new Vector3(), new Vector3()};
+			new Vector3(), new Vector3(), new Vector3()};
 	protected final float[] planePointsArray = new float[8 * 3];
 
-	public Frustum () {
+	public Frustum() {
 		for (int i = 0; i < 6; i++) {
 			planes[i] = new Plane(new Vector3(), 0);
 		}
 	}
 
-	/** Updates the clipping plane's based on the given inverse combined projection and view matrix, e.g. from an
+	/**
+	 * Updates the clipping plane's based on the given inverse combined projection and view matrix, e.g. from an
 	 * {@link OrthographicCamera} or {@link PerspectiveCamera}.
-	 * @param inverseProjectionView the combined projection and view matrices. */
-	public void update (Matrix4 inverseProjectionView) {
+	 *
+	 * @param inverseProjectionView the combined projection and view matrices.
+	 */
+	public void update(Matrix4 inverseProjectionView) {
 		System.arraycopy(clipSpacePlanePointsArray, 0, planePointsArray, 0, clipSpacePlanePointsArray.length);
 		Matrix4.prj(inverseProjectionView.val, planePointsArray, 0, 8, 3);
 		for (int i = 0, j = 0; i < 8; i++) {
@@ -69,11 +76,13 @@ public class Frustum {
 		planes[5].set(planePoints[4], planePoints[0], planePoints[1]);
 	}
 
-	/** Returns wheter the point is in the frustum.
-	 * 
+	/**
+	 * Returns wheter the point is in the frustum.
+	 *
 	 * @param point The point
-	 * @return Wheter the point is in the frustum. */
-	public boolean pointInFrustum (Vector3 point) {
+	 * @return Wheter the point is in the frustum.
+	 */
+	public boolean pointInFrustum(Vector3 point) {
 		for (int i = 0; i < planes.length; i++) {
 			PlaneSide result = planes[i].testPoint(point);
 			if (result == PlaneSide.Back) return false;
@@ -83,11 +92,9 @@ public class Frustum {
 
 	/**
 	 * Returns wheter the given sphere is in the frustum.
-	 * 
-	 * @param center
-	 *            The center of the sphere
-	 * @param radius
-	 *            The radius of the sphere
+	 *
+	 * @param center The center of the sphere
+	 * @param radius The radius of the sphere
 	 * @return Wheter the sphere is in the frustum
 	 */
 	public boolean sphereInFrustum(Vector3 center, float radius) {
@@ -101,11 +108,9 @@ public class Frustum {
 	/**
 	 * Returns wheter the given sphere is in the frustum not checking wheter it
 	 * is behind the near and far clipping plane.
-	 * 
-	 * @param center
-	 *            The center of the sphere
-	 * @param radius
-	 *            The radius of the sphere
+	 *
+	 * @param center The center of the sphere
+	 * @param radius The radius of the sphere
 	 * @return Wheter the sphere is in the frustum
 	 */
 	public boolean sphereInFrustumWithoutNearFar(Vector3 center, float radius) {
@@ -116,11 +121,13 @@ public class Frustum {
 		return true;
 	}
 
-	/** Returns wheter the given {@link BoundingBox} is in the frustum.
-	 * 
+	/**
+	 * Returns wheter the given {@link BoundingBox} is in the frustum.
+	 *
 	 * @param bounds The bounding box
-	 * @return Wheter the bounding box is in the frustum */
-	public boolean boundsInFrustum (BoundingBox bounds) {
+	 * @return Wheter the bounding box is in the frustum
+	 */
+	public boolean boundsInFrustum(BoundingBox bounds) {
 		Vector3[] corners = bounds.getCorners();
 		int len = corners.length;
 

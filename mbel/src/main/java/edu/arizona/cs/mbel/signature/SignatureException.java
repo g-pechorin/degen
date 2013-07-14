@@ -20,12 +20,14 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** Represents an error in creating a Signature class
-  * (generally thrown in its constructor)
-  * @author Michael Stepp
-  */
-public class SignatureException extends Exception{
-   public SignatureException(String message){
-      super(message);
-   }
+/**
+ * Represents an error in creating a Signature class
+ * (generally thrown in its constructor)
+ *
+ * @author Michael Stepp
+ */
+public class SignatureException extends Exception {
+	public SignatureException(String message) {
+		super(message);
+	}
 }

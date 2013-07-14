@@ -1,0 +1,26 @@
+<%import>
+	org.apache.maven.project.MavenProject;
+	java.io.File;
+	com.peterlavalle.degen.cmake.CMakeMode;
+</%import>
+<%args>
+	MavenProject	project;
+	File[]			sources;
+	CMakeMode		mode;
+</%args>
+
+cmake_minimum_required (VERSION 2.6)
+
+
+<%if mode == CMakeMode.LIBRARY %>
+	add_library(
+<%elseif mode == CMakeMode.EXECUTABLE %>
+	add_executable(
+<%else>
+	<%java>throw new UnsupportedOperationException("What to do?");</%java>
+</%if>
+	<% project.getArtifactId().replaceAll("[^\\w]", "_") %>
+<%for File file : sources %>
+	<% file.getAbsolutePath() %>
+</%for>
+)

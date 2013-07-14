@@ -19,66 +19,73 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Load object. Copies a ValueType to the stack.<br>
-  * Stack transition:<br>
-  *   ..., addressOfValType --> ..., value
-  * @author Michael Stepp
-  */
-public class LDOBJ extends UnalignedPrefixInstruction{
-   public static final int LDOBJ = 0x71;
-   protected static final int OPCODE_LIST[] = {LDOBJ};
-   private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
+/**
+ * Load object. Copies a ValueType to the stack.<br>
+ * Stack transition:<br>
+ * ..., addressOfValType --> ..., value
+ *
+ * @author Michael Stepp
+ */
+public class LDOBJ extends UnalignedPrefixInstruction {
+	public static final int LDOBJ = 0x71;
+	protected static final int OPCODE_LIST[] = {LDOBJ};
+	private edu.arizona.cs.mbel.mbel.AbstractTypeReference classRef;
 
-   /** Makes a LDOBJ object for the given value type with no unaligned prefix nor volatile prefix.
-     * @param ref a reference to the value type for this instruction
-     */
-   public LDOBJ(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException{
-      super(false, LDOBJ, OPCODE_LIST);
-      classRef = ref;
-   }
+	/**
+	 * Makes a LDOBJ object for the given value type with no unaligned prefix nor volatile prefix.
+	 *
+	 * @param ref a reference to the value type for this instruction
+	 */
+	public LDOBJ(edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException {
+		super(false, LDOBJ, OPCODE_LIST);
+		classRef = ref;
+	}
 
-   /** Makes a LDOBJ object for the given value type with the given unaligned prefix alignment, possibly with a volatile prefix.
-     * @param alignment the unaligned prefix alignment
-     * @param hasV true iff this LDOBJ has a volatile prefix
-     * @param ref a reference to the value type for this instruction
-     */
-   public LDOBJ(int alignment, boolean hasV, edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException{
-      super(alignment, hasV, LDOBJ, OPCODE_LIST);
-      classRef = ref;
-   }
-   
-   /** Returns the type reference of the ValueType for this instruction
-     */
-   public edu.arizona.cs.mbel.mbel.AbstractTypeReference getValueType(){
-      return classRef;
-   }
+	/**
+	 * Makes a LDOBJ object for the given value type with the given unaligned prefix alignment, possibly with a volatile prefix.
+	 *
+	 * @param alignment the unaligned prefix alignment
+	 * @param hasV      true iff this LDOBJ has a volatile prefix
+	 * @param ref       a reference to the value type for this instruction
+	 */
+	public LDOBJ(int alignment, boolean hasV, edu.arizona.cs.mbel.mbel.AbstractTypeReference ref) throws InstructionInitException {
+		super(alignment, hasV, LDOBJ, OPCODE_LIST);
+		classRef = ref;
+	}
 
-   public String getName(){
-      return "ldobj";
-   }
+	/**
+	 * Returns the type reference of the ValueType for this instruction
+	 */
+	public edu.arizona.cs.mbel.mbel.AbstractTypeReference getValueType() {
+		return classRef;
+	}
 
-   public int getLength(){
-      return (super.getLength()+4);
-   }
+	public String getName() {
+		return "ldobj";
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      long token = emitter.getTypeToken(classRef);
-      buffer.putTOKEN(token);
-   }
+	public int getLength() {
+		return (super.getLength() + 4);
+	}
 
-   public LDOBJ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(false, opcode, OPCODE_LIST);
-      long classToken = parse.getMSILInputStream().readTOKEN();
-      classRef = parse.getClassRef(classToken);
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof LDOBJ)))
-         return false;
-      LDOBJ ldobj = (LDOBJ)o;
-      return (classRef==ldobj.classRef);
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		long token = emitter.getTypeToken(classRef);
+		buffer.putTOKEN(token);
+	}
+
+	public LDOBJ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(false, opcode, OPCODE_LIST);
+		long classToken = parse.getMSILInputStream().readTOKEN();
+		classRef = parse.getClassRef(classToken);
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof LDOBJ)))
+			return false;
+		LDOBJ ldobj = (LDOBJ) o;
+		return (classRef == ldobj.classRef);
+	}
 
 /*
    public void output(){

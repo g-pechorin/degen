@@ -18,31 +18,32 @@
  */
 
 
-
 package edu.arizona.cs.mbel.instructions;
 
-/** Addition.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> ..., result
-  * @author Michael Stepp
-  */
-public class ADD extends Instruction{
-   public static final int ADD = 0x58;
-   protected static final int OPCODE_LIST[] = {ADD};
+/**
+ * Addition.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class ADD extends Instruction {
+	public static final int ADD = 0x58;
+	protected static final int OPCODE_LIST[] = {ADD};
 
-   public ADD() throws InstructionInitException{
-      super(ADD, OPCODE_LIST);
-   }
+	public ADD() throws InstructionInitException {
+		super(ADD, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "add";
-   }
+	public String getName() {
+		return "add";
+	}
 
-   public ADD(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof ADD));
-   }
+	public ADD(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof ADD));
+	}
 }

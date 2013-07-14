@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** End filter block.<br>
-  * Stack transition:<br>
-  *   ..., value --> ... 
-  * @author Michael Stepp
-  */
-public class ENDFILTER extends Instruction{
-   public static final int ENDFILTER = 0x11FE;
-   protected static final int OPCODE_LIST[] = {ENDFILTER};
+/**
+ * End filter block.<br>
+ * Stack transition:<br>
+ * ..., value --> ...
+ *
+ * @author Michael Stepp
+ */
+public class ENDFILTER extends Instruction {
+	public static final int ENDFILTER = 0x11FE;
+	protected static final int OPCODE_LIST[] = {ENDFILTER};
 
-   public ENDFILTER() throws InstructionInitException{
-      super(ENDFILTER, OPCODE_LIST);
-   }
+	public ENDFILTER() throws InstructionInitException {
+		super(ENDFILTER, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "endfilter";
-   }
+	public String getName() {
+		return "endfilter";
+	}
 
-   public ENDFILTER(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof ENDFILTER));
-   }
+	public ENDFILTER(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof ENDFILTER));
+	}
 }

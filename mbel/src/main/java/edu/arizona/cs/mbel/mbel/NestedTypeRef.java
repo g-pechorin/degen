@@ -19,34 +19,40 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class represents a TypeRef for a type that is defiend within another type.
-  * This nested type will have a reference to its parent class.
-  * @author Michael Stepp
-  */
-public class NestedTypeRef extends TypeRef{
-   private TypeRef EnclosingTypeRef;
-  
-   /** Makes a new NestedTypeRef witht he given namespace, name, and parent
-     * @param ns the namespace of this type (should equal its parent's namespace)
-     * @param name the name of this type
-     * @param ref the parent type in which this type is defined
-     */
-   public NestedTypeRef(String ns, String name, TypeRef ref){
-      super(ns, name);
-      EnclosingTypeRef = ref;
-   }
-   
-   /** Returns the TypeRef of the type in which this type is defined
-     */
-   public TypeRef getEnclosingTypeRef(){
-      return EnclosingTypeRef;
-   }
-   
-   /** Sets the TypeRef of the type in which this type is defined
-     */
-   public void setEnclosingTypeRef(TypeRef parent){
-      EnclosingTypeRef = parent;
-   }
+/**
+ * This class represents a TypeRef for a type that is defiend within another type.
+ * This nested type will have a reference to its parent class.
+ *
+ * @author Michael Stepp
+ */
+public class NestedTypeRef extends TypeRef {
+	private TypeRef EnclosingTypeRef;
+
+	/**
+	 * Makes a new NestedTypeRef witht he given namespace, name, and parent
+	 *
+	 * @param ns   the namespace of this type (should equal its parent's namespace)
+	 * @param name the name of this type
+	 * @param ref  the parent type in which this type is defined
+	 */
+	public NestedTypeRef(String ns, String name, TypeRef ref) {
+		super(ns, name);
+		EnclosingTypeRef = ref;
+	}
+
+	/**
+	 * Returns the TypeRef of the type in which this type is defined
+	 */
+	public TypeRef getEnclosingTypeRef() {
+		return EnclosingTypeRef;
+	}
+
+	/**
+	 * Sets the TypeRef of the type in which this type is defined
+	 */
+	public void setEnclosingTypeRef(TypeRef parent) {
+		EnclosingTypeRef = parent;
+	}
    
 /*
    public void output(){

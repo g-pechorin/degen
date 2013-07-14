@@ -19,53 +19,57 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Branch on false.<br>
-  * Stack transition:<br>
-  *   ..., value --> ...
-  * @author Michael Stepp
-  */
-public class BRFALSE extends BranchInstruction{
-   // BRFALSE <int32>
-   // BRFALSE.S <int8>
-   // aliases: BRZERO, BRNULL
-   public static final int BRFALSE     = 0x39;
-   public static final int BRFALSE_S   = 0x2C;
-   protected static final int OPCODE_LIST[] = {BRFALSE, BRFALSE_S};
+/**
+ * Branch on false.<br>
+ * Stack transition:<br>
+ * ..., value --> ...
+ *
+ * @author Michael Stepp
+ */
+public class BRFALSE extends BranchInstruction {
+	// BRFALSE <int32>
+	// BRFALSE.S <int8>
+	// aliases: BRZERO, BRNULL
+	public static final int BRFALSE = 0x39;
+	public static final int BRFALSE_S = 0x2C;
+	protected static final int OPCODE_LIST[] = {BRFALSE, BRFALSE_S};
 
-   /** Makes a new BRFALSE object with the given branch target, possibly in short form
-     * @param shortF true iff this is a short form instruction
-     * @param ih the baranch target handle
-     */
-   public BRFALSE(boolean shortF, InstructionHandle ih) throws InstructionInitException{
-      super((shortF ? BRFALSE_S : BRFALSE), OPCODE_LIST, ih);
-   }
+	/**
+	 * Makes a new BRFALSE object with the given branch target, possibly in short form
+	 *
+	 * @param shortF true iff this is a short form instruction
+	 * @param ih     the baranch target handle
+	 */
+	public BRFALSE(boolean shortF, InstructionHandle ih) throws InstructionInitException {
+		super((shortF ? BRFALSE_S : BRFALSE), OPCODE_LIST, ih);
+	}
 
-   public boolean isShort(){
-      return (getOpcode()==BRFALSE_S);
-   }
+	public boolean isShort() {
+		return (getOpcode() == BRFALSE_S);
+	}
 
-   public String getName(){
-      return (isShort() ? "brfalse.s" : "brfalse");
-   }
+	public String getName() {
+		return (isShort() ? "brfalse.s" : "brfalse");
+	}
 
-   public int getLength(){
-      return (super.getLength() + (isShort() ? 1 : 4));
-   }
+	public int getLength() {
+		return (super.getLength() + (isShort() ? 1 : 4));
+	}
 
-   protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      super.emit(buffer, emitter);
-      if (isShort())
-         buffer.put(getTarget());
-      else
-         buffer.putINT32(getTarget());
-   }
+	protected void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		super.emit(buffer, emitter);
+		if (isShort())
+			buffer.put(getTarget());
+		else
+			buffer.putINT32(getTarget());
+	}
 
-   public BRFALSE(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-      setTarget((isShort() ? parse.getMSILInputStream().readINT8() : parse.getMSILInputStream().readINT32()));
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof BRFALSE));
-   }
+	public BRFALSE(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+		setTarget((isShort() ? parse.getMSILInputStream().readINT8() : parse.getMSILInputStream().readINT32()));
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof BRFALSE));
+	}
 }

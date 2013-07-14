@@ -19,56 +19,61 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Load indirect.<br>
-  * Stack transition:<br>
-  *   ..., address --> ..., value
-  * @author Michael Stepp
-  */
-public class LDIND extends UnalignedPrefixInstruction{
-   public static final int LDIND_I1    = 0x46;
-   public static final int LDIND_I2    = 0x48;
-   public static final int LDIND_I4    = 0x4A;
-   public static final int LDIND_I8    = 0x4C;
-   public static final int LDIND_U1    = 0x47;
-   public static final int LDIND_U2    = 0x49;
-   public static final int LDIND_U4    = 0x4B;
-   public static final int LDIND_R4    = 0x4E;
-   public static final int LDIND_R8    = 0x4F;
-   public static final int LDIND_I     = 0x4D;
-   public static final int LDIND_REF   = 0x50;
-   protected static final int OPCODE_LIST[] = { LDIND_I1, LDIND_I2, LDIND_I4, LDIND_I8, LDIND_U1, LDIND_U2, 
-                                                LDIND_U4, LDIND_R4, LDIND_R8, LDIND_I,  LDIND_REF }; 
+/**
+ * Load indirect.<br>
+ * Stack transition:<br>
+ * ..., address --> ..., value
+ *
+ * @author Michael Stepp
+ */
+public class LDIND extends UnalignedPrefixInstruction {
+	public static final int LDIND_I1 = 0x46;
+	public static final int LDIND_I2 = 0x48;
+	public static final int LDIND_I4 = 0x4A;
+	public static final int LDIND_I8 = 0x4C;
+	public static final int LDIND_U1 = 0x47;
+	public static final int LDIND_U2 = 0x49;
+	public static final int LDIND_U4 = 0x4B;
+	public static final int LDIND_R4 = 0x4E;
+	public static final int LDIND_R8 = 0x4F;
+	public static final int LDIND_I = 0x4D;
+	public static final int LDIND_REF = 0x50;
+	protected static final int OPCODE_LIST[] = {LDIND_I1, LDIND_I2, LDIND_I4, LDIND_I8, LDIND_U1, LDIND_U2,
+			LDIND_U4, LDIND_R4, LDIND_R8, LDIND_I, LDIND_REF};
 
-   /** Makes a LDIND object with the given opcode (one of LDIND_I1, LDIND_I2, etc), with no unaligned prefix nor volatile prefix.
-     */
-   public LDIND(int op) throws InstructionInitException{
-      super(false, op, OPCODE_LIST);
-   }
+	/**
+	 * Makes a LDIND object with the given opcode (one of LDIND_I1, LDIND_I2, etc), with no unaligned prefix nor volatile prefix.
+	 */
+	public LDIND(int op) throws InstructionInitException {
+		super(false, op, OPCODE_LIST);
+	}
 
-   /** Makes a LDIND object with the given opcode (one of LDIND_I1, LDIND_I2, etc) with
-     * the given unaligned prefix alignment, possibly with a volatile prefix.
-     * @param alignment the unaligned prefix alignment
-     * @param hasV true iff this LDIND has a volatile prefix
-     */
-   public LDIND(int alignment, boolean hasV, int op) throws InstructionInitException{
-      super(alignment, hasV, op, OPCODE_LIST);
-   }
+	/**
+	 * Makes a LDIND object with the given opcode (one of LDIND_I1, LDIND_I2, etc) with
+	 * the given unaligned prefix alignment, possibly with a volatile prefix.
+	 *
+	 * @param alignment the unaligned prefix alignment
+	 * @param hasV      true iff this LDIND has a volatile prefix
+	 */
+	public LDIND(int alignment, boolean hasV, int op) throws InstructionInitException {
+		super(alignment, hasV, op, OPCODE_LIST);
+	}
 
-   public String getName(){
-      String str[] = {".i1", ".i2", ".i4", ".i8", ".u1", ".u2", ".u4", ".r4", ".r8", ".i", ".ref"};
-      for (int i=0;i<str.length;i++)
-         if (OPCODE_LIST[i]==getOpcode())
-            return "ldind" + str[i];
-      return "";
-   }
+	public String getName() {
+		String str[] = {".i1", ".i2", ".i4", ".i8", ".u1", ".u2", ".u4", ".r4", ".r8", ".i", ".ref"};
+		for (int i = 0; i < str.length; i++)
+			if (OPCODE_LIST[i] == getOpcode())
+				return "ldind" + str[i];
+		return "";
+	}
 
-   public LDIND(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(false, opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof LDIND));
-   }
+	public LDIND(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(false, opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof LDIND));
+	}
 
 /*
    public void output(){

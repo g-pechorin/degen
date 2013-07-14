@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- *
  * @author Peter LaValle
  */
 public interface FileHook {

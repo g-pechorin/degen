@@ -19,42 +19,51 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** This class allows a managed .NET Method object to act as a wrapper around an unmanaged
-  * DLL method. Upon calling the managed method, the runtime will see the ImplementationMap 
-  * metadata item and make the correct unmanaged DLL call.
-  * @author Michael Stepp
-  */
-public class ImplementationMap implements edu.arizona.cs.mbel.signature.PInvokeAttributes{
-   private int MappingFlags;
-   private String ImportName;          // name of method in unmanaged DLL
-   private ModuleRefInfo ImportScope;  // module containing method
-   
-   /** Makes an ImplementationMap with the given flags, unmanaged method name, and unmanaged module
-     * @param flags a bit vector of flags (defined in PInvokeAttributes)
-     * @param name the name of the unmanaged method this will call
-     * @param module info about the unmanaged module containing this unmanaged method
-     */
-   public ImplementationMap(int flags, String name, ModuleRefInfo module){
-      MappingFlags   = flags;
-      ImportName     = name;
-      ImportScope    = module;
-   }
-   
-   /** Returns the Mapping Flags for this ImplementationMap (defined in PInvokeAttributes)
-     */
-   public int getFlags(){
-      return MappingFlags;
-   }
-   /** Returns the name of the unmanaged method
-     */
-   public String getImportName(){
-      return ImportName;
-   }
-   /** Returns the ModuleRefInfo for the unmanaged module containing the unmanaged method
-     */
-   public ModuleRefInfo getImportScope(){
-      return ImportScope;
-   }
+/**
+ * This class allows a managed .NET Method object to act as a wrapper around an unmanaged
+ * DLL method. Upon calling the managed method, the runtime will see the ImplementationMap
+ * metadata item and make the correct unmanaged DLL call.
+ *
+ * @author Michael Stepp
+ */
+public class ImplementationMap implements edu.arizona.cs.mbel.signature.PInvokeAttributes {
+	private int MappingFlags;
+	private String ImportName;          // name of method in unmanaged DLL
+	private ModuleRefInfo ImportScope;  // module containing method
+
+	/**
+	 * Makes an ImplementationMap with the given flags, unmanaged method name, and unmanaged module
+	 *
+	 * @param flags  a bit vector of flags (defined in PInvokeAttributes)
+	 * @param name   the name of the unmanaged method this will call
+	 * @param module info about the unmanaged module containing this unmanaged method
+	 */
+	public ImplementationMap(int flags, String name, ModuleRefInfo module) {
+		MappingFlags = flags;
+		ImportName = name;
+		ImportScope = module;
+	}
+
+	/**
+	 * Returns the Mapping Flags for this ImplementationMap (defined in PInvokeAttributes)
+	 */
+	public int getFlags() {
+		return MappingFlags;
+	}
+
+	/**
+	 * Returns the name of the unmanaged method
+	 */
+	public String getImportName() {
+		return ImportName;
+	}
+
+	/**
+	 * Returns the ModuleRefInfo for the unmanaged module containing the unmanaged method
+	 */
+	public ModuleRefInfo getImportScope() {
+		return ImportScope;
+	}
    
 /*
    public void output(){

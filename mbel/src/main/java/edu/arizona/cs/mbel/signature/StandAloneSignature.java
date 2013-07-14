@@ -20,31 +20,34 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** This class provides an abstract base state for MBEL objects that 
-  * come from a StandAloneSig table's signature. Such objects may have CustomAttributes
-  * assigned to them, so this class provides methods to manage those attributes.
-  * @author Michael Stepp
-  */
-public abstract class StandAloneSignature extends Signature{
-   private java.util.Vector standAloneSigAttributes;
-   
-   protected StandAloneSignature(){
-      standAloneSigAttributes = new java.util.Vector(10);
-   }
-   
-   public void addStandAloneSigAttribute(edu.arizona.cs.mbel.mbel.CustomAttribute ca){
-      if (ca!=null)
-         standAloneSigAttributes.add(ca);
-   }
-   
-   public edu.arizona.cs.mbel.mbel.CustomAttribute[] getStandAloneSigAttributes(){
-      edu.arizona.cs.mbel.mbel.CustomAttribute[] cas = new edu.arizona.cs.mbel.mbel.CustomAttribute[standAloneSigAttributes.size()];
-      for (int i=0;i<cas.length;i++)
-         cas[i] = (edu.arizona.cs.mbel.mbel.CustomAttribute)standAloneSigAttributes.get(i);
-      return cas;   
-   }
-	public void removeStandAloneSigAttribute(edu.arizona.cs.mbel.mbel.CustomAttribute ca){
-		if (ca!=null)
+/**
+ * This class provides an abstract base state for MBEL objects that
+ * come from a StandAloneSig table's signature. Such objects may have CustomAttributes
+ * assigned to them, so this class provides methods to manage those attributes.
+ *
+ * @author Michael Stepp
+ */
+public abstract class StandAloneSignature extends Signature {
+	private java.util.Vector standAloneSigAttributes;
+
+	protected StandAloneSignature() {
+		standAloneSigAttributes = new java.util.Vector(10);
+	}
+
+	public void addStandAloneSigAttribute(edu.arizona.cs.mbel.mbel.CustomAttribute ca) {
+		if (ca != null)
+			standAloneSigAttributes.add(ca);
+	}
+
+	public edu.arizona.cs.mbel.mbel.CustomAttribute[] getStandAloneSigAttributes() {
+		edu.arizona.cs.mbel.mbel.CustomAttribute[] cas = new edu.arizona.cs.mbel.mbel.CustomAttribute[standAloneSigAttributes.size()];
+		for (int i = 0; i < cas.length; i++)
+			cas[i] = (edu.arizona.cs.mbel.mbel.CustomAttribute) standAloneSigAttributes.get(i);
+		return cas;
+	}
+
+	public void removeStandAloneSigAttribute(edu.arizona.cs.mbel.mbel.CustomAttribute ca) {
+		if (ca != null)
 			standAloneSigAttributes.remove(ca);
 	}
 }

@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Allocate space in the local dynamic memory pool.<br>
-  * Stack transition:<br>
-  *   ..., size --> ..., address
-  * @author Michael Stepp
-  */
-public class LOCALLOC extends Instruction{
-   public static final int LOCALLOC = 0x0FFE;
-   protected static final int OPCODE_LIST[] = {LOCALLOC};
+/**
+ * Allocate space in the local dynamic memory pool.<br>
+ * Stack transition:<br>
+ * ..., size --> ..., address
+ *
+ * @author Michael Stepp
+ */
+public class LOCALLOC extends Instruction {
+	public static final int LOCALLOC = 0x0FFE;
+	protected static final int OPCODE_LIST[] = {LOCALLOC};
 
-   public LOCALLOC() throws InstructionInitException{
-      super(LOCALLOC, OPCODE_LIST);
-   }
+	public LOCALLOC() throws InstructionInitException {
+		super(LOCALLOC, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "localloc";
-   }
+	public String getName() {
+		return "localloc";
+	}
 
-   public LOCALLOC(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof LOCALLOC));
-   }
+	public LOCALLOC(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof LOCALLOC));
+	}
 }

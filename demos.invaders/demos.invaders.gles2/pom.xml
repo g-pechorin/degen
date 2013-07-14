@@ -1,5 +1,5 @@
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -8,7 +8,7 @@
 		<artifactId>demos.invaders</artifactId>
 		<version>1.3.4-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>demos.invaders.gles2</artifactId>
 	<packaging>apk</packaging>
 
@@ -50,14 +50,14 @@
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
 				</configuration>
 				<extensions>true</extensions>
-				
+
 				<executions>
 					<execution>
 						<id>alignApk</id>
 						<phase>package</phase>
 						<goals>
-							<goal>zipalign</goal>              
-						</goals>          
+							<goal>zipalign</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

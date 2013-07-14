@@ -13,15 +13,14 @@
  */
 package com.badlogic.gdx.backends.android;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-
 import android.content.res.AssetManager;
-
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author mzechner

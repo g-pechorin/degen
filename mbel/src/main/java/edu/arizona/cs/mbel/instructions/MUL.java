@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Multiply two values.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> ..., result
-  * @author Michael Stepp
-  */
-public class MUL extends Instruction{
-   public static final int MUL = 0x5A;
-   protected static final int OPCODE_LIST[] = {MUL};
+/**
+ * Multiply two values.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class MUL extends Instruction {
+	public static final int MUL = 0x5A;
+	protected static final int OPCODE_LIST[] = {MUL};
 
-   public MUL() throws InstructionInitException{
-      super(MUL, OPCODE_LIST);
-   }
+	public MUL() throws InstructionInitException {
+		super(MUL, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "mul";
-   }
+	public String getName() {
+		return "mul";
+	}
 
-   public MUL(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof MUL));
-   }
+	public MUL(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof MUL));
+	}
 }

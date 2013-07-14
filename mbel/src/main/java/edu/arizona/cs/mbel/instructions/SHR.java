@@ -20,33 +20,35 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Shift right (shr preserves the top bit, shr.un zeroes the top bit).<br>
-  * Stack transition:<br>
-  *   ..., value, shiftAmount --> ..., result
-  * @author Michael Stepp
-  */
-public class SHR extends Instruction{
-   public static final int SHR      = 0x63;
-   public static final int SHR_UN   = 0x64;
-   protected static final int OPCODE_LIST[] = {SHR, SHR_UN};
+/**
+ * Shift right (shr preserves the top bit, shr.un zeroes the top bit).<br>
+ * Stack transition:<br>
+ * ..., value, shiftAmount --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class SHR extends Instruction {
+	public static final int SHR = 0x63;
+	public static final int SHR_UN = 0x64;
+	protected static final int OPCODE_LIST[] = {SHR, SHR_UN};
 
-   public SHR(boolean un) throws InstructionInitException{
-      super((un ? SHR_UN : SHR), OPCODE_LIST);
-   }
+	public SHR(boolean un) throws InstructionInitException {
+		super((un ? SHR_UN : SHR), OPCODE_LIST);
+	}
 
-   public boolean isUnsigned(){
-      return (getOpcode()==SHR_UN);
-   }
+	public boolean isUnsigned() {
+		return (getOpcode() == SHR_UN);
+	}
 
-   public String getName(){
-      return (isUnsigned() ? "shr.un" : "shr");
-   }
+	public String getName() {
+		return (isUnsigned() ? "shr.un" : "shr");
+	}
 
-   public SHR(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof SHR));
-   }
+	public SHR(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof SHR));
+	}
 }

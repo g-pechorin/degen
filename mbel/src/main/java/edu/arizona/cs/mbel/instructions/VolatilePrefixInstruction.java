@@ -20,31 +20,33 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** To be extended by instructions that may have a .volatile prefix before them.
-  * @author Michael Stepp
-  */
-public abstract class VolatilePrefixInstruction extends Instruction{
-   public static final int VOLATILE = 0x13FE;
-   
-   private boolean hasVolatilePrefix;
-   
-   protected VolatilePrefixInstruction(boolean has, int op, int[] opcodes) throws InstructionInitException{
-      super(op, opcodes);
-      hasVolatilePrefix = has;
-   }
-   
-   public boolean hasVolatilePrefix(){
-      return hasVolatilePrefix;
-   }
-   
-   protected void setVolatilePrefix(boolean has){
-      hasVolatilePrefix = has;
-   }
-   
-   public boolean equals(Object o){
-      if (!(super.equals(o) && (o instanceof VolatilePrefixInstruction)))
-         return false;
-      VolatilePrefixInstruction vpi = (VolatilePrefixInstruction)o;
-      return (hasVolatilePrefix==vpi.hasVolatilePrefix);
-   }
+/**
+ * To be extended by instructions that may have a .volatile prefix before them.
+ *
+ * @author Michael Stepp
+ */
+public abstract class VolatilePrefixInstruction extends Instruction {
+	public static final int VOLATILE = 0x13FE;
+
+	private boolean hasVolatilePrefix;
+
+	protected VolatilePrefixInstruction(boolean has, int op, int[] opcodes) throws InstructionInitException {
+		super(op, opcodes);
+		hasVolatilePrefix = has;
+	}
+
+	public boolean hasVolatilePrefix() {
+		return hasVolatilePrefix;
+	}
+
+	protected void setVolatilePrefix(boolean has) {
+		hasVolatilePrefix = has;
+	}
+
+	public boolean equals(Object o) {
+		if (!(super.equals(o) && (o instanceof VolatilePrefixInstruction)))
+			return false;
+		VolatilePrefixInstruction vpi = (VolatilePrefixInstruction) o;
+		return (hasVolatilePrefix == vpi.hasVolatilePrefix);
+	}
 }

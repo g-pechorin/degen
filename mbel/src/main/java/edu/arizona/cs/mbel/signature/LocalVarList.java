@@ -20,89 +20,102 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** This class describes the list of local vars in a method signature.
-  * This class is one of the Signature classes, but I removed the trailing
-  * "Signature" in its name for convenience because it'll probably be used a lot.
-  * @author Michael Stepp
-  */
-public class LocalVarList extends StandAloneSignature implements CallingConvention{
-   private java.util.Vector localVars;    // [count]
+/**
+ * This class describes the list of local vars in a method signature.
+ * This class is one of the Signature classes, but I removed the trailing
+ * "Signature" in its name for convenience because it'll probably be used a lot.
+ *
+ * @author Michael Stepp
+ */
+public class LocalVarList extends StandAloneSignature implements CallingConvention {
+	private java.util.Vector localVars;    // [count]
 
-   /** Makes a LocalVarList from the given localVars
-     * @param locals an array of LocalVars (can be null. also, any null elements in the array will not be added)
-     */
-   public LocalVarList(LocalVar[] locals){
-      if (locals==null){
-         localVars = new java.util.Vector(5);
-      }else{
-         localVars = new java.util.Vector(locals.length+5);
-         for (int i=0;i<locals.length;i++){
-            if (locals[i]!=null)
-               localVars.add(locals[i]);
-         }
-      }
-   }
-   
-   private LocalVarList(){}
+	/**
+	 * Makes a LocalVarList from the given localVars
+	 *
+	 * @param locals an array of LocalVars (can be null. also, any null elements in the array will not be added)
+	 */
+	public LocalVarList(LocalVar[] locals) {
+		if (locals == null) {
+			localVars = new java.util.Vector(5);
+		} else {
+			localVars = new java.util.Vector(locals.length + 5);
+			for (int i = 0; i < locals.length; i++) {
+				if (locals[i] != null)
+					localVars.add(locals[i]);
+			}
+		}
+	}
 
-   /** Factory method for parsing a local var list from a binary blob
-     * @param buffer the buffer to read from
-     * @param group a TypeGroup for reconciling tokens to mbel references
-     * @return a LocalVarListSignature representing the given blob, or null if there was a parse error
-     */
-   public static LocalVarList parse(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.mbel.TypeGroup group){
-      LocalVarList blob = new LocalVarList();
+	private LocalVarList() {
+	}
 
-      byte data = buffer.get();
-      if (data!=LOCAL_SIG)
-         return null;
+	/**
+	 * Factory method for parsing a local var list from a binary blob
+	 *
+	 * @param buffer the buffer to read from
+	 * @param group  a TypeGroup for reconciling tokens to mbel references
+	 * @return a LocalVarListSignature representing the given blob, or null if there was a parse error
+	 */
+	public static LocalVarList parse(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.mbel.TypeGroup group) {
+		LocalVarList blob = new LocalVarList();
 
-      int count = readCodedInteger(buffer);
+		byte data = buffer.get();
+		if (data != LOCAL_SIG)
+			return null;
 
-      blob.localVars = new java.util.Vector(count);
-      LocalVar var = null;
-      for (int i=0;i<count;i++){
-         var = LocalVar.parse(buffer, group);
-         if (var==null)
-            return null;
-         blob.localVars.add(var);
-      }
-      return blob;
-   }
+		int count = readCodedInteger(buffer);
 
-   /** Returns the number of local vars
-     */
-   public int getCount(){
-      return localVars.size();
-   }
+		blob.localVars = new java.util.Vector(count);
+		LocalVar var = null;
+		for (int i = 0; i < count; i++) {
+			var = LocalVar.parse(buffer, group);
+			if (var == null)
+				return null;
+			blob.localVars.add(var);
+		}
+		return blob;
+	}
 
-   /** Returns the local vars in this list (should have size getCount())
-     */
-   public LocalVar[] getLocalVars(){
-      LocalVar[] locals = new LocalVar[localVars.size()];
-      for (int i=0;i<locals.length;i++){
-         locals[i] = (LocalVar)localVars.get(i);
-      }
-      return locals;
-   }
-   public void addLocalVar(LocalVar v){
-      if (v!=null)
-         localVars.add(v);
-   }
-   public void removeLocalVar(LocalVar v){
-      localVars.remove(v);
-   }
+	/**
+	 * Returns the number of local vars
+	 */
+	public int getCount() {
+		return localVars.size();
+	}
 
-   /** Write out this signature to a buffer in raw binary form
-     * @param buffer the buffer to write to
-     */
-   public void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter){
-      buffer.put(LOCAL_SIG);
-      buffer.put(encodeInteger(localVars.size()));
-      for (int i=0;i<localVars.size();i++){
-         ((LocalVar)localVars.get(i)).emit(buffer, emitter);
-      }
-   }
+	/**
+	 * Returns the local vars in this list (should have size getCount())
+	 */
+	public LocalVar[] getLocalVars() {
+		LocalVar[] locals = new LocalVar[localVars.size()];
+		for (int i = 0; i < locals.length; i++) {
+			locals[i] = (LocalVar) localVars.get(i);
+		}
+		return locals;
+	}
+
+	public void addLocalVar(LocalVar v) {
+		if (v != null)
+			localVars.add(v);
+	}
+
+	public void removeLocalVar(LocalVar v) {
+		localVars.remove(v);
+	}
+
+	/**
+	 * Write out this signature to a buffer in raw binary form
+	 *
+	 * @param buffer the buffer to write to
+	 */
+	public void emit(edu.arizona.cs.mbel.ByteBuffer buffer, edu.arizona.cs.mbel.emit.ClassEmitter emitter) {
+		buffer.put(LOCAL_SIG);
+		buffer.put(encodeInteger(localVars.size()));
+		for (int i = 0; i < localVars.size(); i++) {
+			((LocalVar) localVars.get(i)).emit(buffer, emitter);
+		}
+	}
 
 /*
    public void output(){

@@ -19,83 +19,100 @@
 
 package edu.arizona.cs.mbel.mbel;
 
-/** Abstract parent of all member references. A member reference will 
-  * either refer to a field or a method. MemberRefs are specifically used in the IL 
-  * instructions that manipulate fields and methods.
-  * @author Michael Stepp
-  */
-public abstract class MemberRef implements edu.arizona.cs.mbel.instructions.LoadableType{
-   private long MemberRefRID=-1L;
-   private String Name; // field or method name
-   private AbstractTypeReference parent;
-   
-   private java.util.Vector memberRefAttributes;
-   
-   /** Creates a new MemberRef with the given name and parent type
-     */
-   protected MemberRef(String name, AbstractTypeReference ref){
-      Name = name;
-      parent = ref;
-      
-      memberRefAttributes = new java.util.Vector(10);
-   }
-   
-   /** Adds a CustomAttribute to this MemberRef
-     */
-   public void addMemberRefAttribute(CustomAttribute ca){
-      if (ca!=null)
-         memberRefAttributes.add(ca);
-   }
-   /** Returns a non-null array of the CustomAttributes on this MemberRef
-     */
-   public CustomAttribute[] getMemberRefAttributes(){
-      CustomAttribute[] cas = new CustomAttribute[memberRefAttributes.size()];
-      for (int i=0;i<cas.length;i++)
-         cas[i] = (CustomAttribute)memberRefAttributes.get(i);
-      return cas;   
-   }
-   /** Removes a CustomAttribute from thie MemberRef
-     */
-   public void removeMemberRefAttribute(CustomAttribute ca){
-      if (ca!=null)
-         memberRefAttributes.remove(ca);
-   }
+/**
+ * Abstract parent of all member references. A member reference will
+ * either refer to a field or a method. MemberRefs are specifically used in the IL
+ * instructions that manipulate fields and methods.
+ *
+ * @author Michael Stepp
+ */
+public abstract class MemberRef implements edu.arizona.cs.mbel.instructions.LoadableType {
+	private long MemberRefRID = -1L;
+	private String Name; // field or method name
+	private AbstractTypeReference parent;
 
-   
-   /** Returns the MemberRef RID of this MemberRef (used by emitter)
-     */
-   public long getMemberRefRID(){
-      return MemberRefRID;
-   }
-   /** Sets the MemberRef RID of this MemberRef (used by emitter).
-     * Can only be called once.
-     */
-   public void setMemberRefRID(long rid){
-      if (MemberRefRID==-1L)
-         MemberRefRID = rid;
-   }
-   
-   /** Returns the name of this MemberRef (will be either a field name or a method name)
-     */
-   public String getName(){
-      return Name;
-   }
-   /** Sets the name of this MemberRef
-     */
-   public void setName(String name){
-      Name = name;
-   }
-   
-   /** Returns the parent type of this MemberRef
-     */
-   public AbstractTypeReference getParent(){
-      return parent;
-   }
-   /** Sets the parent type of this MemberRef
-     */
-   public void setParent(AbstractTypeReference ref){
-      parent = ref;
-   }
-   
+	private java.util.Vector memberRefAttributes;
+
+	/**
+	 * Creates a new MemberRef with the given name and parent type
+	 */
+	protected MemberRef(String name, AbstractTypeReference ref) {
+		Name = name;
+		parent = ref;
+
+		memberRefAttributes = new java.util.Vector(10);
+	}
+
+	/**
+	 * Adds a CustomAttribute to this MemberRef
+	 */
+	public void addMemberRefAttribute(CustomAttribute ca) {
+		if (ca != null)
+			memberRefAttributes.add(ca);
+	}
+
+	/**
+	 * Returns a non-null array of the CustomAttributes on this MemberRef
+	 */
+	public CustomAttribute[] getMemberRefAttributes() {
+		CustomAttribute[] cas = new CustomAttribute[memberRefAttributes.size()];
+		for (int i = 0; i < cas.length; i++)
+			cas[i] = (CustomAttribute) memberRefAttributes.get(i);
+		return cas;
+	}
+
+	/**
+	 * Removes a CustomAttribute from thie MemberRef
+	 */
+	public void removeMemberRefAttribute(CustomAttribute ca) {
+		if (ca != null)
+			memberRefAttributes.remove(ca);
+	}
+
+
+	/**
+	 * Returns the MemberRef RID of this MemberRef (used by emitter)
+	 */
+	public long getMemberRefRID() {
+		return MemberRefRID;
+	}
+
+	/**
+	 * Sets the MemberRef RID of this MemberRef (used by emitter).
+	 * Can only be called once.
+	 */
+	public void setMemberRefRID(long rid) {
+		if (MemberRefRID == -1L)
+			MemberRefRID = rid;
+	}
+
+	/**
+	 * Returns the name of this MemberRef (will be either a field name or a method name)
+	 */
+	public String getName() {
+		return Name;
+	}
+
+	/**
+	 * Sets the name of this MemberRef
+	 */
+	public void setName(String name) {
+		Name = name;
+	}
+
+	/**
+	 * Returns the parent type of this MemberRef
+	 */
+	public AbstractTypeReference getParent() {
+		return parent;
+	}
+
+	/**
+	 * Sets the parent type of this MemberRef
+	 */
+	public void setParent(AbstractTypeReference ref) {
+		parent = ref;
+	}
+
 //   public abstract void output();
 }

@@ -4,30 +4,24 @@
  */
 package com.peterlavalle.degen.mojos;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+
 import com.peterlavalle.degen.extractors.util.FileHook;
 import com.peterlavalle.degen.extractors.util.Files;
 import com.peterlavalle.degen.extractors.util.MasterURL;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.*;
+
 /**
- *
  * @author Peter LaValle
+ * @version $Id$
  * @goal degenerate
  * @phase generate-sources
- * @version $Id$
  */
 public class DegenMojo extends AMojo {
 
@@ -35,7 +29,6 @@ public class DegenMojo extends AMojo {
 	 * Where do we look for things? Each of these strings should be "URL of a zip file [
 	 *
 	 * @some zip file inside of the URL] a regular expression of what to extract"
-	 *
 	 * @parameter expression="${sources}"
 	 * @required
 	 */
@@ -46,7 +39,7 @@ public class DegenMojo extends AMojo {
 		MavenProject project = getProject();
 
 		assert project != null;
-		
+
 		while (project.getParent() != null && project.getParent().getBasedir() != null) {
 			project = project.getParent();
 		}
@@ -117,7 +110,7 @@ public class DegenMojo extends AMojo {
 					if (name.endsWith(".java")) {
 						final String replaceAll = name.replaceAll("\\.java", "");
 
-						for (final String hookName : Sets.newHashSet(hooks.keySet())) {
+						for (final String hookName : new HashSet<String>(hooks.keySet())) {
 							if (!hookName.endsWith(".class")) {
 								continue;
 							}
@@ -136,8 +129,8 @@ public class DegenMojo extends AMojo {
 			}
 		}
 
-		final Set<String> activeSources = Sets.newHashSet();
-		final Set<String> activeResources = Sets.newHashSet();
+		final Set<String> activeSources = new HashSet<String>();
+		final Set<String> activeResources = new HashSet<String>();
 		for (final FileHook hook : hooks.values()) {
 
 			// if it was a "normal" one - ignore
@@ -174,12 +167,11 @@ public class DegenMojo extends AMojo {
 	 * Scans the folder for files matching the configured regular expression.
 	 *
 	 * @param folder the folder to scan, relative to the project's basedir
-	 *
 	 */
 	public List<String> scanFolderForSourceFiles(String root, String folder) {
 
 		final File folderFile = new File(root, folder);
-		final List<String> strings = Lists.newLinkedList();
+		final List<String> strings = new LinkedList<String>();
 
 		if (folderFile.exists()) {
 			for (final File file : folderFile.listFiles()) {

@@ -19,18 +19,22 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** This interface is implemented by all classes that target instructions somehow.
-  * Examples are BranchInstruction, SWITCH, and the StructuredExcepti0onClause classes.
-  * @author Michael Stepp
-  */
-public interface InstructionTargeter{
-   /** Returns true iff the given handle is targetted by this InstructionTargeter (comparison by reference)
-     */
-   public boolean containsTarget(InstructionHandle ih);
-   
-   /** Updates one of this InstructionTargeter's targets. 
-     * If this instance targets oldh (comparison by reference), then that target is replaced by newh.
-     * This method should also call oldh.removeTargeter(this) and newh.addTargeter(this) in every implementing class.
-     */
-   public void updateTarget(InstructionHandle oldh, InstructionHandle newh);
+/**
+ * This interface is implemented by all classes that target instructions somehow.
+ * Examples are BranchInstruction, SWITCH, and the StructuredExcepti0onClause classes.
+ *
+ * @author Michael Stepp
+ */
+public interface InstructionTargeter {
+	/**
+	 * Returns true iff the given handle is targetted by this InstructionTargeter (comparison by reference)
+	 */
+	public boolean containsTarget(InstructionHandle ih);
+
+	/**
+	 * Updates one of this InstructionTargeter's targets.
+	 * If this instance targets oldh (comparison by reference), then that target is replaced by newh.
+	 * This method should also call oldh.removeTargeter(this) and newh.addTargeter(this) in every implementing class.
+	 */
+	public void updateTarget(InstructionHandle oldh, InstructionHandle newh);
 }

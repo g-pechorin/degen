@@ -19,40 +19,45 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Initialize block of memory to value.<br>
-  * Stack transition:<br>
-  *   ..., address, value, size --> ...
-  * @author Michael Stepp
-  */
-public class INITBLK extends UnalignedPrefixInstruction{
-   public static final int INITBLK = 0x18FE;
-   protected static final int OPCODE_LIST[] = {INITBLK};
+/**
+ * Initialize block of memory to value.<br>
+ * Stack transition:<br>
+ * ..., address, value, size --> ...
+ *
+ * @author Michael Stepp
+ */
+public class INITBLK extends UnalignedPrefixInstruction {
+	public static final int INITBLK = 0x18FE;
+	protected static final int OPCODE_LIST[] = {INITBLK};
 
-   /** Makes a new INITBLK with no unaligned prefix nor volatile prefix.
-     */
-   public INITBLK() throws InstructionInitException{
-      super(false, INITBLK, OPCODE_LIST);
-   }
+	/**
+	 * Makes a new INITBLK with no unaligned prefix nor volatile prefix.
+	 */
+	public INITBLK() throws InstructionInitException {
+		super(false, INITBLK, OPCODE_LIST);
+	}
 
-   /** Makes a new INITBLK with the given unaligned prefix alignment, possibly with a volatile prefix.
-     * @param alignment the unaligned prefix alignment
-     * @param hasV true iff this INITBLK has a volatile prefix
-     */
-   public INITBLK(int alignment, boolean hasV) throws InstructionInitException{
-      super(alignment, hasV, INITBLK, OPCODE_LIST);
-   }
+	/**
+	 * Makes a new INITBLK with the given unaligned prefix alignment, possibly with a volatile prefix.
+	 *
+	 * @param alignment the unaligned prefix alignment
+	 * @param hasV      true iff this INITBLK has a volatile prefix
+	 */
+	public INITBLK(int alignment, boolean hasV) throws InstructionInitException {
+		super(alignment, hasV, INITBLK, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "initblk";
-   }
+	public String getName() {
+		return "initblk";
+	}
 
-   public INITBLK(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(false, opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof INITBLK));
-   }
+	public INITBLK(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(false, opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof INITBLK));
+	}
 
 /*
    public void output(){

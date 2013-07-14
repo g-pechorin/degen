@@ -1,20 +1,19 @@
 package com.peterlavalle.degen.extractors.util;
 
-import com.google.common.collect.Lists;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- *
  * @author Peter LaValle
  */
 public class MasterURL {
@@ -29,7 +28,7 @@ public class MasterURL {
 
 		this.url = new URL(split[0]);
 
-		final List<String> strings = Lists.newLinkedList();
+		final List<String> strings = new LinkedList<String>();
 
 		{
 			for (int i = 1; i < split.length && split[i].startsWith("@"); i++) {
@@ -42,6 +41,7 @@ public class MasterURL {
 			zips = strings;
 		}
 	}
+
 	public final String source;
 	public final URL url;
 	public final List<String> zips;
@@ -70,10 +70,10 @@ public class MasterURL {
 					{
 						if (LOG != null) {
 							LOG.debug("source=`" + source + "` >>");
-							
-							LOG.debug("source=`" + source + "` URL="+url);
-							LOG.debug("source=`" + source + "` zips="+zips);
-							LOG.debug("source=`" + source + "` replacors="+replacors);
+
+							LOG.debug("source=`" + source + "` URL=" + url);
+							LOG.debug("source=`" + source + "` zips=" + zips);
+							LOG.debug("source=`" + source + "` replacors=" + replacors);
 						}
 					}
 

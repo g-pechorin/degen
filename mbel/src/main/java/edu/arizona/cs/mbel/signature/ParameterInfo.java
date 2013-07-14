@@ -20,115 +20,140 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** This class holds the information needed for a method parameter.
-  * Both ParameterSignature and ReturnTypeSignature may containt an 
-  * instance of this class. This class is only used inside method 
-  * definition signatures, not callsite signatures.
-  * @author Michael Stepp
-  */
-public class ParameterInfo implements ParamAttributes{
-   private long ParamRID = -1L;
-   private int Flags;
-   private String Name;
-   private MarshalSignature fieldMarshal;
-   private byte[] defaultValue;
-   private java.util.Vector paramAttributes;
-   
-   /** Constructs a ParameterInfo object with the given name and flags
-     * @param name the name of this parameter
-     * @param flags a bit vector of flags (defined in ParamAttributes)
-     */
-   public ParameterInfo(String name, int flags){
-      paramAttributes = new java.util.Vector(10);
-      Name = name;
-      Flags = flags;
-   }
-      
-   /** Adds a CustomAttribute to this ParameterInfo
-     */
-   public void addParamAttribute(edu.arizona.cs.mbel.mbel.CustomAttribute ca){
-      if (ca!=null)
-         paramAttributes.add(ca);
-   }
-   /** Returns a non-null array of CustomAttributes for this ParameterInfo (Param)
-     */
-   public edu.arizona.cs.mbel.mbel.CustomAttribute[] getParamAttributes(){
-      edu.arizona.cs.mbel.mbel.CustomAttribute[] cas = new edu.arizona.cs.mbel.mbel.CustomAttribute[paramAttributes.size()];
-      for (int i=0;i<cas.length;i++)
-         cas[i] = (edu.arizona.cs.mbel.mbel.CustomAttribute)paramAttributes.get(i);
-      return cas;   
-   }
-	/** Removes a CustomAttribute from this Param
-	  */
-	public void removeParamAttribute(edu.arizona.cs.mbel.mbel.CustomAttribute ca){
-		if (ca!=null)
+/**
+ * This class holds the information needed for a method parameter.
+ * Both ParameterSignature and ReturnTypeSignature may containt an
+ * instance of this class. This class is only used inside method
+ * definition signatures, not callsite signatures.
+ *
+ * @author Michael Stepp
+ */
+public class ParameterInfo implements ParamAttributes {
+	private long ParamRID = -1L;
+	private int Flags;
+	private String Name;
+	private MarshalSignature fieldMarshal;
+	private byte[] defaultValue;
+	private java.util.Vector paramAttributes;
+
+	/**
+	 * Constructs a ParameterInfo object with the given name and flags
+	 *
+	 * @param name  the name of this parameter
+	 * @param flags a bit vector of flags (defined in ParamAttributes)
+	 */
+	public ParameterInfo(String name, int flags) {
+		paramAttributes = new java.util.Vector(10);
+		Name = name;
+		Flags = flags;
+	}
+
+	/**
+	 * Adds a CustomAttribute to this ParameterInfo
+	 */
+	public void addParamAttribute(edu.arizona.cs.mbel.mbel.CustomAttribute ca) {
+		if (ca != null)
+			paramAttributes.add(ca);
+	}
+
+	/**
+	 * Returns a non-null array of CustomAttributes for this ParameterInfo (Param)
+	 */
+	public edu.arizona.cs.mbel.mbel.CustomAttribute[] getParamAttributes() {
+		edu.arizona.cs.mbel.mbel.CustomAttribute[] cas = new edu.arizona.cs.mbel.mbel.CustomAttribute[paramAttributes.size()];
+		for (int i = 0; i < cas.length; i++)
+			cas[i] = (edu.arizona.cs.mbel.mbel.CustomAttribute) paramAttributes.get(i);
+		return cas;
+	}
+
+	/**
+	 * Removes a CustomAttribute from this Param
+	 */
+	public void removeParamAttribute(edu.arizona.cs.mbel.mbel.CustomAttribute ca) {
+		if (ca != null)
 			paramAttributes.remove(ca);
 	}
 
-   /** Returns a bit vector of flags for this parameter (defined in ParameterAttributes)
-     */
-   public int getFlags(){
-      return Flags;
-   }
-   /** Sets the flags for this parameter
-     */
-   public void setFlags(int flags){
-      Flags = flags;
-   }
+	/**
+	 * Returns a bit vector of flags for this parameter (defined in ParameterAttributes)
+	 */
+	public int getFlags() {
+		return Flags;
+	}
 
-   /** Returns the Param RID for this paramater (used by emitter)
-     */
-   public long getParamRID(){
-      return ParamRID;
-   }
-   /** Sets the Param RID for this parameter (used by emitter)
-     */
-   public void setParamRID(long rid){
-      if (ParamRID==-1L)
-         ParamRID = rid;
-   }
+	/**
+	 * Sets the flags for this parameter
+	 */
+	public void setFlags(int flags) {
+		Flags = flags;
+	}
 
-   /** Returns the default value for this parameter (null implies no default value)
-     */
-   public byte[] getDefaultValue(){
-      return defaultValue;
-   }
-   /** Sets the default value for this parameter.
-     * @param blob the new default value. if this is null or has 0 length, default value is removed
-     */
-   public void setDefaultValue(byte[] blob){
-      if (blob==null || blob.length==0)
-         Flags &= ~HasDefault;
-      else 
-         Flags |= HasDefault;
+	/**
+	 * Returns the Param RID for this paramater (used by emitter)
+	 */
+	public long getParamRID() {
+		return ParamRID;
+	}
 
-      defaultValue = blob;
-   }
+	/**
+	 * Sets the Param RID for this parameter (used by emitter)
+	 */
+	public void setParamRID(long rid) {
+		if (ParamRID == -1L)
+			ParamRID = rid;
+	}
 
-   /** Returns the field marshalling informationfor this parameter (may be null)
-     */
-   public MarshalSignature getFieldMarshal(){
-      return fieldMarshal;
-   }
-   /** Sets the field marshalling information for this parameter (passing null removes field marshal)
-     */
-   public void setFieldMarshal(MarshalSignature sig){
-      if (sig==null)
-         Flags &= ~HasFieldMarshal;
-      else
-         Flags |= HasFieldMarshal;
+	/**
+	 * Returns the default value for this parameter (null implies no default value)
+	 */
+	public byte[] getDefaultValue() {
+		return defaultValue;
+	}
 
-      fieldMarshal = sig;
-   }
+	/**
+	 * Sets the default value for this parameter.
+	 *
+	 * @param blob the new default value. if this is null or has 0 length, default value is removed
+	 */
+	public void setDefaultValue(byte[] blob) {
+		if (blob == null || blob.length == 0)
+			Flags &= ~HasDefault;
+		else
+			Flags |= HasDefault;
 
-   /** Returns the name of this parameter
-     */
-   public String getName(){
-      return Name;
-   }
-   /** Sets the name of this parameter
-     */
-   public void setName(String name){
-      Name = name;
-   }
+		defaultValue = blob;
+	}
+
+	/**
+	 * Returns the field marshalling informationfor this parameter (may be null)
+	 */
+	public MarshalSignature getFieldMarshal() {
+		return fieldMarshal;
+	}
+
+	/**
+	 * Sets the field marshalling information for this parameter (passing null removes field marshal)
+	 */
+	public void setFieldMarshal(MarshalSignature sig) {
+		if (sig == null)
+			Flags &= ~HasFieldMarshal;
+		else
+			Flags |= HasFieldMarshal;
+
+		fieldMarshal = sig;
+	}
+
+	/**
+	 * Returns the name of this parameter
+	 */
+	public String getName() {
+		return Name;
+	}
+
+	/**
+	 * Sets the name of this parameter
+	 */
+	public void setName(String name) {
+		Name = name;
+	}
 }

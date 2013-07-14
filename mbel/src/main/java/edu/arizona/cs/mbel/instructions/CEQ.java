@@ -19,28 +19,30 @@
 
 package edu.arizona.cs.mbel.instructions;
 
-/** Compare equality.<br>
-  * Stack transition:<br>
-  *   ..., value1, value2 --> ..., result
-  * @author Michael Stepp
-  */
-public class CEQ extends Instruction{
-   public static final int CEQ = 0x01FE;
-   protected static final int OPCODE_LIST[] = {CEQ};
+/**
+ * Compare equality.<br>
+ * Stack transition:<br>
+ * ..., value1, value2 --> ..., result
+ *
+ * @author Michael Stepp
+ */
+public class CEQ extends Instruction {
+	public static final int CEQ = 0x01FE;
+	protected static final int OPCODE_LIST[] = {CEQ};
 
-   public CEQ() throws InstructionInitException{
-      super(CEQ, OPCODE_LIST);
-   }
+	public CEQ() throws InstructionInitException {
+		super(CEQ, OPCODE_LIST);
+	}
 
-   public String getName(){
-      return "ceq";
-   }
+	public String getName() {
+		return "ceq";
+	}
 
-   public CEQ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException{
-      super(opcode, OPCODE_LIST);
-   }
-   
-   public boolean equals(Object o){
-      return (super.equals(o) && (o instanceof CEQ));
-   }
+	public CEQ(int opcode, edu.arizona.cs.mbel.mbel.ClassParser parse) throws java.io.IOException, InstructionInitException {
+		super(opcode, OPCODE_LIST);
+	}
+
+	public boolean equals(Object o) {
+		return (super.equals(o) && (o instanceof CEQ));
+	}
 }

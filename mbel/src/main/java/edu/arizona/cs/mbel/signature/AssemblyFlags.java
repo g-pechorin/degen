@@ -20,12 +20,14 @@
 
 package edu.arizona.cs.mbel.signature;
 
-/** Interface with constants for assembly flags
-  * @author Michael Stepp
-  */
-public interface AssemblyFlags{
-   public static final int PublicKey                  = 0x0001;
-   public static final int SideBySideCompatible       = 0x0000;
-   public static final int EnableJITcompileTracking   = 0x8000;
-   public static final int DisableJITcompileOptimizer = 0x4000;
+/**
+ * Interface with constants for assembly flags
+ *
+ * @author Michael Stepp
+ */
+public interface AssemblyFlags {
+	public static final int PublicKey = 0x0001;
+	public static final int SideBySideCompatible = 0x0000;
+	public static final int EnableJITcompileTracking = 0x8000;
+	public static final int DisableJITcompileOptimizer = 0x4000;
 }
