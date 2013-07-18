@@ -27,6 +27,7 @@
 						<configuration>
 							<sources>
 								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @sources/gdx-sources.jar {com.badlogic.gdx.math.*java}</source>
+								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @sources/gdx-sources.jar {com.badlogic.gdx.graphics.Color.java}</source>
 								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @sources/gdx-sources.jar {com.badlogic.gdx.utils.(NumberUtils|GdxRuntimeException).*java}</source>
 							</sources>
 						</configuration>

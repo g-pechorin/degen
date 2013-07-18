@@ -43,17 +43,8 @@ Goals (1.3.4)
 	* [x] move com.peterlavalle::droid into this project
 	* [x] move com.peterlavalle::degen into this project
 	* [x] flatten the module tree
-	* [x] (wicket style) change Mesh's "set" functions to return Mesh
-		** [x] upstream this
 	* added ariel-15 fnt/png files
-	* More Maths For Shaders
-		** [x] Vector4 add class
-		** [ ] add ivec classes
-		** [ ] add bvec classes
-		** [ ] modify shader class to accept these parameters
-		** [ ] upstream it
-	* [x] (scala friendly) give "Mesh" setters for Int* and Float*
-		** [ ] upstream this
+	* moved Color to gdx.math
 	* [ ] find out why the desktop demos don't play music
 	* [ ] upstream the "internal files fallback to classpath on Android"
 	* [x] removal of libGDX version numbers
@@ -68,20 +59,21 @@ Goals (1.3.4)
 		* [ ] unpack dependecy headers (if available)
 		* [ ] unpack and attach dependency libs (if available)
 		* [ ] cross compile cmake stuff to os/arch permutations
+		* [ ] do GDX-JNIGEN stuff
  
-Goals (1.3.5)
+Goals (1.3.5)                                 %
 ------------------
 	* [ ] per-architecture backend modules
-		** [ ] desktop
-			*** [ ] .osx.x86_64
-			*** [ ] .linux.x86
-			*** [ ] .linux.x86_64
-			*** [ ] .win32.x86
-			*** [ ] .win64.x86_64
-		** [ ] android
-			*** [ ]apk.arm
-			*** [ ]apk.armv7a
-			*** [ ]apk.x86
+		** [ ] .osx.x86_64
+		** [ ] .linux.x86
+		** [ ] .linux.x86_64
+		** [ ] .win32.x86
+		** [ ] .win64.x86_64
+		** [ ] .apk.arm
+		** [ ] .apk.armv7a
+		** [ ] .bsd.x86
+		** [ ] .bsd.x86_64
+		** [ ] .bsd.ppc
 	* [ ] update to the libGDX version 0.9.??? (with the new modelling stuff)
 		** remove any "my classes" that have been upstreamed
 	* "full" Scala demos / archetypes

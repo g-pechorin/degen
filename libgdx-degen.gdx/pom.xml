@@ -26,7 +26,7 @@
 						</goals>
 						<configuration>
 							<sources>
-								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @sources/gdx-sources.jar {.*java} -{.*(GdxBuild|GwtModuleGenerator|NumberUtils|GdxRuntimeException).*} -{com.badlogic.gdx.math.*java}</source>
+								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @sources/gdx-sources.jar {.*java} -{.*(GdxBuild|GwtModuleGenerator|NumberUtils|GdxRuntimeException).*} -{com.badlogic.gdx.math.*java} -{com.badlogic.gdx.graphics.Color.java}</source>
 
 								<!-- I have all of the sources, but I need font assets - these are imported here -->
 								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx.jar {.*(fnt|png)}</source>
