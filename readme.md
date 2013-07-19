@@ -47,37 +47,39 @@ Goals (1.3.4)
  * [x] wicket style, change Mesh's "set" functions to return Mesh
   * [x] upstream this
  * added ariel-15 fnt/png files
-	* moved Color to gdx.math
+  * moved Color to gdx.math
  * [ ] find out why the desktop demos don't play music
  * [x] upstream the "internal files fallback to classpath on Android"
   * __BAD__ there are actual reasons to use assets not classpath
  * [x] removal of libGDX version numbers
  * [x] droid::cull - needs to not-fail when there are no files to repack
  * [ ] droid::cull - needs reliable method of locating aapt
-	* [x] rewrite it to have one-and-only-one maven plugin (but still multiple mojos)
+  * [x] rewrite it to have one-and-only-one maven plugin (but still multiple mojos)
  * [ ] degen - when the zip file is not found, print an error. don't throw a nullpointer exception
-	* CMake
-		* [ ] get it to emit cmake lists
-		* [ ] compile stuff with cmake and attach it to the project
-		* [ ] attach headers files to a project
-		* [ ] unpack dependecy headers (if available)
-		* [ ] unpack and attach dependency libs (if available)
-		* [ ] cross compile cmake stuff to os/arch permutations
-		* [ ] do GDX-JNIGEN stuff
+ * [ ] move SableCC scraping into this project
  
-Goals (1.3.5)                                 %
+Goals (1.3.5)
 ------------------
+ * CMake
+  * [ ] get it to emit cmake lists
+  * [ ] compile stuff with cmake and attach it to the project
+  * [ ] attach headers files to a project
+  * [ ] unpack dependecy headers (if available)
+  * [ ] unpack and attach dependency libs (if available)
+  * [ ] cross compile cmake stuff to os/arch permutations
+  * [ ] do GDX-JNIGEN stuff
  * [ ] per-architecture backend modules
-		** [ ] .osx.x86_64
-		** [ ] .linux.x86
-		** [ ] .linux.x86_64
-		** [ ] .win32.x86
-		** [ ] .win64.x86_64
-		** [ ] .apk.arm
-		** [ ] .apk.armv7a
-		** [ ] .bsd.x86
-		** [ ] .bsd.x86_64
-		** [ ] .bsd.ppc
+  * [ ] .osx.x86_64
+  * [ ] .linux.x86
+  * [ ] .linux.x86_64
+  * [ ] .win.x86
+  * [ ] .win.x86_64
+  * [ ] .apk.arm
+  * [ ] .apk.armv7a
+  * [ ] .apk.x86
+  * [ ] .bsd.x86
+  * [ ] .bsd.x86_64
+  * [ ] .bsd.ppc
  * [ ] update to the libGDX version 0.9.??? (with the new modelling stuff)
   * remove any "my classes" that have been upstreamed
  * "full" Scala demos / archetypes
@@ -86,6 +88,7 @@ Goals (1.3.5)                                 %
   * [ ] Applet
   * [ ] Android
   * [ ] JNLP
+  * [ ] Scala-GWT
  * [ ] get `Gdx.files.local` files to read from the user's home directory on Windoze
  * [ ] degen - allow ?{} so that if the left side of the pattern exists, the right side file is copied i.e. ?{(.*)\.fnt@$1.png} copies all .png files who match a .fnt file
  * [ ] degen - print number of files copied per pattern
@@ -101,13 +104,9 @@ Butter Scotch Goals
  * [ ] Mojo to generate an applet
  * a https://code.google.com/p/getdown/ launcher mojo doohickey that unspools stuff (for $reasons)
  * __unicorns!__ everyone likes unicorns
- * a Mojo to do GDX-JNIGEN (or like) stuff and compile it, from the scraped sources
  * a Mojo to rewrite PNG (et al) images to be more-better and friendly to whatever format I'm using
  * A C++ / GLES2.0 / "backend" for NaCL
  * A C++ / CgFX / "backend" for ... other thing
- * "more better" audio library
-  * load / play audio from classpath / byte streams / whatever
-  * "more better" positional audio support
  * lodepng PNG loading (stb_lib has a few shortcomings)
 
 Android Projects
