@@ -61,6 +61,10 @@ Goals (1.3.4)
  
 Goals (1.3.5)
 ------------------
+ * change gdx.math to gdx.util
+  * add in "general" utility stuff
+  * rename module
+ * update gdx
  * CMake
   * [ ] get it to emit cmake lists
   * [ ] compile stuff with cmake and attach it to the project
