@@ -38,7 +38,9 @@
 
 
 								<!-- import the lwjgl natives from gdx (don't ask) -->
-								<source>https://libgdx.googlecode.com/files/libgdx-0.9.8.zip @gdx-backend-lwjgl-natives.jar</source>
+								<source>https://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-backend-lwjgl.jar {org.*}</source>
+								<source>https://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-openal.jar {org.*}</source>
+								<source>https://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-backend-lwjgl-natives.jar</source>
 							</sources>
 						</configuration>
 					</execution>
@@ -54,13 +56,13 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<!--
 		<dependency>
 			<groupId>org.lwjgl.lwjgl</groupId>
 			<artifactId>lwjgl</artifactId>
 			<version>2.9.0</version>
 		</dependency>
 
-		<!--
 		<dependency>
 			<groupId>org.lwjgl.lwjgl</groupId>
 			<artifactId>lwjgl-platform</artifactId>
@@ -79,11 +81,11 @@
 			<version>2.9.0</version>
 			<classifier>natives-osx</classifier>
 		</dependency>
-		                             -->
+
 		<dependency>
 			<groupId>org.lwjgl.lwjgl</groupId>
 			<artifactId>lwjgl_util</artifactId>
 			<version>2.9.0</version>
-		</dependency>
+		</dependency>  -->
 	</dependencies>
 </project>
