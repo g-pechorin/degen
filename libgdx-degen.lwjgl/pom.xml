@@ -37,10 +37,10 @@
 								<source>http://libgdx.googlecode.com/files/libgdx-0.9.6.zip @sources/gdx-backend-lwjgl-sources.jar</source>
 
 
-								<!-- import the lwjgl natives from gdx (don't ask) -->
+								<!-- import the lwjgl natives from gdx (don't ask)
 								<source>https://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-backend-lwjgl.jar {org.*}</source>
 								<source>https://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-openal.jar {org.*}</source>
-								<source>https://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-backend-lwjgl-natives.jar</source>
+								<source>https://libgdx.googlecode.com/files/libgdx-0.9.6.zip @gdx-backend-lwjgl-natives.jar</source>-->
 							</sources>
 						</configuration>
 					</execution>
@@ -56,7 +56,6 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<!--
 		<dependency>
 			<groupId>org.lwjgl.lwjgl</groupId>
 			<artifactId>lwjgl</artifactId>
@@ -86,6 +85,6 @@
 			<groupId>org.lwjgl.lwjgl</groupId>
 			<artifactId>lwjgl_util</artifactId>
 			<version>2.9.0</version>
-		</dependency>  -->
+		</dependency>
 	</dependencies>
 </project>
