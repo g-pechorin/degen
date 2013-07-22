@@ -32,6 +32,7 @@ These allow me to package all-the-things in classpath then sneak them into asset
 Differences from vanilla-libGDX
 -------------------------------
  * `Gdx.files.internal` falls back to classpath on Android (which is what it does on Desktop)
+  * this is __BAD__ and will be removed
  * `com.badlogic.gdx.math.Frustum` does not use any native methods (so it can be used as a POJO)
  * `com.badlogic.gdx.math.Matrix4` does not use any native methods (so it can be used as a POJO)
  * `com.badlogic.gdx.math.Matrix4` does not use any shared objects (so it can be used in multiple threads)
