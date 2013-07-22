@@ -112,6 +112,40 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>scala-compile-first</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.scala-tools</groupId>
+						<artifactId>maven-scala-plugin</artifactId>
+						<version>${scala.plugin}</version>
+						<executions>
+							<execution>
+								<id>scala-compile-first</id>
+								<phase>process-resources</phase>
+								<goals>
+									<goal>compile</goal>
+									<!--
+									testCompile doesn't work here; need to compile some .java files before we can compile the test sources
+									-->
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<args>
+								<arg>-make:transitive</arg>
+								<arg>-dependencyfile</arg>
+								<arg>${project.build.directory}/.scala_dependencies</arg>
+							</args>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<properties>
