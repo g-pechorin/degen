@@ -57,7 +57,8 @@ Goals (1.3.4)
   * [x] rewrite it to have one-and-only-one maven plugin (but still multiple mojos)
  * [x] degen - when the zip file is not found, print an error. don't throw a nullpointer exception
  * [x] move SableCC scraping into this project
- * [ ] support degenerating .tar.gz
+ * [x] support degenerating .tar.gz
+  * (also updated the source listings)
 
 Goals (1.3.5)
 ------------------
@@ -65,14 +66,6 @@ Goals (1.3.5)
   * add in "general" utility stuff
   * rename module
  * update gdx
- * CMake
-  * [ ] get it to emit cmake lists
-  * [ ] compile stuff with cmake and attach it to the project
-  * [ ] attach headers files to a project
-  * [ ] unpack dependecy headers (if available)
-  * [ ] unpack and attach dependency libs (if available)
-  * [ ] cross compile cmake stuff to os/arch permutations
-  * [ ] do GDX-JNIGEN stuff
  * [ ] per-architecture backend modules
   * [ ] .osx.x86_64
   * [ ] .linux.x86
@@ -103,9 +96,7 @@ Goals (1.3.5)
 Butter Scotch Goals
 -------------------
  * [ ] Mojo to generate the whole Android project and build it (right from the "shared" library!)
-  * AndroidManifest.xml
-  * a main class
-  * icon and resources
+  * may be most sane to use an archetype
  * [ ] Mojo to generate an applet
  * a https://code.google.com/p/getdown/ launcher mojo doohickey that unspools stuff (for $reasons)
  * __unicorns!__ everyone likes unicorns
