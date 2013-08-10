@@ -28,7 +28,7 @@ public class DegenMojo extends AMojo {
 	/**
 	 * Which files are sources?
 	 *
-	 * @parameter expression="${source_filter}" default-value=".*\.java$"
+	 * @parameter expression="${source_filter}" default-value=".*\.(c|cpp|h|hpp|java|scala|m)$"
 	 * @required
 	 */
 	private String source_filter;

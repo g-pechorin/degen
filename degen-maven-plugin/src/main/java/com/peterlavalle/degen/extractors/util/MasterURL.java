@@ -2,18 +2,21 @@ package com.peterlavalle.degen.extractors.util;
 
 
 import com.peterlavalle.util.Files;
+import org.apache.maven.plugin.MojoFailureException;
+import org.kamranzafar.jtar.TarEntry;
+import org.kamranzafar.jtar.TarInputStream;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author Peter LaValle
@@ -21,6 +24,10 @@ import java.util.zip.ZipFile;
 public class MasterURL {
 
 	public static org.apache.maven.plugin.logging.Log LOG = null;
+	public final String source;
+	public final URL url;
+	public final List<String> zips;
+	public final Replacor.ReplacorList replacors;
 
 	public MasterURL(final String source) throws MalformedURLException {
 		this.source = source;
@@ -44,17 +51,55 @@ public class MasterURL {
 		}
 	}
 
-	public final String source;
-	public final URL url;
-	public final List<String> zips;
-	public final Replacor.ReplacorList replacors;
+	public Iterable<FileHook> listFiles(final File cacheDir) throws IOException, MojoFailureException {
+		final byte[] buffer = new byte[256];
 
-	public Iterable<FileHook> listFiles(final File cacheDir) throws IOException {
-
+		// get the archive
 		final File file;
 		{
+			// download the file
 			File archiveFile = Files.cacheFile(cacheDir, url);
 
+			if (!Files.hasZipMagic(archiveFile)) {
+
+				// assume gzip files are tar.gz and copy them into a .zip
+				if (Files.hasGZipMagic(archiveFile)) {
+
+					final TarInputStream tarInputStream = new TarInputStream(new GZIPInputStream(new FileInputStream(archiveFile)));
+					archiveFile = new File(archiveFile.getAbsolutePath() + ".zip");
+					final ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(archiveFile));
+
+					for (TarEntry entry; null != (entry = tarInputStream.getNextEntry()); ) {
+
+						// make the zip entry
+						final ZipEntry zipEntry = new ZipEntry(entry.getName());
+
+						// set the time
+						zipEntry.setTime(entry.getModTime().getTime());
+
+						// start the entry
+						zipOutputStream.putNextEntry(zipEntry);
+
+						//  copy bytes
+						int count;
+						while (-1 != (count = tarInputStream.read(buffer))) {
+							zipOutputStream.write(buffer, 0, count);
+						}
+
+						// finish the entry
+						zipOutputStream.closeEntry();
+					}
+
+					// finish the zip file
+					zipOutputStream.close();
+
+					LOG.info("I've created a zip file " + archiveFile.getAbsolutePath());
+				} else {
+					throw new MojoFailureException("Unsupported Archive Format " + archiveFile.getAbsolutePath());
+				}
+			}
+
+			// find the sub-archive
 			for (final String string : zips) {
 				archiveFile = Files.extractArchiveFile(archiveFile, string);
 			}

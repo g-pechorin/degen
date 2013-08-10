@@ -33,6 +33,43 @@ public final class Files {
 		LOGGER.setLevel(Level.WARNING);
 	}
 
+	/**
+	 * Just shuts up sonar
+	 */
+	private Files() {
+	}
+
+	/**
+	 * Checks if a file is a GZip file http://superuser.com/questions/115902/tell-if-a-gz-file-is-really-gzipped
+	 * <p/>
+	 * (excuse the excess of local variables - this took waaaay too long to get right)
+	 *
+	 * @param file gzip bytes
+	 * @return
+	 * @throws IOException
+	 */
+	public static boolean hasGZipMagic(File file) throws IOException {
+		final RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+
+		final byte b0 = randomAccessFile.readByte();
+		final byte b1 = randomAccessFile.readByte();
+
+		randomAccessFile.close();
+
+
+		final boolean isGZip = (((byte) 0x1F) == b0) && (((byte) 0x8B) == b1);
+
+		return isGZip;
+	}
+
+	public static boolean hasZipMagic(File file) throws IOException {
+		RandomAccessFile raf = new RandomAccessFile(file, "r");
+		long n = raf.readInt();
+		raf.close();
+
+		return (n == 0x504B0304);
+	}
+
 	public static <T extends OutputStream> T copyStream(final InputStream inputStream, final T outputStream) throws IOException {
 		// we'll need a buffer of bytes
 		byte[] buffer = new byte[BUFFER_SIZE];
@@ -292,11 +329,5 @@ public final class Files {
 
 	public static File makeTemporaryFile() throws IOException {
 		return File.createTempFile(Files.class.getName(), ".tmp");
-	}
-
-	/**
-	 * Just shuts up sonar
-	 */
-	private Files() {
 	}
 }

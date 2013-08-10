@@ -11,7 +11,6 @@
 
 	<artifactId>@project.artifactId@.tar-gz</artifactId>
 
-	<!--
 	<build>
 		<plugins>
 			<plugin>
@@ -27,7 +26,7 @@
 						</goals>
 						<configuration>
 							<sources>
-								<source>http://www.lua.org/ftp/lua-5.2.2.tar.gz</source>
+								<source>http://www.lua.org/ftp/lua-5.2.2.tar.gz {lua-5.2.2/src/(.*(c|cpp|h|hpp|m))@$1}</source>
 							</sources>
 						</configuration>
 					</execution>
@@ -35,5 +34,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	-->
 </project>
