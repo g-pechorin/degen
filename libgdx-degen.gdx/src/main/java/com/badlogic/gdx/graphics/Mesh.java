@@ -211,8 +211,8 @@ public class Mesh implements Disposable {
 	public Mesh setIndices(int... indices) {
 		final short[] sndices = new short[indices.length];
 
-		for ( int i = 0; i < sndices.length; i++ ){
-			sndices[i] = (short)indices[i];
+		for (int i = 0; i < sndices.length; i++) {
+			sndices[i] = (short) indices[i];
 		}
 
 		return setIndices(sndices);

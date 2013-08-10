@@ -1,11 +1,7 @@
 package com.peterlavalle.droid;
 
 import com.peterlavalle.degen.AbstractDegenMojo;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.project.MavenProject;
-import org.apache.maven.project.MavenProjectHelper;
 
 import java.io.File;
 import java.io.IOException;
