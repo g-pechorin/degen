@@ -6,8 +6,8 @@ package com.peterlavalle.degen.mojos;
 
 
 import com.peterlavalle.degen.extractors.util.FileHook;
-import com.peterlavalle.degen.extractors.util.Files;
 import com.peterlavalle.degen.extractors.util.MasterURL;
+import com.peterlavalle.util.Files;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
@@ -26,6 +26,13 @@ import java.util.*;
 public class DegenMojo extends AMojo {
 
 	/**
+	 * Which files are sources?
+	 *
+	 * @parameter expression="${source_filter}" default-value=".*\.java$"
+	 * @required
+	 */
+	private String source_filter;
+	/**
 	 * Where do we look for things? Each of these strings should be "URL of a zip file [
 	 *
 	 * @some zip file inside of the URL] a regular expression of what to extract"
@@ -33,20 +40,35 @@ public class DegenMojo extends AMojo {
 	 * @required
 	 */
 	private String[] sources;
+	/**
+	 * Which files are sources?
+	 *
+	 * @parameter default-value="degen-cache"
+	 * @required
+	 */
+	private String degenCacheSubdir;
 
-	public File getCacheDir() {
+	public String getSourceFilter() {
+		return source_filter;
+	}
+
+	public File getDegenCacheDir() {
 
 		MavenProject project = getProject();
 
 		assert project != null;
 
+		// crawl up to the "most parent" project
 		while (project.getParent() != null && project.getParent().getBasedir() != null) {
 			project = project.getParent();
 		}
 
-		final String name = project.getBuild().getDirectory() + "/degen-cache";
+		// make a file object
+		File degenCache = new File(project.getBuild().getDirectory(), degenCacheSubdir);
 
-		return new File(name);
+		if (!degenCache.exists()) degenCache.mkdirs();
+
+		return degenCache;
 	}
 
 	@Override
@@ -84,7 +106,7 @@ public class DegenMojo extends AMojo {
 				throw new MojoExecutionException("MasterURL(`" + source + "`)", ex);
 			}
 			try {
-				final File cacheDir = getCacheDir();
+				final File cacheDir = getDegenCacheDir();
 				for (final FileHook hook : masterURL.listFiles(cacheDir)) {
 					final String name = hook.getName();
 
@@ -148,15 +170,15 @@ public class DegenMojo extends AMojo {
 			}
 		}
 
-		getProject().addCompileSourceRoot(getGeneratedSources());
-		getProjectHelper().addResource(getProject(), getGeneratedResources(), new ArrayList(), Collections.singletonList("**/**.java"));
+		getProject().addCompileSourceRoot(getGeneratedSourcesDirectory().getAbsolutePath());
+		getProjectHelper().addResource(getProject(), getGeneratedResourcesDirectory().getAbsolutePath(), new ArrayList(), Collections.singletonList("**/**.java"));
 
 		assert MasterURL.LOG == getLog();
 		MasterURL.LOG = null;
 	}
 
 	private void pullHook(FileHook hook, final boolean isSource) throws IOException {
-		final File finalName = new File(isSource ? getGeneratedSourcesFile() : getGeneratedResourcesFile(), hook.getName());
+		final File finalName = new File(isSource ? getGeneratedSourcesDirectory() : getGeneratedResourcesDirectory(), hook.getName());
 
 		if (finalName.lastModified() < hook.lastModified()) {
 			Files.copyStream(hook.openInputStream(), finalName);

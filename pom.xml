@@ -69,6 +69,8 @@
 		<module>libgdx-degen.gdx</module>
 		<module>libgdx-degen.lwjgl</module>
 		<module>libgdx-degen.android</module>
+		<module>sablecc</module>
+		<module>sablecc-maven-plugin</module>
 	</modules>
 
 	<profiles>
@@ -116,6 +118,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+
+		<degenerated.sablecc.version>3.7</degenerated.sablecc.version>
+
 		<demos.android.version>2.1_r1</demos.android.version>
 		<demos.android.platform>17</demos.android.platform>
 		<amp.version>3.6.0</amp.version>

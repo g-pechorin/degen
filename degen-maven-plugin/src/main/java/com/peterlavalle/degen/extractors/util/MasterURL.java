@@ -1,6 +1,8 @@
 package com.peterlavalle.degen.extractors.util;
 
 
+import com.peterlavalle.util.Files;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

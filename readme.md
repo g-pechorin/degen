@@ -49,16 +49,16 @@ Goals (1.3.4)
   * [x] upstream this
  * added ariel-15 fnt/png files
   * moved Color to gdx.math
- * [ ] find out why the desktop demos don't play music
  * [x] upstream the "internal files fallback to classpath on Android"
   * __BAD__ there are actual reasons to use assets not classpath
  * [x] removal of libGDX version numbers
  * [x] droid::cull - needs to not-fail when there are no files to repack
  * [ ] droid::cull - needs reliable method of locating aapt
   * [x] rewrite it to have one-and-only-one maven plugin (but still multiple mojos)
- * [ ] degen - when the zip file is not found, print an error. don't throw a nullpointer exception
- * [ ] move SableCC scraping into this project
- 
+ * [x] degen - when the zip file is not found, print an error. don't throw a nullpointer exception
+ * [x] move SableCC scraping into this project
+ * [ ] support degenerating .tar.gz
+
 Goals (1.3.5)
 ------------------
  * change gdx.math to gdx.util

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.peterlavalle.degen.extractors.util;
+package com.peterlavalle.util;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;

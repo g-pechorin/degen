@@ -4,7 +4,7 @@
  */
 package com.peterlavalle.degen.util;
 
-import com.peterlavalle.degen.extractors.util.Files;
+import com.peterlavalle.util.Files;
 import junit.framework.TestCase;
 
 import java.net.MalformedURLException;
