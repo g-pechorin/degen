@@ -33,9 +33,9 @@
 	</licenses>
 
 	<scm>
-		<url>https://github.com/g-pechorin/libgdx-degen</url>
-		<connection>scm:git:https://github.com/g-pechorin/libgdx-degen.git</connection>
-		<developerConnection>scm:git:git@github.com:g-pechorin/libgdx-degen.git</developerConnection>
+		<url>https://github.com/g-pechorin/degen</url>
+		<connection>scm:git:https://github.com/g-pechorin/degen.git</connection>
+		<developerConnection>scm:git:git@github.com:g-pechorin/degen.git</developerConnection>
 	</scm>
 
 	<repositories>
