@@ -390,15 +390,7 @@ public final class Matrix4 implements Serializable {
 	 * @return The determinant of this matrix
 	 */
 	public float det() {
-		return val[M30] * val[M21] * val[M12] * val[M03] - val[M20] * val[M31] * val[M12] * val[M03] - val[M30] * val[M11]
-				* val[M22] * val[M03] + val[M10] * val[M31] * val[M22] * val[M03] + val[M20] * val[M11] * val[M32] * val[M03] - val[M10]
-				* val[M21] * val[M32] * val[M03] - val[M30] * val[M21] * val[M02] * val[M13] + val[M20] * val[M31] * val[M02] * val[M13]
-				+ val[M30] * val[M01] * val[M22] * val[M13] - val[M00] * val[M31] * val[M22] * val[M13] - val[M20] * val[M01] * val[M32]
-				* val[M13] + val[M00] * val[M21] * val[M32] * val[M13] + val[M30] * val[M11] * val[M02] * val[M23] - val[M10] * val[M31]
-				* val[M02] * val[M23] - val[M30] * val[M01] * val[M12] * val[M23] + val[M00] * val[M31] * val[M12] * val[M23] + val[M10]
-				* val[M01] * val[M32] * val[M23] - val[M00] * val[M11] * val[M32] * val[M23] - val[M20] * val[M11] * val[M02] * val[M33]
-				+ val[M10] * val[M21] * val[M02] * val[M33] + val[M20] * val[M01] * val[M12] * val[M33] - val[M00] * val[M21] * val[M12]
-				* val[M33] - val[M10] * val[M01] * val[M22] * val[M33] + val[M00] * val[M11] * val[M22] * val[M33];
+		return det(this.val);
 	}
 
 	/**
@@ -1066,13 +1058,35 @@ public final class Matrix4 implements Serializable {
 	 * @param numVecs the number of vectors
 	 * @param stride  the stride between vectors in floats
 	 */
-	public static native void rot(float[] mat, float[] vecs, int offset, int numVecs, int stride) /*-{ }-*/; /*
-	 float* vecPtr = vecs + offset;
-	 for(int i = 0; i < numVecs; i++) {
-	 matrix4_rot(mat, vecPtr);
-	 vecPtr += stride;
-	 }
-	 */
+	public static void rot(float[] mat, float[] vecs, int offset, int numVecs, int stride) {
+
+		final int end = offset + (numVecs * stride);
+
+		final float m00 = mat[M00],
+				m01 = mat[M01],
+				m02 = mat[M02],
+				m10 = mat[M10],
+				m11 = mat[M11],
+				m12 = mat[M12],
+				m20 = mat[M20],
+				m21 = mat[M21],
+				m22 = mat[M22];
+
+		for (; offset < end; offset += stride) {
+
+			final int a = offset,
+					b = offset + 1,
+					c = offset + 2;
+
+			final float i = vecs[a],
+					j = vecs[b],
+					k = vecs[c];
+
+			vecs[a] = i * m00 + j * m01 + k * m02;
+			vecs[b] = i * m10 + j * m11 + k * m12;
+			vecs[c] = i * m20 + j * m21 + k * m22;
+		}
+	}
 
 
 	/**
@@ -1097,7 +1111,52 @@ public final class Matrix4 implements Serializable {
 	 * @return the determinante.
 	 */
 	public static float det(float[] values) {
-		return new Matrix4(values).det();
+
+		final float m00 = values[M00],
+				m01 = values[M01],
+				m02 = values[M02],
+				m03 = values[M03],
+
+				m10 = values[M10],
+				m11 = values[M11],
+				m12 = values[M12],
+				m13 = values[M13],
+
+				m20 = values[M20],
+				m21 = values[M21],
+				m22 = values[M22],
+				m23 = values[M23],
+
+				m30 = values[M30],
+				m31 = values[M31],
+				m32 = values[M32],
+				m33 = values[M33];
+
+
+		return m30 * m21 * m12 * m03
+				- m20 * m31 * m12 * m03
+				- m30 * m11 * m22 * m03
+				+ m10 * m31 * m22 * m03
+				+ m20 * m11 * m32 * m03
+				- m10 * m21 * m32 * m03
+				- m30 * m21 * m02 * m13
+				+ m20 * m31 * m02 * m13
+				+ m30 * m01 * m22 * m13
+				- m00 * m31 * m22 * m13
+				- m20 * m01 * m32 * m13
+				+ m00 * m21 * m32 * m13
+				+ m30 * m11 * m02 * m23
+				- m10 * m31 * m02 * m23
+				- m30 * m01 * m12 * m23
+				+ m00 * m31 * m12 * m23
+				+ m10 * m01 * m32 * m23
+				- m00 * m11 * m32 * m23
+				- m20 * m11 * m02 * m33
+				+ m10 * m21 * m02 * m33
+				+ m20 * m01 * m12 * m33
+				- m00 * m21 * m12 * m33
+				- m10 * m01 * m22 * m33
+				+ m00 * m11 * m22 * m33;
 	}
 
 
