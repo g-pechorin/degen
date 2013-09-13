@@ -984,13 +984,21 @@ public final class Matrix4 implements Serializable {
 	 * @param numVecs the number of vectors
 	 * @param stride  the stride between vectors in floats
 	 */
-	public static native void mulVec(float[] mat, float[] vecs, int offset, int numVecs, int stride) /*-{ }-*/; /*
-	 float* vecPtr = vecs + offset;
-	 for(int i = 0; i < numVecs; i++) {
-	 matrix4_mulVec(mat, vecPtr);
-	 vecPtr += stride;
-	 }
-	 */
+	public static void mulVec(float[] mat, float[] vecs, int offset, int numVecs, int stride) {
+
+		Matrix4 matrix4 = new Matrix4(mat);
+		Vector3 vector3 = new Vector3();
+
+		for (int i = 0; i < numVecs; i++) {
+			vector3.set(vecs[0 + offset + (i * stride)], vecs[1 + offset + (i * stride)], vecs[2 + offset + (i * stride)]);
+
+			vector3.mul(matrix4);
+
+			vecs[0 + offset + (i * stride)] = vector3.x;
+			vecs[1 + offset + (i * stride)] = vector3.y;
+			vecs[2 + offset + (i * stride)] = vector3.z;
+		}
+	}
 
 
 	/**
@@ -1017,13 +1025,21 @@ public final class Matrix4 implements Serializable {
 	 * @param numVecs the number of vectors
 	 * @param stride  the stride between vectors in floats
 	 */
-	public static native void prj(float[] mat, float[] vecs, int offset, int numVecs, int stride) /*-{ }-*/; /*
-	 float* vecPtr = vecs + offset;
-	 for(int i = 0; i < numVecs; i++) {
-	 matrix4_proj(mat, vecPtr);
-	 vecPtr += stride;
-	 }
-	 */
+	public static void prj(float[] mat, float[] vecs, int offset, int numVecs, int stride) {
+
+		Matrix4 matrix4 = new Matrix4(mat);
+		Vector3 vector3 = new Vector3();
+
+		for (int i = 0; i < numVecs; i++) {
+			vector3.set(vecs[0 + offset + (i * stride)], vecs[1 + offset + (i * stride)], vecs[2 + offset + (i * stride)]);
+
+			vector3.prj(matrix4);
+
+			vecs[0 + offset + (i * stride)] = vector3.x;
+			vecs[1 + offset + (i * stride)] = vector3.y;
+			vecs[2 + offset + (i * stride)] = vector3.z;
+		}
+	}
 
 
 	/**
@@ -1065,9 +1081,13 @@ public final class Matrix4 implements Serializable {
 	 * @param values the matrix values.
 	 * @return false in case the inverse could not be calculated, true otherwise.
 	 */
-	public static native boolean inv(float[] values) /*-{ }-*/; /*
-	 return matrix4_inv(values);
-	 */
+	public static void inv(float[] values) {
+		Matrix4 mat = new Matrix4(values).inv();
+
+		for (int i = 0; i < values.length; i++) {
+			values[i] = mat.val[i];
+		}
+	}
 
 
 	/**
@@ -1076,9 +1096,9 @@ public final class Matrix4 implements Serializable {
 	 * @param values the matrix values.
 	 * @return the determinante.
 	 */
-	public static native float det(float[] values) /*-{ }-*/; /*
-	 return matrix4_det(values);
-	 */
+	public static float det(float[] values) {
+		return new Matrix4(values).det();
+	}
 
 
 	/**
