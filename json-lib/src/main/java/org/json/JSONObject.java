@@ -454,22 +454,7 @@ public class JSONObject {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof JSONObject)) {
-			return false;
-		}
-
-		final JSONObject other = (JSONObject) obj;
-
-		if (!new TreeSet<String>(keySet()).equals(new TreeSet<String>(other.keySet()))) {
-			return false;
-		}
-
-		for (String key : keySet()) {
-			if (!get(key).equals(other.get(key))) {
-				return false;
-			}
-		}
-		return true;
+		return obj instanceof JSONObject && toString().equals(obj.toString());
 	}
 
 	/**
@@ -657,6 +642,11 @@ public class JSONObject {
 			return (String) object;
 		}
 		throw new JSONException("JSONObject[" + quote(key) + "] not a string.");
+	}
+
+	@Override
+	public int hashCode() {
+		return toString().hashCode();
 	}
 
 	/**

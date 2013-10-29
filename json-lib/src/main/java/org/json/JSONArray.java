@@ -173,6 +173,11 @@ public class JSONArray {
 		}
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof JSONArray && toString().equals(obj.toString());
+	}
+
 	/**
 	 * Get the object value associated with an index.
 	 *
@@ -309,6 +314,11 @@ public class JSONArray {
 			return (String) object;
 		}
 		throw new JSONException("JSONArray[" + index + "] not a string.");
+	}
+
+	@Override
+	public int hashCode() {
+		return toString().hashCode();
 	}
 
 	/**
