@@ -398,6 +398,34 @@ public class JSONObject {
 	}
 
 	/**
+	 * Gets the named attribute as a JSONArray, or appends it if missing
+	 *
+	 * @param name
+	 */
+	public JSONArray autoJSONArray(String name) {
+
+		if (!has(name)) {
+			put(name, new JSONArray());
+		}
+
+		return getJSONArray(name);
+	}
+
+	/**
+	 * Gets the named attribute as a JSONObject, or appends it if missing
+	 *
+	 * @param name
+	 */
+	public JSONObject autoJSONObject(String name) {
+
+		if (!has(name)) {
+			put(name, new JSONObject());
+		}
+
+		return getJSONObject(name);
+	}
+
+	/**
 	 * Produce a string from a double. The string "null" will be returned if the
 	 * number is not finite.
 	 *
@@ -437,9 +465,9 @@ public class JSONObject {
 		}
 
 		for (String key : keySet()) {
-		   if ( !get(key).equals(other.get(key))) {
-			   return false;
-		   }
+			if (!get(key).equals(other.get(key))) {
+				return false;
+			}
 		}
 		return true;
 	}
