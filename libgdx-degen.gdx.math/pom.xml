@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.peterlavalle</groupId>
+		<groupId>com.peterlavalle.degen</groupId>
 		<artifactId>libgdx-degen</artifactId>
 		<version>1.3.4-SNAPSHOT</version>
 	</parent>
@@ -14,7 +14,7 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.peterlavalle</groupId>
+				<groupId>com.peterlavalle.degen</groupId>
 				<artifactId>degen-maven-plugin</artifactId>
 				<version>${project.version}</version>
 				<executions>

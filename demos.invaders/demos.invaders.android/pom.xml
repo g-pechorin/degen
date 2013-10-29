@@ -15,7 +15,7 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.peterlavalle</groupId>
+				<groupId>com.peterlavalle.degen</groupId>
 				<artifactId>droid-maven-plugin</artifactId>
 				<version>${project.version}</version>
 				<executions>
@@ -71,7 +71,7 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.peterlavalle</groupId>
+			<groupId>com.peterlavalle.degen</groupId>
 			<artifactId>libgdx-degen.android</artifactId>
 			<version>${project.version}</version>
 		</dependency>

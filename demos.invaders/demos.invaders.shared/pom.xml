@@ -13,7 +13,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.peterlavalle</groupId>
+			<groupId>com.peterlavalle.degen</groupId>
 			<artifactId>libgdx-degen.gdx</artifactId>
 			<version>${project.version}</version>
 		</dependency>
