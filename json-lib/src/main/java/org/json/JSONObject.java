@@ -425,6 +425,11 @@ public class JSONObject {
 		return getJSONObject(name);
 	}
 
+	@Override
+	public JSONObject clone() {
+		return new JSONObject(toString());
+	}
+
 	/**
 	 * Produce a string from a double. The string "null" will be returned if the
 	 * number is not finite.
