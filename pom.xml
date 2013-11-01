@@ -79,6 +79,7 @@
 		<module>sablecc</module>
 		<module>sablecc-maven-plugin</module>
 		<module>json-lib</module>
+		<module>jsyntaxpane</module>
 	</modules>
 
 	<profiles>
