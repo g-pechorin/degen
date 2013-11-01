@@ -64,7 +64,12 @@
 		<module>jbullet</module>
 		<module>mbel</module>
 		<module>degen-maven-plugin</module>
+		<!--
+		
+		Disreguard IT! Rely on usage!
+		
 		<module>degen-maven-plugin.it</module>
+		-->
 		<module>libgdx-degen.gdx.math</module>
 		<module>libgdx-degen.gdx</module>
 		<module>libgdx-degen.lwjgl</module>
