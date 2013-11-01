@@ -38,6 +38,7 @@
 		<developerConnection>scm:git:git@github.com:g-pechorin/degen.git</developerConnection>
 	</scm>
 
+	<!--
 	<repositories>
 		<repository>
 			<id>oss.sonatype.org</id>
@@ -50,12 +51,13 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	-->
 
 	<developers>
 		<developer>
 			<name>Peter LaValle</name>
 			<roles>
-				<role>Port/Plugin Editor/Curator</role>
+				<role>Developer / Editor / Curator</role>
 			</roles>
 		</developer>
 	</developers>
