@@ -28,10 +28,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A JSONArray is an ordered sequence of values. Its external text form is a
@@ -171,6 +168,34 @@ public class JSONArray {
 			throw new JSONException(
 					"JSONArray initial value should be a string or collection or array.");
 		}
+	}
+
+	public List<String> asStrings() {
+		return new AbstractList<String>() {
+			@Override
+			public String get(int index) {
+				return JSONArray.this.getString(index);
+			}
+
+			@Override
+			public int size() {
+				return JSONArray.this.length();
+			}
+		};
+	}
+
+	public List<JSONObject> asJSONObjects() {
+		return new AbstractList<JSONObject>() {
+			@Override
+			public JSONObject get(int index) {
+				return JSONArray.this.getJSONObject(index);
+			}
+
+			@Override
+			public int size() {
+				return JSONArray.this.length();
+			}
+		};
 	}
 
 	@Override
