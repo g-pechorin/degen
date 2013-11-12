@@ -144,6 +144,12 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>com.peterlavalle.degen</groupId>
+				<artifactId>degen-maven-plugin</artifactId>
+				<version>${project.version}</version>
+			</plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
