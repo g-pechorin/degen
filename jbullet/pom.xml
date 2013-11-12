@@ -14,6 +14,18 @@
 	<build>
 		<plugins>
 			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>com.peterlavalle.degen</groupId>
 				<artifactId>degen-maven-plugin</artifactId>
 				<version>${project.version}</version>
@@ -26,10 +38,19 @@
 						</goals>
 						<configuration>
 							<sources>
-<!--
 								<source>http://jbullet.advel.cz/download/jbullet-20101010.zip @jbullet-20101010/dist/jbullet.jar</source>
--->
-								<source>http://jbullet.advel.cz/download/jbullet-20101010.zip {jbullet-20101010/src/(.*)@$1} -{com.bulletphysics.demos..*}</source>
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>extract</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>degenerate</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>http://jbullet.advel.cz/download/jbullet-20101010.zip {jbullet-20101010/src/(.*)@$1}</source>
 							</sources>
 						</configuration>
 					</execution>

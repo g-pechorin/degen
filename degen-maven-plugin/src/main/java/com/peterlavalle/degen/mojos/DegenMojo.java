@@ -151,6 +151,11 @@ public class DegenMojo extends AMojo {
 			}
 		}
 
+		getLog().info("There are " + hooks.size() + " hooks which I'm going to extract");
+
+		/*
+			Now perform the actual extraction
+		 */
 		final Set<String> activeSources = new HashSet<String>();
 		final Set<String> activeResources = new HashSet<String>();
 		for (final FileHook hook : hooks.values()) {
