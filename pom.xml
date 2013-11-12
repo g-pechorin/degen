@@ -79,7 +79,6 @@
 		<module>sablecc-maven-plugin</module>
 		<module>json-lib</module>
 		<module>jsyntaxpane</module>
-		<module>artemis</module>
 	</modules>
 
 	<profiles>
@@ -143,12 +142,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>com.peterlavalle.degen</groupId>
-				<artifactId>degen-maven-plugin</artifactId>
-				<version>${project.version}</version>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
