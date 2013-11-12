@@ -62,7 +62,6 @@
 	</developers>
 
 	<modules>
-		<module>jstackalloc</module>
 		<module>jbullet</module>
 		<module>mbel</module>
 		<module>degen-maven-plugin</module>

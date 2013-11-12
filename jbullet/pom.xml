@@ -26,7 +26,10 @@
 						</goals>
 						<configuration>
 							<sources>
+<!--
 								<source>http://jbullet.advel.cz/download/jbullet-20101010.zip @jbullet-20101010/dist/jbullet.jar</source>
+-->
+								<source>http://jbullet.advel.cz/download/jbullet-20101010.zip {jbullet-20101010/src/(.*)@$1} -{com.bulletphysics.demos..*}</source>
 							</sources>
 						</configuration>
 					</execution>
