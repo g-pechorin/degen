@@ -37,21 +37,6 @@
 		<developerConnection>scm:git:git@github.com:g-pechorin/degen.git</developerConnection>
 	</scm>
 
-	<!--
-	<repositories>
-		<repository>
-			<id>oss.sonatype.org</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	-->
-
 	<developers>
 		<developer>
 			<name>Peter LaValle</name>
@@ -81,49 +66,6 @@
 		<module>jsyntaxpane</module>
 	</modules>
 
-	<profiles>
-		<profile>
-			<id>demos</id>
-			<!--
-			<activation>
-				<file>
-					<exists>${env.ANDROID_HOME}/platform-tools</exists>
-				</file>
-			</activation>
-			-->
-			<modules>
-				<module>demos.invaders</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>release-into-the-wild</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.1</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 	<properties>
 		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
 
@@ -139,6 +81,15 @@
 		<scala.version>2.10.1</scala.version>
 		<scala.plugin>2.15.2</scala.plugin>
 	</properties>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<uniqueVersion>true</uniqueVersion>
+			<id>DropBox SNAPSHOT</id>
+			<name>DropBox SnapShot Repository</name>
+			<url>${dropbox.root}/Public/maven/repository-SNAPSHOT/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<build>
 		<plugins>
@@ -180,4 +131,75 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>demos</id>
+			<modules>
+				<module>demos.invaders</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>release</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<distributionManagement>
+				<repository>
+					<uniqueVersion>true</uniqueVersion>
+					<id>DropBox</id>
+					<name>DropBox Repository</name>
+					<url>${dropbox.root}/Public/maven/repository/</url>
+				</repository>
+			</distributionManagement>
+			<!--
+			<build>
+					<plugins>
+							<plugin>
+									<groupId>org.apache.maven.plugins</groupId>
+									<artifactId>maven-gpg-plugin</artifactId>
+									<version>1.4</version>
+									<executions>
+											<execution>
+													<id>sign-artifacts</id>
+													<phase>deploy</phase>
+													<goals>
+															<goal>sign</goal>
+													</goals>
+											</execution>
+									</executions>
+							</plugin>
+					</plugins>
+			</build>
+			-->
+		</profile>
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>dropbox</id>
+			<name>Peter's DropBox Repository</name>
+			<url>https://dl.dropboxusercontent.com/u/15094498/maven/repository/</url>
+		</repository>
+		<repository>
+			<id>dropbox-SNAPSHOT</id>
+			<name>Peter's DropBox Repository</name>
+			<url>https://dl.dropboxusercontent.com/u/15094498/maven/repository-SNAPSHOT</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>dropbox</id>
+			<name>Peter's DropBox Repository</name>
+			<url>https://dl.dropboxusercontent.com/u/15094498/maven/repository</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>dropbox-SNAPSHOT</id>
+			<name>Peter's DropBox Repository</name>
+			<url>https://dl.dropboxusercontent.com/u/15094498/maven/repository-SNAPSHOT</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
