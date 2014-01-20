@@ -10,7 +10,7 @@ I have;
  * [libGDX](http://libgdx.badlogicgames.com/)
   * with some tweaks I have not pushed upstream
   * I'm aware that they've got a pom of their own - I don't think that it's in central; Aut inveniam viam aut faciam
- * [JBullet](http://jbullet.advel.cz/)
+
 
 
 Building
