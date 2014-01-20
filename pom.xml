@@ -47,7 +47,6 @@
 	</developers>
 
 	<modules>
-		<module>jbullet</module>
 		<module>mbel</module>
 		<module>degen-maven-plugin</module>
 		<!--
