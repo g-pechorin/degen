@@ -60,51 +60,6 @@ Goals (1.3.4)
  * [x] support degenerating .tar.gz
   * (also updated the source listings)
 
-Goals (1.3.5)
-------------------
- * change gdx.math to gdx.util
-  * add in "general" utility stuff
-  * rename module
- * update gdx
- * [ ] per-architecture backend modules
-  * [ ] .osx.x86_64
-  * [ ] .linux.x86
-  * [ ] .linux.x86_64
-  * [ ] .win.x86
-  * [ ] .win.x86_64
-  * [ ] .apk.arm
-  * [ ] .apk.armv7a
-  * [ ] .apk.x86
-  * [ ] .bsd.x86
-  * [ ] .bsd.x86_64
-  * [ ] .bsd.ppc
- * [ ] update to the libGDX version 0.9.??? (with the new modelling stuff)
-  * remove any "my classes" that have been upstreamed
- * "full" Scala demos / archetypes
-  * [ ] Desktop
-  * [ ] RoboVM
-  * [ ] Applet
-  * [ ] Android
-  * [ ] JNLP
-  * [ ] Scala-GWT
- * [ ] get `Gdx.files.local` files to read from the user's home directory on Windoze
- * [ ] degen - allow ?{} so that if the left side of the pattern exists, the right side file is copied i.e. ?{(.*)\.fnt@$1.png} copies all .png files who match a .fnt file
- * [ ] degen - print number of files copied per pattern
- * [ ] degen - allow "extract from downloaded archive" as well as current "download archive and extract from archive contained within"
- * [ ] degen - allow ".class over .java" when choosing what to include (so I can keep JBullet's sexy JStackAlloc optimizations)
-
-Butter Scotch Goals
--------------------
- * [ ] Mojo to generate the whole Android project and build it (right from the "shared" library!)
-  * may be most sane to use an archetype
- * [ ] Mojo to generate an applet
- * a https://code.google.com/p/getdown/ launcher mojo doohickey that unspools stuff (for $reasons)
- * __unicorns!__ everyone likes unicorns
- * a Mojo to rewrite PNG (et al) images to be more-better and friendly to whatever format I'm using
- * A C++ / GLES2.0 / "backend" for NaCL
- * A C++ / CgFX / "backend" for ... other thing
- * lodepng PNG loading (stb_lib has a few shortcomings)
-
 Android Projects
 ================
 This thing will / should skip the demo/apk files if you don't have ADK installed.
@@ -130,14 +85,3 @@ DONE
  * 1.0.2 : get it to "work" with compiling the one Matrix4 class
  * 1.0.1 : get it to "work" with libGDX's gdx.jar when integrated into https://github.com/g-pechorin/libgdx-repack-dist
  * 1.0.0 : get it to "work" with libGDX's gdx.jar file from a localhost
-
-
-TODO
-----
- * 2.0.1 : add non-scriptable "override" MOJO which locates a .java file within the distribution and archives, then copies it out into the src/main/java folder
- * 2.0.2 : add "remove" MOJO which deletes any .java files in src/main/java which match .java files within the distribution and archives definition
- * ?.0.0 : skip extracting resources that are already present and up to date, remove extracted resources that don't exist
- * ?.0.0 : allow google code and svn repos for import (should already work with github through zipballs)
- * ?.0.0 : allow non-zip archive formats (.tar .tar.gz .tar.bz .tar.bz2 .7z)
- * ?.0.0 : allow the use of dependencies in the plugin
- * ?.0.0 : allow import of tests
